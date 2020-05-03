@@ -31,7 +31,8 @@
 #include "B1PrimaryGeneratorAction.hh"
 #include "B1DetectorConstruction.hh"
 // #include "B1Run.hh"
-
+#include <stdio.h>      /* printf */
+#include <math.h> 
 #include "G4RunManager.hh"
 #include "G4Run.hh"
 #include "G4AccumulableManager.hh"
@@ -45,7 +46,9 @@
 B1RunAction::B1RunAction()
 : G4UserRunAction(),
   fEdep1(0.),
-  fEdep2(0.)
+  fEdep2(0.),
+  fE_mup(0.),
+  fE_mum(0.)
 { 
   // add new units for dose
   // 
@@ -62,7 +65,9 @@ B1RunAction::B1RunAction()
   // Register accumulable to the accumulable manager
   G4AccumulableManager* accumulableManager = G4AccumulableManager::Instance();
   accumulableManager->RegisterAccumulable(fEdep1);
-  accumulableManager->RegisterAccumulable(fEdep2); 
+  accumulableManager->RegisterAccumulable(fEdep2);
+  accumulableManager->RegisterAccumulable(fE_mup);
+  accumulableManager->RegisterAccumulable(fE_mum);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -100,7 +105,8 @@ void B1RunAction::EndOfRunAction(const G4Run* run)
   //
   G4double edep  = fEdep1.GetValue() + fEdep2.GetValue();
   //G4double edep2 = fEdep2.GetValue();
-  
+  G4double mu_p_energy = fE_mup.GetValue();
+  G4double mu_m_energy = fE_mum.GetValue();
   //G4double rms = edep2 - edep*edep/nofEvents;
  // if (rms > 0.) rms = std::sqrt(rms); else rms = 0.;  
 
@@ -109,6 +115,8 @@ void B1RunAction::EndOfRunAction(const G4Run* run)
      (G4RunManager::GetRunManager()->GetUserDetectorConstruction());
   //G4double mass = detectorConstruction->GetScoringVolume()->GetMass();
   G4double dose = edep/nofEvents;
+  G4double mu_p_en = mu_p_energy/nofEvents;
+  G4double mu_m_en = mu_m_energy/nofEvents;
   //G4double rmsDose = rms/mass;
 
   // Run conditions
@@ -124,9 +132,29 @@ void B1RunAction::EndOfRunAction(const G4Run* run)
     runCondition += particleGun->GetParticleDefinition()->GetParticleName();
     runCondition += " of ";
     G4double particleEnergy = particleGun->GetParticleEnergy();
+    //G4ParticleMomentum direction = particleGun->GetParticleMomentumDirection();
+    G4double y = particleGun->GetParticleMomentumDirection().y();
+    G4double z = particleGun->GetParticleMomentumDirection().z();
+    
     runCondition += G4BestUnit(particleEnergy,"Energy");
-  }
+   
+   #define PI 3.14159265
+    G4double angle = atan(y/z)*180/PI;
+
+  std::ofstream mu_p_energy("energy_mu_p" + std::to_string(particleEnergy/GeV) + ".csv",std::ios_base::app);
+ 
+  std::ofstream mu_m_energy("energy_mu_m" + std::to_string(particleEnergy/GeV) + ".csv",std::ios_base::app);
         
+   mu_p_energy << mu_p_en/GeV << " " << angle << "\n";
+   mu_m_energy << mu_m_en/GeV << " " << angle << "\n";
+
+  mu_p_energy.close();
+  mu_m_energy.close();
+  }
+ 
+  //write on files
+ 
+  
   // Print
   //  
   if (IsMaster()) {
@@ -145,7 +173,7 @@ void B1RunAction::EndOfRunAction(const G4Run* run)
      << " The run consists of " << nofEvents << " "<< runCondition
      << G4endl
      << " Average Cumulated energy in volumes : " 
-     << G4BestUnit(dose,"Dose") << G4endl
+     << G4BestUnit(dose,"Energy") << G4endl
      << "------------------------------------------------------------"
      << G4endl
      << G4endl;
@@ -162,6 +190,16 @@ void B1RunAction::AddEdep1(G4double edep)
 void B1RunAction::AddEdep2(G4double edep)
 {
   fEdep2  += edep;
+  
+}
+void B1RunAction::AddE_mup(G4double edep)
+{
+  fE_mup  += edep;
+  
+}
+void B1RunAction::AddE_mum(G4double edep)
+{
+  fE_mum  += edep;
   
 }
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

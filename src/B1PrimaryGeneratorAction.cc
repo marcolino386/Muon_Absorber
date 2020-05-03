@@ -59,10 +59,10 @@ B1PrimaryGeneratorAction::B1PrimaryGeneratorAction()
   //ângulo de incidência
   #define pi 3.14159265
 
-  double angle = 0; // em graus
+  angle = 0; // em graus
   double p_y = tan(angle*pi/180.0);
   
-  fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0,0.,1.));
+  fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0,p_y,1.));
   fParticleGun->SetParticleEnergy(1.*GeV);
 }
 

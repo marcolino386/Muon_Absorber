@@ -31,7 +31,7 @@
 #include "B1RunAction.hh"
 #include "B1Hits.hh"
 #include "B1DetectorConstruction.hh"
-
+#include "G4SystemOfUnits.hh"
 #include "G4HCofThisEvent.hh"
 #include "G4VHitsCollection.hh"
 #include "G4SDManager.hh"
@@ -58,7 +58,7 @@ B1EventAction::~B1EventAction()
 void B1EventAction::BeginOfEventAction(const G4Event*)
 {    
   fEdep1 = 0.;
-  fEdep2 = 0;
+  fEdep2 = 0.;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -93,12 +93,42 @@ if (CHCID < 0) {
      G4cout << "My detector has " << n_hit << "hits" << G4endl;
      B1Hits* hit = new B1Hits;
      std::map<const G4String, int> fparticles;
+
+     double n_mu_p = 0.0;
+     double n_mu_m = 0.0;
+     G4double total_energy_mu_p = 0;
+     G4double total_energy_mu_m = 0;
+
+
      for(int i1 = 0; i1 < n_hit; i1++) {
       B1Hits* hit = (*HitsCol)[i1];
       const G4String name = hit->getParticleInTarget();
       G4cout << name << G4endl;
+      if (name == "mu+" || name=="mu-") {
+	 G4double energy = hit->getParticleEnergy();
+         G4ThreeVector position = hit->getParticlePos();
+	if (name == "mu+") {
+	n_mu_p++;
+ 	total_energy_mu_p += energy;
+	} else if (name=="mu-") {
+        total_energy_mu_m += energy;
+	n_mu_m++;
+
+	}
+    }
+      
 }
 
+ if(n_mu_p != 0.0) {
+       G4double value = total_energy_mu_p/n_mu_p;
+       G4cout << value/(GeV) << G4endl;
+       fRunAction->AddE_mup(value);
+    } else {fRunAction->AddE_mup(total_energy_mu_p);}
+ 
+ if(n_mu_m != 0.0) {
+       G4double value = total_energy_mu_m/n_mu_m;
+       fRunAction->AddE_mup(value);
+    } else {fRunAction->AddE_mum(total_energy_mu_m);}
 
 } 
 

@@ -24,3 +24,12 @@ B1Hits::~B1Hits() {
       fParticleInTarget = particle_name;
 }
 
+ void B1Hits::set_energy(const G4double particle_energy) {
+      fparticle_energy = particle_energy;
+
+}
+
+void B1Hits::set_position(const G4ThreeVector particle_position) {
+      fparticle_position = particle_position;
+
+}
