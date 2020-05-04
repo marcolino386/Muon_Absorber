@@ -109,9 +109,9 @@ if (CHCID < 0) {
 
    G4double particleEnergy = particleGun->GetParticleEnergy();
      
-     std::ofstream mu_p_pos("position_mu_p.csv",std::ios_base::app);
+     std::ofstream mu_p_pos("position_mu_p.dat",std::ios_base::app);
  
-  std::ofstream mu_m_pos("position_mu_m.csv",std::ios_base::app);
+  std::ofstream mu_m_pos("position_mu_m.dat",std::ios_base::app);
 
      for(int i1 = 0; i1 < n_hit; i1++) {
       B1Hits* hit = (*HitsCol)[i1];

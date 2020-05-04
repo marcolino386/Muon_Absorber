@@ -141,9 +141,9 @@ void B1RunAction::EndOfRunAction(const G4Run* run)
    #define PI 3.14159265
     G4double angle = atan(y/z)*180/PI;
 
-  std::ofstream mu_p_energy("energy_mu_p" + std::to_string(particleEnergy/GeV) + ".csv",std::ios_base::app);
+  std::ofstream mu_p_energy("energy_mu_p" + std::to_string(particleEnergy/GeV) + ".dat",std::ios_base::app);
  
-  std::ofstream mu_m_energy("energy_mu_m" + std::to_string(particleEnergy/GeV) + ".csv",std::ios_base::app);
+  std::ofstream mu_m_energy("energy_mu_m" + std::to_string(particleEnergy/GeV) + ".dat",std::ios_base::app);
         
    mu_p_energy << mu_p_en/GeV << " " << angle << "\n";
    mu_m_energy << mu_m_en/GeV << " " << angle << "\n";
