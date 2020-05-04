@@ -29,7 +29,7 @@
 
 #ifndef B1EventAction_h
 #define B1EventAction_h 1
-
+#include "B1PrimaryGeneratorAction.hh"
 #include "G4UserEventAction.hh"
 #include "globals.hh"
 #include <iostream>
@@ -41,7 +41,7 @@ class B1RunAction;
 class B1DetectorConstruction;
 /// Event action class
 ///
-
+class G4Run;
 using namespace std;
 class B1EventAction : public G4UserEventAction
 {

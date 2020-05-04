@@ -49,6 +49,9 @@ set(EXAMPLEB1_SCRIPTS
   run1.mac
   run2.mac
   vis.mac
+  events.in
+  angle_var.in
+  2dplot.p
   )
 
 foreach(_script ${EXAMPLEB1_SCRIPTS})

@@ -80,7 +80,7 @@ if (CHCID < 0) {
  
  G4SDManager * SDman = G4SDManager::GetSDMpointer();
  G4HCofThisEvent* HCE = event->GetHCofThisEvent();
-
+ 
  B1HitsCollection* HitsCol = 0;
 
 
@@ -99,6 +99,19 @@ if (CHCID < 0) {
      G4double total_energy_mu_p = 0;
      G4double total_energy_mu_m = 0;
 
+    const B1PrimaryGeneratorAction* generatorAction
+   = static_cast<const B1PrimaryGeneratorAction*>
+     (G4RunManager::GetRunManager()->GetUserPrimaryGeneratorAction());
+ 
+
+   const G4ParticleGun* particleGun = generatorAction->GetParticleGun();
+
+
+   G4double particleEnergy = particleGun->GetParticleEnergy();
+     
+     std::ofstream mu_p_pos("position_mu_p.csv",std::ios_base::app);
+ 
+  std::ofstream mu_m_pos("position_mu_m.csv",std::ios_base::app);
 
      for(int i1 = 0; i1 < n_hit; i1++) {
       B1Hits* hit = (*HitsCol)[i1];
@@ -109,15 +122,21 @@ if (CHCID < 0) {
          G4ThreeVector position = hit->getParticlePos();
 	if (name == "mu+") {
 	n_mu_p++;
+        mu_p_pos << position.x()/(m) << "  " << position.y()/(m) << "\n";
  	total_energy_mu_p += energy;
 	} else if (name=="mu-") {
         total_energy_mu_m += energy;
+        mu_m_pos << position.x()/(m) << "  " << position.y()/(m) << "\n";
 	n_mu_m++;
 
 	}
     }
       
 }
+
+ mu_p_pos.close();
+mu_m_pos.close();
+
 
  if(n_mu_p != 0.0) {
        G4double value = total_energy_mu_p/n_mu_p;
