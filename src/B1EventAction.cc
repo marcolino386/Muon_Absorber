@@ -146,7 +146,7 @@ mu_m_pos.close();
  
  if(n_mu_m != 0.0) {
        G4double value = total_energy_mu_m/n_mu_m;
-       fRunAction->AddE_mup(value);
+       fRunAction->AddE_mum(value);
     } else {fRunAction->AddE_mum(total_energy_mu_m);}
 
 } 
