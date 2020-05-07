@@ -115,6 +115,32 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
                       checkOverlaps);        //overlaps checking
 
 
+G4double pos_after_detec = 3.*m;
+G4double z_0 = 0.9*m;
+G4double carbon_pDz = 1.125*m;
+G4double concrete_pDz = 0.76*m;
+//Area with magnetic field
+
+G4Box* solidMag =
+    new G4Box("World",                       //its name
+      3*m, 3*m, (z_0 + 2*carbon_pDz + 2*concrete_pDz + pos_after_detec +0.25*m)/2);
+
+    logicMag =
+    new G4LogicalVolume(solidMag,          //its solid
+                        world_mat,           //its material
+                        "MagField_box"); 
+
+G4VPhysicalVolume* physMag =
+    new G4PVPlacement(0,                     //no rotation
+                      G4ThreeVector(0,0, (z_0 + 2*carbon_pDz + 2*concrete_pDz + pos_after_detec +0.25*m)/2),       //at (0,0,0)
+                      logicMag,            //its logical volume
+                      "MagField",               //its name
+                      logicWorld,                     //its mother  volume
+                      false,                 //no boolean operation
+                      0,                     //copy number
+                      checkOverlaps);        //overlaps checking
+
+
  //-------- ABSORBER --------------
  //materials
  
@@ -130,13 +156,13 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
 
   G4double initial_angle = 2.;
   G4double final_angle = 10.;
-  G4double z_0 = 0.9*m;
+  z_0 = 0.9*m;
 # define PI 3.14159265
 
   //cone trunks
 
   //carbon cone
-  G4double carbon_pDz = 1.125*m;
+  carbon_pDz = 1.125*m;
   G4double carbon_pRmin1 = z_0*tan(initial_angle*PI/180.00);
   G4double carbon_pRmax1 = z_0*tan(final_angle*PI/180.00);
   G4double carbon_pRmin2 = (z_0 + 2*carbon_pDz)*tan(initial_angle*PI/180.00);
@@ -150,11 +176,14 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
 
   G4LogicalVolume* carbon_Lvolume = new G4LogicalVolume(carbon_cons, carbon, "carbon_logical");
 
+
+ G4double carbon_z = z_0 + carbon_pDz - (z_0 + 2*carbon_pDz + 2*concrete_pDz + pos_after_detec +0.25*m)/2 ;
+
   new G4PVPlacement(0,
-		    G4ThreeVector(0,0,(z_0 + carbon_pDz)),
+		    G4ThreeVector(0,0,carbon_z),
 		    carbon_Lvolume,
 		    "carbon_cone",
-		    logicWorld,
+		    logicMag,
 		    false,
 		    1
 		    );
@@ -166,7 +195,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
 
  //concrete cone
  
- G4double concrete_pDz = 0.76*m; // half lenght of cone
+ concrete_pDz = 0.76*m; // half lenght of cone
   G4double concrete_pRmin1 = carbon_pRmin2;  // inner radius at the begining of cone /
   G4double concrete_pRmax1 = carbon_pRmax2; // outer radius at the begining of cone
   G4double concrete_pRmin2 = (z_0 + 2*carbon_pDz + 2*concrete_pDz)*tan(initial_angle*PI/180.00); // inner radius at the end of cone
@@ -178,11 +207,13 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
 
  G4LogicalVolume* concrete_Lvolume = new G4LogicalVolume(concrete_cons, concrete, "concrete_logical");
 
+G4double concrete_z = (z_0 + 2*carbon_pDz + concrete_pDz) - (z_0 + 2*carbon_pDz + 2*concrete_pDz + pos_after_detec +0.25*m)/2;
+
  new G4PVPlacement(0,
-		 G4ThreeVector(0, 0, (z_0 + 2*carbon_pDz + concrete_pDz)),
+		 G4ThreeVector(0, 0, concrete_z),
 		 concrete_Lvolume,
 		 "concrete_cone",
-		 logicWorld,
+		 logicMag,
 		 false,
 		 1);
 
@@ -191,7 +222,7 @@ concrete_Lvolume->SetVisAttributes(red);
   
 
 //detector
-G4double pos_after_detec = 3.*m;
+pos_after_detec = 3.*m;
 G4double detec_length = 0.5*cm;
 G4double initial_radius = (z_0 + 2*carbon_pDz + 2*concrete_pDz + pos_after_detec)*tan(initial_angle*PI/180.00);
 G4double final_radius = (z_0 + 2*carbon_pDz + 2*concrete_pDz + pos_after_detec)*tan(final_angle*PI/180.00);
@@ -200,11 +231,13 @@ G4Tubs* detec_tub = new G4Tubs("detec_tubs", initial_radius, final_radius, detec
 
 G4LogicalVolume* detec_volume = new G4LogicalVolume(detec_tub, world_mat, "detec");
 
+G4double detec_z = (z_0 + 2*carbon_pDz + 2*concrete_pDz + pos_after_detec) - (z_0 + 2*carbon_pDz + 2*concrete_pDz + pos_after_detec +0.25*m)/2;
+
  new G4PVPlacement(0,
-		 G4ThreeVector(0,0,(z_0 + 2*carbon_pDz + 2*concrete_pDz + pos_after_detec)),
+		 G4ThreeVector(0,0,detec_z),
 		 detec_volume,
 		 "detector",
-		 logicWorld,
+		 logicMag,
 		 false,
 		 0,
 		false
@@ -230,11 +263,12 @@ detec_volume->SetSensitiveDetector(sensitive);
 
 void B1DetectorConstruction::ConstructSDandField() {
   //creating uniform magnetic field
-  /*
-    G4MagneticField* magField = new G4UniformMagField(G4ThreeVector(.000005*LT,0.,0.));
+  
+    G4MagneticField* magField = new G4UniformMagField(G4ThreeVector(0.,0.,-.5*tesla));
     G4FieldManager* FieldMgr  =new G4FieldManager(magField);
-    logicWorld->SetFieldManager(FieldMgr, true);
-  */
+    logicMag->SetFieldManager(FieldMgr, true);
+    G4cout << "Applying magnetic field" << G4endl;
+  
 
   
 

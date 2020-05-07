@@ -116,7 +116,7 @@ if (CHCID < 0) {
      for(int i1 = 0; i1 < n_hit; i1++) {
       B1Hits* hit = (*HitsCol)[i1];
       const G4String name = hit->getParticleInTarget();
-      G4cout << name << G4endl;
+      //G4cout << name << G4endl;
       if (name == "mu+" || name=="mu-") {
 	 G4double energy = hit->getParticleEnergy();
          G4ThreeVector position = hit->getParticlePos();
@@ -140,7 +140,7 @@ mu_m_pos.close();
 
  if(n_mu_p != 0.0) {
        G4double value = total_energy_mu_p/n_mu_p;
-       G4cout << value/(GeV) << G4endl;
+       //G4cout << value/(GeV) << G4endl;
        fRunAction->AddE_mup(value);
     } else {fRunAction->AddE_mup(total_energy_mu_p);}
  

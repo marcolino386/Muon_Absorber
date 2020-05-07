@@ -61,6 +61,7 @@ class B1DetectorConstruction : public G4VUserDetectorConstruction
   protected:
     G4LogicalVolume*  fScoringVolume1;
     G4LogicalVolume* fScoringVolume2;
+    G4LogicalVolume* logicMag;
     G4LogicalVolume* logicWorld;};
 
 #endif
