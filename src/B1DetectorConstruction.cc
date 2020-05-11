@@ -161,11 +161,11 @@ G4VPhysicalVolume* physMag =
 
 
 
-  //carbon
+  
 
   G4Material* carbon = nist->FindOrBuildMaterial("G4_C");
   
-  //concrete
+
   
   G4Material* concrete = nist->FindOrBuildMaterial("G4_CONCRETE");
  
@@ -180,6 +180,8 @@ G4VPhysicalVolume* physMag =
   G4Material* elFe = nist->FindOrBuildMaterial("G4_Fe");
   
   G4Material* elW = nist->FindOrBuildMaterial("G4_W");
+  
+  G4Material* Polyethylene = nist->FindOrBuildMaterial("G4_POLYETHYLENE");
 
 // Stainless steel (Medical Physics, Vol 25, No 10, Oct 1998)
 
@@ -490,9 +492,7 @@ tungs4_Lvolume->SetVisAttributes(aa);
 
 */
 
-
-
-
+ 
 
 // Pos 15
   ///////////////////////////////////
@@ -500,7 +500,7 @@ tungs4_Lvolume->SetVisAttributes(aa);
   //    Drawing ALIP2A__00xx       //
   ///////////////////////////////////
 
-
+G4double eps = 0.001*cm;
 G4double SteelCone25_pDz = 25*cm/2;
 G4double SteelCone25_Rmin1 = concrete_pRmin2;
 G4double SteelCone25_Rmax1 = concrete_pRmax2;
@@ -508,8 +508,8 @@ G4double SteelCone25_Rmin2 = SteelCone25_Rmin1 + (2*SteelCone25_pDz)*tan(initial
 G4double SteelCone25_Rmax2 = SteelCone25_Rmax1 + (2*SteelCone25_pDz)*tan(final_angle*PI/180.00);
 
 
-G4Cons* Steel25_cons = new G4Cons("Steel25_cons", SteelCone25_Rmin1, SteelCone25_Rmax1, 
-		                   SteelCone25_Rmin2, SteelCone25_Rmax2, SteelCone25_pDz,
+G4Cons* Steel25_cons = new G4Cons("Steel25_cons", (SteelCone25_Rmin1 + eps), (SteelCone25_Rmax1 - eps), 
+		                   (SteelCone25_Rmin2 + eps), (SteelCone25_Rmax2 - eps), SteelCone25_pDz,
 				    carbon_pSphi, carbon_pDphi);
 
 
@@ -535,19 +535,42 @@ G4double SteelCone31_Rmin2 = 52.05*cm / 2.;
 G4double SteelCone31_Rmax2 = SteelCone31_Rmax1 + (2*SteelCone31_pDz)*tan(final_angle*PI/180.00);
 
 
-G4Cons* Steel31_cons = new G4Cons("Steel31_cons", SteelCone31_Rmin1, SteelCone31_Rmax1, 
-		                   SteelCone31_Rmin2, SteelCone31_Rmax2, SteelCone31_pDz,
+G4Cons* Steel31_cons = new G4Cons("Steel31_cons", (SteelCone31_Rmin1 + eps), (SteelCone31_Rmax1 - eps), 
+		                  ( SteelCone31_Rmin2 + eps), (SteelCone31_Rmax2 - eps), SteelCone31_pDz,
 				    carbon_pSphi, carbon_pDphi);
 
 
 G4LogicalVolume* Steel31_Lvolume = new G4LogicalVolume(Steel31_cons, matsteel, "Steel31_logical");
 
-G4double Steel31_z = (z_0 + 2*carbon_pDz + 2*concrete_pDz + 2*SteelCone25_pDz + SteelCone31_pDz)  - (z_0 + 2*carbon_pDz + 2*concrete_pDz + pos_after_detec +0.25*m)/2; 
+G4double Steel31_z = (z_0 + 2*carbon_pDz + 2*concrete_pDz + 2*SteelCone25_pDz + SteelCone31_pDz + dzFaFlange)  - mag_position; 
 
 Steel31_Lvolume->SetVisAttributes(SteelCone);
 
 
+// Pos 14
+  ///////////////////////////////////
+  //    FA Polyethylene Parts      //
+  //    Drawing ALIP2A__0034       //
+  ///////////////////////////////////
+  G4double dzFaCH2Cone = 201.*cm/2;
+  G4double rInFaCH2Cone1 = 106.0*cm / 2.;
+  G4double rInFaCH2Cone2 = 176.9*cm / 2.;
+  G4double dFaCH2Cone = 7.5*cm / cos(10.*deg*PI/180.00);
 
+  G4double poly_z_calc = (concrete_pDz + carbon_pDz + SteelCone25_pDz + SteelCone31_pDz - dzFaCH2Cone)*2;
+  G4double poly_z = (poly_z_calc + z_0 + dzFaFlange + dzFaCH2Cone) - mag_position;
+
+ 
+  G4Cons* polyethylene_cons = new G4Cons("polyethylene_cons", rInFaCH2Cone1, (rInFaCH2Cone1 + dFaCH2Cone), 
+		                   rInFaCH2Cone2, (rInFaCH2Cone2 + dFaCH2Cone), dzFaCH2Cone,
+				    carbon_pSphi, carbon_pDphi);
+
+
+  G4LogicalVolume* polyethylene_Lvolume = new G4LogicalVolume(polyethylene_cons, Polyethylene, "polyethylene_logical");
+
+  G4Colour brown (0.7, 0.4, 0.1);
+G4VisAttributes*copperVisAttributes = new G4VisAttributes(brown);
+ polyethylene_Lvolume->SetVisAttributes(copperVisAttributes);
 
 
 //--------------STRUCTURE SECTION ----------------------------------
@@ -664,6 +687,15 @@ new G4PVPlacement(0,
 		    1
 		    );
 
+new G4PVPlacement(0,
+		    G4ThreeVector(0,0,poly_z),
+		    polyethylene_Lvolume,
+		    "polyethylene_cone",
+		    logicMag,
+		    false,
+		    1
+		    );
+
 
 }
 
@@ -686,6 +718,7 @@ G4Tubs* detec_tub = new G4Tubs("detec_tubs", initial_radius, final_radius, detec
 G4LogicalVolume* detec_volume = new G4LogicalVolume(detec_tub, world_mat, "detec");
 
 G4double detec_z = (z_0 + 2*carbon_pDz + 2*concrete_pDz + pos_after_detec) - (z_0 + 2*carbon_pDz + 2*concrete_pDz + pos_after_detec +0.25*m)/2;
+
 
  new G4PVPlacement(0,
 		 G4ThreeVector(0,0,detec_z),
