@@ -55,29 +55,55 @@ B1SteppingAction::~B1SteppingAction()
 void B1SteppingAction::UserSteppingAction(const G4Step* step)
 {
 
-  if (!fScoringVolume1 & !fScoringVolume2) { 
+  if (Log_volumes.empty()) { 
     const B1DetectorConstruction* detectorConstruction
       = static_cast<const B1DetectorConstruction*>
         (G4RunManager::GetRunManager()->GetUserDetectorConstruction());
-    fScoringVolume1 = detectorConstruction->GetScoringVolume1(); 
-    fScoringVolume2 = detectorConstruction->GetScoringVolume2();   
+    Log_volumes = detectorConstruction->GetVolumes(); 
+      
   }
   
   // get volume of the current step 
   G4LogicalVolume* volume 
     = step->GetPreStepPoint()->GetTouchableHandle()
       ->GetVolume()->GetLogicalVolume();
-      
+  //get currente particle    
+  
+  G4String particle_name = step->GetTrack()->GetParticleDefinition()->GetParticleName();
+
+  
+  if (particle_name == "mu+" || particle_name == "mu-") {
+	for(G4int i=0; i < Log_volumes.size(); i++) {
+                
+		if (Log_volumes[i] == volume) {
+                   G4double edepStep = step->GetTotalEnergyDeposit();
+                   if(particle_name == "mu+") {
+                   fEventAction->AddEdep1(edepStep);  
+                   break;
+                  } else {
+		      fEventAction->AddEdep2(edepStep);  
+                      break;
+                         }
+
+            }
+
+}
+
+
+}
+   
+  
+ 
   // check if we are in scoring volume
   if (volume == fScoringVolume1) {
 
   // collect energy deposited in this step
-  G4double edepStep = step->GetTotalEnergyDeposit();
-  fEventAction->AddEdep1(edepStep);  
+ // G4double edepStep = step->GetTotalEnergyDeposit();
+  //fEventAction->AddEdep1(edepStep);  
 
  } else if(volume == fScoringVolume2) {
-   G4double edepStep = step->GetTotalEnergyDeposit();
-   fEventAction->AddEdep2(edepStep);  
+  // G4double edepStep = step->GetTotalEnergyDeposit();
+  // fEventAction->AddEdep2(edepStep);  
 }
 
 

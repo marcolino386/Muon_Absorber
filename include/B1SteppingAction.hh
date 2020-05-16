@@ -32,6 +32,7 @@
 
 #include "G4UserSteppingAction.hh"
 #include "globals.hh"
+#include 	<vector>
 
 class B1EventAction;
 
@@ -39,6 +40,8 @@ class G4LogicalVolume;
 
 /// Stepping action class
 /// 
+
+using namespace std;	
 
 class B1SteppingAction : public G4UserSteppingAction
 {
@@ -51,6 +54,7 @@ class B1SteppingAction : public G4UserSteppingAction
 
   private:
     B1EventAction*  fEventAction;
+    std::vector<G4LogicalVolume* > Log_volumes;
     G4LogicalVolume* fScoringVolume1;
     G4LogicalVolume* fScoringVolume2;
 };

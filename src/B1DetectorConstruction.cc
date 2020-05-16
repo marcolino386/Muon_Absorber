@@ -221,6 +221,8 @@ G4VPhysicalVolume* physMag =
   G4Material* elPb = nist->FindOrBuildMaterial("G4_Pb");
   
   G4Material* Polyethylene = nist->FindOrBuildMaterial("G4_POLYETHYLENE");
+  
+  G4Material* matsteel = nist->FindOrBuildMaterial("G4_STAINLESS-STEEL");
 
 // Stainless steel (Medical Physics, Vol 25, No 10, Oct 1998)
 
@@ -228,12 +230,14 @@ G4VPhysicalVolume* physMag =
 
  d = 8.02*g/cm3;
 
+ /*
    G4Material* matsteel = new G4Material("Stainless steel",d,5);
    matsteel->AddMaterial(elMn, 0.02);
   matsteel->AddMaterial(elSi, 0.01);
    matsteel->AddMaterial(elCr, 0.19);
    matsteel->AddMaterial(elNi, 0.10);
    matsteel->AddMaterial(elFe, 0.68);
+*/
 
   //initial values from the aborber paper
 
@@ -286,6 +290,8 @@ G4VPhysicalVolume* physMag =
  G4VisAttributes* blue = new G4VisAttributes(G4Colour(0.0, 0.0, 1.0));
  carbon1_Lvolume->SetVisAttributes(blue);
 
+ Logical_volumes.push_back(carbon1_Lvolume);
+
 // inner opening cone
 
 G4double carbon_Dz_2 = (2*carbon_pDz - 2*dzCarbonConeS)/2;
@@ -305,7 +311,7 @@ G4Cons* carbon_cons = new G4Cons("carbon_cons", carbon_pRmin1, carbon_pRmax1,
 G4LogicalVolume* carbon_Lvolume = new G4LogicalVolume(carbon_cons, carbon, "carbon_logical");
 
 carbon_Lvolume->SetVisAttributes(blue);
-
+Logical_volumes.push_back(carbon_Lvolume);
 
  //concrete cone
  
@@ -333,6 +339,7 @@ G4double concrete_z = (z_0 + 2*carbon_pDz + concrete_pDz ) - mag_position;
 G4VisAttributes* red = new G4VisAttributes(G4Colour(1.0, 0.0, 0.0));
 concrete_Lvolume->SetVisAttributes(red);
 
+ Logical_volumes.push_back(concrete_Lvolume);
 
  G4Colour  black   (0.0, 0.0, 0.0) ;  // black
 
@@ -355,6 +362,8 @@ concrete_Lvolume->SetVisAttributes(red);
 
   G4LogicalVolume* plateAB1_Lvolume = new G4LogicalVolume(plateAB1_cons, elW, "plateAB1_logical");
 
+  Logical_volumes.push_back(plateAB1_Lvolume);
+
   G4double plateAB1_z = (z_0 + dzFaWPlateF) - mag_position;  
 
   // 24 deg cone
@@ -364,6 +373,8 @@ concrete_Lvolume->SetVisAttributes(red);
 				    carbon_pSphi, carbon_pDphi);
 
   G4LogicalVolume* plateAB2_Lvolume = new G4LogicalVolume(plateAB2_cons, elW, "plateAB2_logical");
+
+  Logical_volumes.push_back(plateAB2_Lvolume);
 
    G4double plateAB2_z = (z_0 + 2*dzFaWPlateF + dzFaWPlateC1) - mag_position; 
 
@@ -375,6 +386,8 @@ concrete_Lvolume->SetVisAttributes(red);
 				    carbon_pSphi, carbon_pDphi);
 
   G4LogicalVolume* plateAB3_Lvolume = new G4LogicalVolume(plateAB3_cons, elW, "plateAB3_logical");
+  
+  Logical_volumes.push_back(plateAB3_Lvolume);
 
   G4double plateAB3_z = (z_0 + 2*dzFaWPlateF + 2*dzFaWPlateC1 + dzFaWPlateC2) - mag_position;
   
@@ -385,6 +398,8 @@ concrete_Lvolume->SetVisAttributes(red);
 				    carbon_pSphi, carbon_pDphi);
 
   G4LogicalVolume* plateAB4_Lvolume = new G4LogicalVolume(plateAB4_cons, elW, "plateAB4_logical");
+  
+  Logical_volumes.push_back(plateAB4_Lvolume);
 
   G4double plateAB4_z = (z_0 + 2*dzFaWPlateF + 2*dzFaWPlateC1 + 2*dzFaWPlateC2 + dzFaWPlateR) - mag_position;
   
@@ -446,6 +461,8 @@ concrete_Lvolume->SetVisAttributes(red);
 
   G4LogicalVolume* sEnvelope1_Lvolume = new G4LogicalVolume(sEnvelope1_cons, matsteel, "sEnvelope1_logical");
 
+  Logical_volumes.push_back(sEnvelope1_Lvolume);
+
   G4double sEnvelope1_z = (z_0 + dzSteelEnvelopeFC + 2*dzFaWPlate ) - mag_position;
   
   // 5 deg cone
@@ -455,6 +472,8 @@ concrete_Lvolume->SetVisAttributes(red);
 				    carbon_pSphi, carbon_pDphi);
 
   G4LogicalVolume* sEnvelope2_Lvolume = new G4LogicalVolume(sEnvelope2_cons, matsteel, "sEnvelope2_logical");
+
+  Logical_volumes.push_back(sEnvelope2_Lvolume);
 
    G4double sEnvelope2_z = (z_0 + 2*dzSteelEnvelopeFC + dzSteelEnvelopeC5 + 2*dzFaWPlate ) - mag_position;
  
@@ -466,6 +485,8 @@ concrete_Lvolume->SetVisAttributes(red);
 
   G4LogicalVolume* sEnvelope3_Lvolume = new G4LogicalVolume(sEnvelope3_cons, matsteel, "sEnvelope3_logical");
 
+  Logical_volumes.push_back(sEnvelope3_Lvolume);
+
   G4double sEnvelope3_z = (z_0 + 2*dzSteelEnvelopeFC + 2*dzSteelEnvelopeC5 + dzSteelEnvelopeC10+ 2*dzFaWPlate) - mag_position;
 
   // Rear Ring
@@ -476,6 +497,8 @@ concrete_Lvolume->SetVisAttributes(red);
 				    carbon_pSphi, carbon_pDphi);
 
   G4LogicalVolume* sEnvelope4_Lvolume = new G4LogicalVolume(sEnvelope4_cons, matsteel, "sEnvelope4_logical");
+
+  Logical_volumes.push_back(sEnvelope4_Lvolume);
  
   G4double sEnvelope4_z = (z_0 + 2*dzSteelEnvelopeFC + 2*dzSteelEnvelopeC5 + 2*dzSteelEnvelopeC10 + dzSteelEnvelopeR+ 2*dzFaWPlate) - mag_position;
     
@@ -484,6 +507,8 @@ concrete_Lvolume->SetVisAttributes(red);
   G4Tubs* sEnvelope_tub = new G4Tubs("sEnvelope_tubs", rInSteelEnvelopeFI, rOuSteelEnvelopeFI, dzSteelEnvelopeFI, 0.*deg,360.*deg);
   
  G4LogicalVolume* sEnvelopeT_Lvolume = new G4LogicalVolume(sEnvelope_tub, world_mat, "sEnvelopeT_logical");//FALTA MATERIAL
+ 
+ Logical_volumes.push_back(sEnvelopeT_Lvolume);
  
  G4double sEnvelopeT_z = (z_0 + 2*dzSteelEnvelopeFC + 2*dzSteelEnvelopeC5 + 2*dzSteelEnvelopeC10 + 2*dzSteelEnvelopeR + 2*dzFaWPlate) - mag_position;
 
@@ -528,6 +553,8 @@ sEnvelopeT_Lvolume->SetVisAttributes(color);
 
   G4LogicalVolume* endplate_Lvolume = new G4LogicalVolume(endplate_box, world_mat, "sEnvelope1_logical");//MISSING MATERIAL!!!!!!!!!
 
+  Logical_volumes.push_back(endplate_Lvolume);
+
   G4double endplate_z = (z_0 + 2*dzSteelEnvelopeFC + 2*dzSteelEnvelopeC5 + 2*dzSteelEnvelopeC10 + 2*dzSteelEnvelopeR + 2*dzFaWPlate + dzEndPlate) - mag_position;
 
    endplate_Lvolume->SetVisAttributes(gray);
@@ -535,11 +562,16 @@ sEnvelopeT_Lvolume->SetVisAttributes(color);
   G4Tubs* endplate_tub1 = new G4Tubs("endplate1_tub", 0., rInEndPlate, (dzEndPlate + 0.1*cm), 0.*deg,360.*deg);
   
   G4LogicalVolume* endplate2_Lvolume = new G4LogicalVolume(endplate_tub1, world_mat, "endplate_tub1_logical");
+
+  Logical_volumes.push_back(endplate2_Lvolume);
+
    endplate2_Lvolume->SetVisAttributes(G4VisAttributes::Invisible);
 
   G4Tubs* endplate_tub2 = new G4Tubs("endplate2_tub", rInEndPlateI, rOuEndPlateI, (dzEndPlateI + 0.1), 0.*deg,360.*deg);
   
   G4LogicalVolume* endplate3_Lvolume = new G4LogicalVolume(endplate_tub2, world_mat, "endplate_tub2_logical");
+
+  Logical_volumes.push_back(endplate3_Lvolume);
 
    
   
@@ -599,6 +631,8 @@ G4Cons* tungs1_cons_1 = new G4Cons("Tungsten_shield_part1_1", tungs1_pRmin1_1, t
 
 G4LogicalVolume* tungs1_Lvolume_1 = new G4LogicalVolume(tungs1_cons_1, elW, "tungs1_logical_1");
 
+Logical_volumes.push_back(tungs1_Lvolume_1);
+
 
 G4double tungs1_z_1 = (z_0 + 2*dzCarbonConeS + tungs1_pDz_1) - mag_position;
 
@@ -617,6 +651,8 @@ G4Cons* tungs1_cons = new G4Cons("Tungsten_shield_part1", tungs1_pRmin1, tungs1_
 
 
 G4LogicalVolume* tungs1_Lvolume = new G4LogicalVolume(tungs1_cons, elW, "tungs1_logical");
+
+Logical_volumes.push_back(tungs1_Lvolume);
 
 
 G4VisAttributes* aa = new G4VisAttributes(G4Colour(1.0, 1.0, 0.0));
@@ -654,6 +690,8 @@ G4double tungs2_pRmax2_1 =  20.7*cm/2;
 
  G4LogicalVolume* tungs2_Lvolume_1 = new G4LogicalVolume(tungs2_cons_1, elW, "tungs2_logical_1");
 
+ Logical_volumes.push_back(tungs2_Lvolume_1);
+
 
 G4double tungs2_z_1 = (z_0  + 2*dzCarbonConeS + 2*tungs1_pDz + tungs2_pDz_1 ) - mag_position;
 
@@ -672,6 +710,9 @@ G4Cons* tungs2_cons = new G4Cons("Tungsten_shield_part2_2", tungs2_pRmin1, tungs
 				    carbon_pSphi, carbon_pDphi);
 
 G4LogicalVolume* tungs2_Lvolume = new G4LogicalVolume(tungs2_cons, elW, "tungs2_logical_2");
+
+Logical_volumes.push_back(tungs2_Lvolume);
+
 
 tungs2_Lvolume->SetVisAttributes(aa);
 
@@ -715,6 +756,8 @@ tungs2_Lvolume_1->SetVisAttributes(aa);
 
   G4LogicalVolume* flange1_Lvolume = new G4LogicalVolume(flange1_cons, world_mat, "flange_1");
 
+  Logical_volumes.push_back(flange1_Lvolume);
+
 
  G4VisAttributes* flangeCone = new G4VisAttributes(aa);
   flange1_Lvolume->SetVisAttributes(flangeCone);
@@ -726,6 +769,8 @@ tungs2_Lvolume_1->SetVisAttributes(aa);
 				    carbon_pSphi, carbon_pDphi);
 
 G4LogicalVolume* flange_Lvolume = new G4LogicalVolume(flange_cons, world_mat, "flange"); 
+
+ Logical_volumes.push_back(flange_Lvolume);
 
 flange_Lvolume->SetVisAttributes(flangeCone);
 
@@ -754,6 +799,8 @@ G4Cons* tungs3_cons = new G4Cons("Tungsten_shield_part3", tungs3_pRmin1, tungs3_
 
 G4LogicalVolume* tungs3_Lvolume = new G4LogicalVolume(tungs3_cons, elW, "tungs3_logical");
 
+Logical_volumes.push_back(tungs3_Lvolume);
+
 tungs3_Lvolume->SetVisAttributes(aa);
 
 
@@ -776,6 +823,8 @@ G4Cons* tungs4_cons = new G4Cons("Tungsten_shield_part4", tungs4_pRmin1, tungs4_
 				    carbon_pSphi, carbon_pDphi);
 
 G4LogicalVolume* tungs4_Lvolume = new G4LogicalVolume(tungs4_cons, elW, "tungs4_logical");
+
+Logical_volumes.push_back(tungs4_Lvolume);
 
 tungs4_Lvolume->SetVisAttributes(aa);
 
@@ -812,12 +861,16 @@ tungs4_Lvolume->SetVisAttributes(aa);
  
   G4LogicalVolume* lead_Lvolume_1 = new G4LogicalVolume(lead_cons_1, elPb, "lead_logical1");
 
+  Logical_volumes.push_back(lead_Lvolume_1);
+
 
   G4Cons* lead_cons = new G4Cons("lead_cons", rInFaPbCone10, rOuFaPbCone10, 
 		                   rInFaPbConeE,  rOuFaPbConeE, dzFaPbCone10,
 				    carbon_pSphi, carbon_pDphi);
 
   G4LogicalVolume* lead_Lvolume = new G4LogicalVolume(lead_cons, elPb, "lead_logical");
+
+   Logical_volumes.push_back(lead_Lvolume);
 
   G4double lead_z = (z_0 + 2*dzFaWPlate + 2*dzFaPbCone5 + dzFaPbCone10 + 2*dzSteelEnvelopeFC) - mag_position;
 
@@ -855,6 +908,8 @@ G4Cons* Steel25_cons = new G4Cons("Steel25_cons", (SteelCone25_Rmin1 + eps), (St
   
 G4LogicalVolume* Steel25_Lvolume = new G4LogicalVolume(Steel25_cons, matsteel, "Steel25_logical");
 
+Logical_volumes.push_back(Steel25_Lvolume);
+
 G4double Steel25_z = (z_0 + 2*carbon_pDz + 2*concrete_pDz + SteelCone25_pDz )  - mag_position; 
 
 
@@ -882,6 +937,8 @@ G4Cons* Steel31_cons = new G4Cons("Steel31_cons", (SteelCone31_Rmin1 + eps), (St
 
 G4LogicalVolume* Steel31_Lvolume = new G4LogicalVolume(Steel31_cons, matsteel, "Steel31_logical");
 
+Logical_volumes.push_back(Steel31_Lvolume);
+
 G4double Steel31_z = (z_0 + 2*carbon_pDz + 2*concrete_pDz + 2*SteelCone25_pDz + SteelCone31_pDz )  - mag_position; 
 
 Steel31_Lvolume->SetVisAttributes(SteelCone);
@@ -907,6 +964,8 @@ Steel31_Lvolume->SetVisAttributes(SteelCone);
 
 
   G4LogicalVolume* polyethylene_Lvolume = new G4LogicalVolume(polyethylene_cons, Polyethylene, "polyethylene_logical");
+
+ Logical_volumes.push_back(polyethylene_Lvolume);
 
   G4Colour brown (0.7, 0.4, 0.1);
 G4VisAttributes*copperVisAttributes = new G4VisAttributes(brown);
@@ -969,6 +1028,8 @@ G4VisAttributes*copperVisAttributes = new G4VisAttributes(brown);
 
      G4LogicalVolume* wtail1_Lvolume = new G4LogicalVolume(wtail1_cons, elW, "wtail1_logical");
 
+     Logical_volumes.push_back(wtail1_Lvolume);
+
      G4double wtail1_z = (z_0  + 2*dzCarbonConeS + 2*tungs1_pDz + 2*tungs2_pDz + 2*tungs3_dz + 2*tungs4_pDz + dzFaWTail1) - mag_position;
 
 //    Flange section outside FA
@@ -979,6 +1040,8 @@ G4VisAttributes*copperVisAttributes = new G4VisAttributes(brown);
 
 
      G4LogicalVolume* wtail2_Lvolume = new G4LogicalVolume(wtail2_cons, elW, "wtail2_logical");
+ 
+     Logical_volumes.push_back(wtail2_Lvolume);
   
     G4double wtail2_z = (z_0  + 2*dzCarbonConeS + 2*tungs1_pDz + 2*tungs2_pDz + 2*tungs3_dz + 2*tungs4_pDz + 2*dzFaWTail1 + dzFaWTail2) - mag_position;
     
@@ -991,6 +1054,8 @@ G4VisAttributes*copperVisAttributes = new G4VisAttributes(brown);
 
 
      G4LogicalVolume* wtail3_Lvolume = new G4LogicalVolume(wtail3_cons, elW, "wtail3_logical");
+
+    Logical_volumes.push_back(wtail3_Lvolume);
   
     G4double wtail3_z = (z_0  + 2*dzCarbonConeS + 2*tungs1_pDz + 2*tungs2_pDz + 2*tungs3_dz + 2*tungs4_pDz + 2*dzFaWTail1 + 2*dzFaWTail2 + dzFaWTailR) - mag_position;
     
@@ -1007,6 +1072,8 @@ G4VisAttributes*copperVisAttributes = new G4VisAttributes(brown);
 
 
    G4LogicalVolume* wtail4_Lvolume = new G4LogicalVolume(wtail4_cons, elW, "wtail4_logical");
+  
+   Logical_volumes.push_back(wtail4_Lvolume);
   
    G4double wtail4_z = (z_0  + 2*dzCarbonConeS + 2*tungs1_pDz + 2*tungs2_pDz + 2*tungs3_dz + 2*tungs4_pDz + 2*dzFaWTail1 + 2*dzFaWTail2 + 2*dzFaWTailR + dzFaWTailB) - mag_position;
 
@@ -1026,6 +1093,8 @@ G4VisAttributes*copperVisAttributes = new G4VisAttributes(brown);
 
 
    G4LogicalVolume* wtail5_Lvolume = new G4LogicalVolume(wtail5_cons, elW, "wtail5_logical");
+
+  Logical_volumes.push_back(wtail5_Lvolume);
   
    G4double wtail5_z = (z_0  + 2*dzCarbonConeS + 2*tungs1_pDz + 2*tungs2_pDz + 2*tungs3_dz + 2*tungs4_pDz + 2*dzFaWTail1 + 2*dzFaWTail2 + 2*dzFaWTailR + 2*dzFaWTailB + tail_z) - mag_position;
 
@@ -1328,7 +1397,6 @@ new G4PVPlacement(0,
 		    false,
 		    1
 		    );
-
 
 
 new G4PVPlacement(0,

@@ -52,14 +52,14 @@ class B1EventAction : public G4UserEventAction
     virtual void BeginOfEventAction(const G4Event* event);
     virtual void EndOfEventAction(const G4Event* event);
 
-    void AddEdep1(G4double edep) { fEdep1 += edep; }
-    void AddEdep2(G4double edep) { fEdep2 += edep; }
+    void AddEdep1(G4double edep) { fEdep_mu_plus += edep; }
+    void AddEdep2(G4double edep) { fEdep_mu_minus += edep; }
 
 
   private:
     B1RunAction* fRunAction;
-    G4double     fEdep1;
-    G4double     fEdep2;
+    G4double     fEdep_mu_plus;
+    G4double     fEdep_mu_minus;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

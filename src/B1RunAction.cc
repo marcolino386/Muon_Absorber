@@ -48,7 +48,9 @@ B1RunAction::B1RunAction()
   fEdep1(0.),
   fEdep2(0.),
   fE_mup(0.),
-  fE_mum(0.)
+  fE_mum(0.),
+  n_of_mu_plus(0.),
+  n_of_mu_minus(0.)
 { 
   // add new units for dose
   // 
@@ -86,8 +88,8 @@ void B1RunAction::BeginOfRunAction(const G4Run*)
   // reset accumulables to their initial values
   G4AccumulableManager* accumulableManager = G4AccumulableManager::Instance();
   accumulableManager->Reset();
-
-
+  n_of_mu_plus = 0.;
+  n_of_mu_minus = 0.;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -104,6 +106,8 @@ void B1RunAction::EndOfRunAction(const G4Run* run)
   // Compute dose = total energy deposit in a run and its variance
   //
   G4double edep  = fEdep1.GetValue() + fEdep2.GetValue();
+  G4double edep_mu_plus = fEdep1.GetValue();
+   G4double edep_mu_minus = fEdep2.GetValue();
   //G4double edep2 = fEdep2.GetValue();
   G4double mu_p_energy = fE_mup.GetValue();
   G4double mu_m_energy = fE_mum.GetValue();
@@ -115,6 +119,8 @@ void B1RunAction::EndOfRunAction(const G4Run* run)
      (G4RunManager::GetRunManager()->GetUserDetectorConstruction());
   //G4double mass = detectorConstruction->GetScoringVolume()->GetMass();
   G4double dose = edep/nofEvents;
+  G4double mu_plus_edep_av;
+  G4double mu_minus_edep_av;
   G4double mu_p_en = mu_p_energy/nofEvents;
   G4double mu_m_en = mu_m_energy/nofEvents;
   //G4double rmsDose = rms/mass;
@@ -140,13 +146,31 @@ void B1RunAction::EndOfRunAction(const G4Run* run)
    
    #define PI 3.14159265
     G4double angle = atan(y/z)*180/PI;
+   
 
-  std::ofstream mu_p_energy("energy_mu_p" + std::to_string(particleEnergy/GeV) + ".dat",std::ios_base::app);
+
+  std::ofstream mu_p_energy("energy_mu_plus_data/" + std::to_string(particleEnergy/GeV) + ".dat",std::ios_base::app);
  
-  std::ofstream mu_m_energy("energy_mu_m" + std::to_string(particleEnergy/GeV) + ".dat",std::ios_base::app);
+  std::ofstream mu_m_energy("energy_mu_minus_data/" + std::to_string(particleEnergy/GeV) + ".dat",std::ios_base::app);
+
+
+  if(n_of_mu_plus != 0.) {
+     mu_plus_edep_av =  edep_mu_plus/n_of_mu_plus;
+     mu_p_energy << mu_plus_edep_av/GeV << " " << angle << "\n";
+
+} else {
+  mu_plus_edep_av = 0;
+
+} if (n_of_mu_minus !=0.) {
+   mu_minus_edep_av =  edep_mu_minus/n_of_mu_minus;
+   mu_m_energy << mu_minus_edep_av/GeV << " " << angle << "\n";
+
+} else {
+ mu_minus_edep_av = 0;
+
+}
         
-   mu_p_energy << mu_p_en/GeV << " " << angle << "\n";
-   mu_m_energy << mu_m_en/GeV << " " << angle << "\n";
+  
 
   mu_p_energy.close();
   mu_m_energy.close();
@@ -175,6 +199,12 @@ void B1RunAction::EndOfRunAction(const G4Run* run)
      << " Average Cumulated energy in volumes : " 
      << G4BestUnit(dose,"Energy") << G4endl
      << "------------------------------------------------------------"
+     << G4endl
+     << "Average energy deposited by mu+ : " 
+     << G4BestUnit(mu_plus_edep_av,"Energy") << G4endl
+     << G4endl
+     << "Average energy deposited by mu- : " 
+     << G4BestUnit(mu_minus_edep_av,"Energy") << G4endl
      << G4endl
      << G4endl;
 }

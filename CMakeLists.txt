@@ -50,8 +50,11 @@ set(EXAMPLEB1_SCRIPTS
   run2.mac
   vis.mac
   events.in
-  angle_var.in
+  mu_plus_events.in
+  mu_minus_events.in
   2dplot.p
+  /energy_mu_plus_data/readme.txt
+  /energy_mu_minus_data/readme.txt
   )
 
 foreach(_script ${EXAMPLEB1_SCRIPTS})

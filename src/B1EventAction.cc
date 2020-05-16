@@ -44,8 +44,9 @@
 B1EventAction::B1EventAction(B1RunAction* runAction)
 : G4UserEventAction(),
   fRunAction(runAction),
-  fEdep1(0.),
-  fEdep2(0.)
+  fEdep_mu_plus(0.),
+  fEdep_mu_minus(0.)
+
 {} 
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -57,8 +58,8 @@ B1EventAction::~B1EventAction()
 
 void B1EventAction::BeginOfEventAction(const G4Event*)
 {    
-  fEdep1 = 0.;
-  fEdep2 = 0.;
+  fEdep_mu_plus = 0.;
+  fEdep_mu_minus = 0.;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -66,8 +67,16 @@ void B1EventAction::BeginOfEventAction(const G4Event*)
 void B1EventAction::EndOfEventAction(const G4Event* event)
 {   
   // accumulate statistics in run action
-  fRunAction->AddEdep1(fEdep1);
-  fRunAction->AddEdep2(fEdep2);
+
+  if(fEdep_mu_plus != 0.) {
+     fRunAction->AddEdep1(fEdep_mu_plus);
+     fRunAction->AddMu_plus();
+} else if (fEdep_mu_minus != 0.) {
+     fRunAction->AddEdep2(fEdep_mu_minus);
+     fRunAction->AddMu_minus();
+
+}
+  
 
  static int CHCID = -1;
 if (CHCID < 0) {
@@ -90,9 +99,9 @@ if (CHCID < 0) {
 
  
     int n_hit = HitsCol->entries();
-     G4cout << "My detector has " << n_hit << "hits" << G4endl;
+     //G4cout << "My detector has " << n_hit << "hits" << G4endl;
      B1Hits* hit = new B1Hits;
-     std::map<const G4String, int> fparticles;
+    
 
      double n_mu_p = 0.0;
      double n_mu_m = 0.0;
