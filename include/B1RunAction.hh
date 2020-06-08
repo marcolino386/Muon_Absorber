@@ -54,8 +54,8 @@ class B1RunAction : public G4UserRunAction
 
     void AddEdep1 (G4double edep); 
     void AddEdep2 (G4double edep);
-    void AddE_mum (G4double edep); 
-    void AddE_mup (G4double edep);
+    void AddE_mum (G4double edep) ; 
+    void AddE_mup (G4double edep) ;
     void AddMu_plus() {n_of_mu_plus++;}
     void AddMu_minus() {n_of_mu_minus++;}
   private:

@@ -39,7 +39,7 @@
 #include "G4UImanager.hh"
 #include "QBBC.hh"
 #include "FTFP_BERT.hh"
-
+#include "G4PhysListFactory.hh"
 #include "G4VisExecutive.hh"
 #include "G4UIExecutive.hh"
 
@@ -72,10 +72,11 @@ int main(int argc,char** argv)
   // Detector construction
   runManager->SetUserInitialization(new B1DetectorConstruction());
 
-  // Physics list
-  G4VModularPhysicsList* physicsList = new FTFP_BERT;
-  physicsList->SetVerboseLevel(3);
-  runManager->SetUserInitialization(physicsList);
+   //3. Create/obtain an Physics List and register it in the Run-Manager 
+  G4PhysListFactory physListFactory;
+  const G4String plName = "FTFP_BERT";
+  G4VModularPhysicsList* pl = physListFactory.GetReferencePhysList( plName );
+  runManager->SetUserInitialization( pl ); 
     
   // User action initialization
   runManager->SetUserInitialization(new B1ActionInitialization());

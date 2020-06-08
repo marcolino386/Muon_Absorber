@@ -1106,8 +1106,7 @@ G4VisAttributes*copperVisAttributes = new G4VisAttributes(brown);
 
 //--------------STRUCTURE SECTION ----------------------------------
  
-
-G4bool build_abs = true;
+build_abs = true;
 
 if (build_abs) {
 

@@ -111,6 +111,7 @@
 # Re-establish auto refreshing and verbosity:
 /vis/viewer/set/autoRefresh true
 /vis/verbose warnings
+
 #
 # For file-based drivers, use this to create an empty detector view:
 #/vis/viewer/flush

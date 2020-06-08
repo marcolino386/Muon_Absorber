@@ -90,6 +90,11 @@ void B1RunAction::BeginOfRunAction(const G4Run*)
   accumulableManager->Reset();
   n_of_mu_plus = 0.;
   n_of_mu_minus = 0.;
+
+  //Get angle to write in file
+   
+
+    
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -156,14 +161,14 @@ void B1RunAction::EndOfRunAction(const G4Run* run)
 
   if(n_of_mu_plus != 0.) {
      mu_plus_edep_av =  edep_mu_plus/n_of_mu_plus;
-     mu_p_energy << mu_plus_edep_av/GeV << " " << angle << "\n";
+   //  mu_p_energy << mu_plus_edep_av/GeV << " " << angle << "\n";
 
 } else {
   mu_plus_edep_av = 0;
 
 } if (n_of_mu_minus !=0.) {
    mu_minus_edep_av =  edep_mu_minus/n_of_mu_minus;
-   mu_m_energy << mu_minus_edep_av/GeV << " " << angle << "\n";
+  // mu_m_energy << mu_minus_edep_av/GeV << " " << angle << "\n";
 
 } else {
  mu_minus_edep_av = 0;

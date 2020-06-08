@@ -56,12 +56,13 @@ class B1DetectorConstruction : public G4VUserDetectorConstruction
     
     G4LogicalVolume* GetScoringVolume1() const { return fScoringVolume1; }
     G4LogicalVolume* GetScoringVolume2() const { return fScoringVolume2; }
-
+    G4bool get_sim_state() const {return build_abs;}
     std::vector<G4LogicalVolume* > GetVolumes() const {return Logical_volumes;}
  
 
   protected:
     G4LogicalVolume*  fScoringVolume1;
+    G4bool build_abs;
     G4LogicalVolume* fScoringVolume2;
     std::vector<G4LogicalVolume *> Logical_volumes;
     G4LogicalVolume* logicMag;

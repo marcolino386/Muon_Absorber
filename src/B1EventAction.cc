@@ -70,10 +70,10 @@ void B1EventAction::EndOfEventAction(const G4Event* event)
 
   if(fEdep_mu_plus != 0.) {
      fRunAction->AddEdep1(fEdep_mu_plus);
-     fRunAction->AddMu_plus();
+     //fRunAction->AddMu_plus();
 } else if (fEdep_mu_minus != 0.) {
      fRunAction->AddEdep2(fEdep_mu_minus);
-     fRunAction->AddMu_minus();
+    // fRunAction->AddMu_minus();
 
 }
   
@@ -117,10 +117,29 @@ if (CHCID < 0) {
 
 
    G4double particleEnergy = particleGun->GetParticleEnergy();
-     
-     std::ofstream mu_p_pos("position_mu_p.dat",std::ios_base::app);
+
+  G4double y = particleGun->GetParticleMomentumDirection().y();
+  G4double z = particleGun->GetParticleMomentumDirection().z();
+  
+   #define PI 3.14159265
+    G4double angle = atan(y/z)*180/PI;
+  
+     const B1DetectorConstruction* detectorConstruction
+      = static_cast<const B1DetectorConstruction*>
+        (G4RunManager::GetRunManager()->GetUserDetectorConstruction());
+   
+     G4bool sim_struct = detectorConstruction->get_sim_state();
+
+
+     std::ofstream mu_p_pos0("position_initial_mu_plus_data/Energy_" + std::to_string(particleEnergy/GeV) + "_Angle_" + std::to_string(angle) + ".dat",std::ios_base::app);
+  
+     std::ofstream mu_m_pos0("position_initial_mu_minus_data/Energy_" + std::to_string(particleEnergy/GeV) + "_Angle_" + std::to_string(angle) + ".dat",std::ios_base::app);
+      
+     std::ofstream mu_p_pos("data_mu_plus/Energy" + std::to_string(particleEnergy/GeV) + "_Angle_" + std::to_string(angle) + ".dat",std::ios_base::app);
  
-  std::ofstream mu_m_pos("position_mu_m.dat",std::ios_base::app);
+ 
+    std::ofstream mu_m_pos("data_mu_minus/Energy" + std::to_string(particleEnergy/GeV) + "_" + std::to_string(angle) + ".dat",std::ios_base::app);
+
 
      for(int i1 = 0; i1 < n_hit; i1++) {
       B1Hits* hit = (*HitsCol)[i1];
@@ -130,30 +149,66 @@ if (CHCID < 0) {
 	 G4double energy = hit->getParticleEnergy();
          G4ThreeVector position = hit->getParticlePos();
 	if (name == "mu+") {
-	n_mu_p++;
-        mu_p_pos << position.x()/(m) << "  " << position.y()/(m) << "\n";
- 	total_energy_mu_p += energy;
+	
+          if (sim_struct) {
+
+         
+               //store position
+      		
+      		mu_p_pos << position.x()/(m) << "  " << position.y()/(m) << " " << particleEnergy/GeV << " "  << energy/GeV << " " << angle << "\n";
+      		mu_p_pos.close();
+                total_energy_mu_p += energy;
+                fRunAction->AddMu_plus();
+                n_mu_p++;
+
+         } else {
+		//store position
+      		
+      		mu_p_pos0 << position.x()/(m) << "  " << position.y()/(m) << " " << particleEnergy/GeV << " "  << angle << "\n";
+      		//mu_p_pos0.close();
+
+             }
+ 	
 	} else if (name=="mu-") {
-        total_energy_mu_m += energy;
-        mu_m_pos << position.x()/(m) << "  " << position.y()/(m) << "\n";
-	n_mu_m++;
+        
+        
+         if (sim_struct) {
+
+		//store position
+      		//std::ofstream mu_m_pos("data_mu_minus/Energy" + std::to_string(particleEnergy/GeV) + "_" + std::to_string(angle) + ".dat",std::ios_base::app);
+      		mu_m_pos << position.x()/(m) << "  " << position.y()/(m) << " " << particleEnergy/GeV << " "  << energy/GeV << " " << angle << "\n";
+		//mu_m_pos.close();
+ 		total_energy_mu_m += energy;
+                fRunAction->AddMu_minus();
+                 n_mu_m++;
+
+          } else {
+
+                //store position
+     		
+      		mu_m_pos0 << position.x()/(m) << "  " << position.y()/(m) << " " << particleEnergy/GeV << " "  << angle << "\n";
+      		//mu_m_pos.close();
+
+      }
+	
 
 	}
     }
       
 }
 
- mu_p_pos.close();
 mu_m_pos.close();
+mu_p_pos.close();
+mu_m_pos0.close();
+mu_p_pos0.close();
 
-
- if(n_mu_p != 0.0) {
+ if(n_mu_p != 0.0 && sim_struct == true) {
        G4double value = total_energy_mu_p/n_mu_p;
        //G4cout << value/(GeV) << G4endl;
        fRunAction->AddE_mup(value);
     } else {fRunAction->AddE_mup(total_energy_mu_p);}
  
- if(n_mu_m != 0.0) {
+ if(n_mu_m != 0.0 && sim_struct == true) {
        G4double value = total_energy_mu_m/n_mu_m;
        fRunAction->AddE_mum(value);
     } else {fRunAction->AddE_mum(total_energy_mu_m);}
