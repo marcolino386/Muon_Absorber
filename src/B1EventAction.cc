@@ -154,17 +154,22 @@ if (CHCID < 0) {
 
          
                //store position
-      		
-      		mu_p_pos << position.x()/(m) << "  " << position.y()/(m) << " " << particleEnergy/GeV << " "  << energy/GeV << " " << angle << "\n";
-      		mu_p_pos.close();
+      		fRunAction->add_number_of_event();
+                G4int numb_of_event = fRunAction->get_n_event();
+      		mu_p_pos << numb_of_event << " " << position.x()/(m) << "  " << position.y()/(m) << " "  << energy/GeV <<  "\n";
+      		mu_p_pos.close(); 
                 total_energy_mu_p += energy;
                 fRunAction->AddMu_plus();
                 n_mu_p++;
 
          } else {
 		//store position
+      		fRunAction->add_number_of_event();
+                G4int numb_of_event = fRunAction->get_n_event();
+                if (numb_of_event < 2){
+		    mu_p_pos << 0 << " " << position.x()/(m) << "  " << position.y()/(m) << " " << particleEnergy/GeV << "\n";
+		}
       		
-      		mu_p_pos0 << position.x()/(m) << "  " << position.y()/(m) << " " << particleEnergy/GeV << " "  << angle << "\n";
       		//mu_p_pos0.close();
 
              }
@@ -176,7 +181,9 @@ if (CHCID < 0) {
 
 		//store position
       		//std::ofstream mu_m_pos("data_mu_minus/Energy" + std::to_string(particleEnergy/GeV) + "_" + std::to_string(angle) + ".dat",std::ios_base::app);
-      		mu_m_pos << position.x()/(m) << "  " << position.y()/(m) << " " << particleEnergy/GeV << " "  << energy/GeV << " " << angle << "\n";
+                fRunAction->add_number_of_event();
+                G4int numb_of_event = fRunAction->get_n_event();
+      		mu_m_pos << numb_of_event << " " << position.x()/(m) << "  " << position.y()/(m) << " " << energy/GeV << "\n";
 		//mu_m_pos.close();
  		total_energy_mu_m += energy;
                 fRunAction->AddMu_minus();
@@ -185,8 +192,12 @@ if (CHCID < 0) {
           } else {
 
                 //store position
-     		
-      		mu_m_pos0 << position.x()/(m) << "  " << position.y()/(m) << " " << particleEnergy/GeV << " "  << angle << "\n";
+     		fRunAction->add_number_of_event();
+                G4int numb_of_event = fRunAction->get_n_event();
+                if(numb_of_event < 2) {
+		   mu_m_pos << 0 << " " <<position.x()/(m) << "  " << position.y()/(m) << " " << particleEnergy/GeV << "\n";
+		}
+      		
       		//mu_m_pos.close();
 
       }

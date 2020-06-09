@@ -58,6 +58,8 @@ class B1RunAction : public G4UserRunAction
     void AddE_mup (G4double edep) ;
     void AddMu_plus() {n_of_mu_plus++;}
     void AddMu_minus() {n_of_mu_minus++;}
+    void add_number_of_event() {number_of_event++;};
+    G4int get_n_event() {return number_of_event;}
   private:
     G4Accumulable<G4double> fEdep1;
     G4Accumulable<G4double> fEdep2;
@@ -65,6 +67,7 @@ class B1RunAction : public G4UserRunAction
     G4Accumulable<G4double> fE_mup;
     G4double n_of_mu_plus;
     G4double  n_of_mu_minus;
+    G4int number_of_event;
 };
 
 #endif

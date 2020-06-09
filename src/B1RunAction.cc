@@ -90,7 +90,7 @@ void B1RunAction::BeginOfRunAction(const G4Run*)
   accumulableManager->Reset();
   n_of_mu_plus = 0.;
   n_of_mu_minus = 0.;
-
+  number_of_event =0;
   //Get angle to write in file
    
 
