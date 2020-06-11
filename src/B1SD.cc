@@ -30,6 +30,9 @@ G4bool B1SD::ProcessHits(G4Step* step, G4TouchableHistory* ROhist) {
  const G4double particle_energy = step->GetPreStepPoint()->GetTotalEnergy();
 //pega posição da particula
 const G4ThreeVector particle_position = step->GetPreStepPoint()->GetPosition();
+//pega momentum da particula
+const G4ThreeVector particle_momentum = step->GetPreStepPoint()->GetMomentum();
+
  
 //Checa se a partícula é repetida
   if (track == track_id) {
@@ -38,20 +41,14 @@ const G4ThreeVector particle_position = step->GetPreStepPoint()->GetPosition();
       hit->set_partdef(particle_name);
       hit->set_energy(particle_energy);
       hit->set_position(particle_position);
+      hit->set_momentum(particle_momentum);
       //coloca o valor na hitCollecion
       hitCollection->insert(hit);
       track_id = track;
       return true;
     }
-    return true;
-  } else {
-    B1Hits* hit = new B1Hits();
-    hit->set_partdef(particle_name);
-    hit->set_energy(particle_energy);
-    hit->set_position(particle_position);
-    hitCollection->insert(hit);
-    track_id = track;
-    return true;
+    
+
   }
 
 }

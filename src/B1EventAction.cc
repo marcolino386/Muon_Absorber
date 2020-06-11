@@ -30,6 +30,7 @@
 #include "B1EventAction.hh"
 #include "B1RunAction.hh"
 #include "B1Hits.hh"
+
 #include "B1DetectorConstruction.hh"
 #include "G4SystemOfUnits.hh"
 #include "G4HCofThisEvent.hh"
@@ -77,30 +78,6 @@ void B1EventAction::EndOfEventAction(const G4Event* event)
 
 }
   
-
- static int CHCID = -1;
-if (CHCID < 0) {
-    CHCID = G4SDManager::GetSDMpointer()->GetCollectionID("SD");//Descobrir isso
-  }
-
-
-
- // pega as collections ID's
- 
- G4SDManager * SDman = G4SDManager::GetSDMpointer();
- G4HCofThisEvent* HCE = event->GetHCofThisEvent();
- 
- B1HitsCollection* HitsCol = 0;
-
-
-  if(HCE) {
-    HitsCol = (B1HitsCollection*)(HCE->GetHC(CHCID));
-  }
-
- 
-    int n_hit = HitsCol->entries();
-     //G4cout << "My detector has " << n_hit << "hits" << G4endl;
-     B1Hits* hit = new B1Hits;
     
 
      double n_mu_p = 0.0;
@@ -130,24 +107,48 @@ if (CHCID < 0) {
    
      G4bool sim_struct = detectorConstruction->get_sim_state();
 
-
-     std::ofstream mu_p_pos0("position_initial_mu_plus_data/Energy_" + std::to_string(particleEnergy/GeV) + "_Angle_" + std::to_string(angle) + ".dat",std::ios_base::app);
   
-     std::ofstream mu_m_pos0("position_initial_mu_minus_data/Energy_" + std::to_string(particleEnergy/GeV) + "_Angle_" + std::to_string(angle) + ".dat",std::ios_base::app);
+ // pega as collections ID's
+  
+ 
+   G4SDManager * SDman = G4SDManager::GetSDMpointer();
+   G4HCofThisEvent* HCE = event->GetHCofThisEvent();
+ 
+
+   std::vector<G4int> col;
+   std::vector<B1HitsCollection*> HitsCol;
+
+   
       
-     std::ofstream mu_p_pos("data_mu_plus/Energy" + std::to_string(particleEnergy/GeV) + "_Angle_" + std::to_string(angle) + ".dat",std::ios_base::app);
- 
- 
-    std::ofstream mu_m_pos("data_mu_minus/Energy" + std::to_string(particleEnergy/GeV) + "_" + std::to_string(angle) + ".dat",std::ios_base::app);
+     G4int num = 2;
+     col.reserve(num);
+     HitsCol.reserve(num);
 
+ for(G4int i=0; i < num; i++) { 
+   
+   std::ofstream mu_p_pos("data_mu_plus" + std::to_string(i + 1) +  "/Energy" + std::to_string(particleEnergy/GeV) + "_Angle_" + std::to_string(angle) + ".dat",std::ios_base::app);
+   std::ofstream mu_m_pos("data_mu_minus" + std::to_string(i + 1) +  "/Energy" + std::to_string(particleEnergy/GeV) + "_" + std::to_string(angle) + ".dat",std::ios_base::app);
 
-     for(int i1 = 0; i1 < n_hit; i1++) {
-      B1Hits* hit = (*HitsCol)[i1];
+   col[i] = SDman->GetCollectionID("SD" + std::to_string(i + 1));
+
+   if(HCE) {
+     HitsCol[i] = (B1HitsCollection*)(HCE->GetHC(col[i]));
+   }
+
+  
+     int n_hit = HitsCol[i]->entries();
+     //G4cout << "My detector has " << n_hit << "hits" << G4endl;
+     B1Hits* hit = new B1Hits;
+
+ for(int i1 = 0; i1 < n_hit; i1++) {
+      B1Hits* hit = (*HitsCol[i])[i1];
       const G4String name = hit->getParticleInTarget();
+      
       //G4cout << name << G4endl;
       if (name == "mu+" || name=="mu-") {
 	 G4double energy = hit->getParticleEnergy();
          G4ThreeVector position = hit->getParticlePos();
+         G4ThreeVector momentum = hit->getParticleMomentum();
 	if (name == "mu+") {
 	
           if (sim_struct) {
@@ -156,7 +157,7 @@ if (CHCID < 0) {
                //store position
       		fRunAction->add_number_of_event();
                 G4int numb_of_event = fRunAction->get_n_event();
-      		mu_p_pos << numb_of_event << " " << position.x()/(m) << "  " << position.y()/(m) << " "  << energy/GeV <<  "\n";
+      		mu_p_pos << numb_of_event << " " << position.x()/(m) << "  " << position.y()/(m) << " "  << energy/GeV << " " << momentum.x()/GeV << " " << momentum.y()/(GeV)<< " " <<  momentum.z()/(GeV) << "\n";
       		mu_p_pos.close(); 
                 total_energy_mu_p += energy;
                 fRunAction->AddMu_plus();
@@ -167,7 +168,7 @@ if (CHCID < 0) {
       		fRunAction->add_number_of_event();
                 G4int numb_of_event = fRunAction->get_n_event();
                 if (numb_of_event < 2){
-		    mu_p_pos << 0 << " " << position.x()/(m) << "  " << position.y()/(m) << " " << particleEnergy/GeV << "\n";
+		    mu_p_pos << 0 << " " << position.x()/(m) << "  " << position.y()/(m) << " " << particleEnergy/GeV << " " << momentum.x()/GeV << " " << momentum.y()/(GeV)<< " " <<  momentum.z()/(GeV) << "\n";
 		}
       		
       		//mu_p_pos0.close();
@@ -183,7 +184,7 @@ if (CHCID < 0) {
       		//std::ofstream mu_m_pos("data_mu_minus/Energy" + std::to_string(particleEnergy/GeV) + "_" + std::to_string(angle) + ".dat",std::ios_base::app);
                 fRunAction->add_number_of_event();
                 G4int numb_of_event = fRunAction->get_n_event();
-      		mu_m_pos << numb_of_event << " " << position.x()/(m) << "  " << position.y()/(m) << " " << energy/GeV << "\n";
+      		mu_m_pos << numb_of_event << " " << position.x()/(m) << "  " << position.y()/(m) << " " << energy/GeV << " " << momentum.x()/GeV << " " << momentum.y()/(GeV)<< " " <<  momentum.z()/(GeV) << "\n";
 		//mu_m_pos.close();
  		total_energy_mu_m += energy;
                 fRunAction->AddMu_minus();
@@ -195,7 +196,7 @@ if (CHCID < 0) {
      		fRunAction->add_number_of_event();
                 G4int numb_of_event = fRunAction->get_n_event();
                 if(numb_of_event < 2) {
-		   mu_m_pos << 0 << " " <<position.x()/(m) << "  " << position.y()/(m) << " " << particleEnergy/GeV << "\n";
+		   mu_m_pos << 0 << " " <<position.x()/(m) << "  " << position.y()/(m) << " " << particleEnergy/GeV << " " << momentum.x()/GeV << " " << momentum.y()/(GeV)<< " " <<  momentum.z()/(GeV) << "\n";
 		}
       		
       		//mu_m_pos.close();
@@ -208,10 +209,14 @@ if (CHCID < 0) {
       
 }
 
+
 mu_m_pos.close();
 mu_p_pos.close();
-mu_m_pos0.close();
-mu_p_pos0.close();
+
+}
+   
+
+
 
  if(n_mu_p != 0.0 && sim_struct == true) {
        G4double value = total_energy_mu_p/n_mu_p;

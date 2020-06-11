@@ -53,10 +53,11 @@ set(EXAMPLEB1_SCRIPTS
   mu_plus_events.in
   mu_minus_events.in
   2dplot.p
-  /data_mu_plus/readme.txt
-  /data_mu_minus/readme.txt
-  /position_initial_mu_minus_data/readme.txt
-  /position_initial_mu_plus_data/readme.txt
+  /data_mu_plus1/readme.txt
+  /data_mu_minus1/readme.txt
+  /data_mu_plus2/readme.txt
+  /data_mu_minus2/readme.txt
+  
   )
 
 foreach(_script ${EXAMPLEB1_SCRIPTS})

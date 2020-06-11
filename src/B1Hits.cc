@@ -33,3 +33,8 @@ void B1Hits::set_position(const G4ThreeVector particle_position) {
       fparticle_position = particle_position;
 
 }
+
+void B1Hits::set_momentum(const G4ThreeVector particle_momentum) {
+      fparticle_momentum = particle_momentum;
+
+}
