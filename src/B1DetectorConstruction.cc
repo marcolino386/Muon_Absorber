@@ -1460,7 +1460,7 @@ new G4PVPlacement(0,
 
 
 //detector 1
-pos_after_detec = 3.*cm;
+pos_after_detec = 0.01*m;
 G4double detec_length = 0.5*cm;
 G4double initial_radius = 0;
 G4double final_radius = (z_0 + 2*carbon_pDz + 2*concrete_pDz + pos_after_detec)*tan(final_angle*PI/180.00);
