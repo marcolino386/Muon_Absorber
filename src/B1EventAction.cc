@@ -121,13 +121,16 @@ void B1EventAction::EndOfEventAction(const G4Event* event)
    
       
      G4int num = 2;
-     col.reserve(num);
-     HitsCol.reserve(num);
+     col.reserve(num + 1);
+     HitsCol.reserve(num + 1);
+
+    
+
 
  for(G4int i=0; i < num; i++) { 
    
    std::ofstream mu_p_pos("data_mu_plus" + std::to_string(i + 1) +  "/Energy" + std::to_string(particleEnergy/GeV) + "_Angle_" + std::to_string(angle) + ".dat",std::ios_base::app);
-   std::ofstream mu_m_pos("data_mu_minus" + std::to_string(i + 1) +  "/Energy" + std::to_string(particleEnergy/GeV) + "_" + std::to_string(angle) + ".dat",std::ios_base::app);
+   std::ofstream mu_m_pos("data_mu_minus" + std::to_string(i + 1) +  "/Energy" + std::to_string(particleEnergy/GeV) + "_Angle_" + std::to_string(angle) + ".dat",std::ios_base::app);
 
    col[i] = SDman->GetCollectionID("SD" + std::to_string(i + 1));
 
@@ -135,13 +138,17 @@ void B1EventAction::EndOfEventAction(const G4Event* event)
      HitsCol[i] = (B1HitsCollection*)(HCE->GetHC(col[i]));
    }
 
-  
+      
      int n_hit = HitsCol[i]->entries();
+     G4cout << n_hit << G4endl;
+     
+     
      //G4cout << "My detector has " << n_hit << "hits" << G4endl;
      B1Hits* hit = new B1Hits;
 
  for(int i1 = 0; i1 < n_hit; i1++) {
       B1Hits* hit = (*HitsCol[i])[i1];
+      //G4cout << "aaa" << G4endl;
       const G4String name = hit->getParticleInTarget();
       
       //G4cout << name << G4endl;
@@ -152,21 +159,21 @@ void B1EventAction::EndOfEventAction(const G4Event* event)
 	if (name == "mu+") {
 	
           if (sim_struct) {
-
+		//G4cout << "heyy" << G4endl;
          
                //store position
-      		fRunAction->add_number_of_event();
-                G4int numb_of_event = fRunAction->get_n_event();
+      		fRunAction->add_number_of_event(i);
+                G4int numb_of_event = fRunAction->get_n_event(i);
       		mu_p_pos << numb_of_event << " " << position.x()/(m) << "  " << position.y()/(m) << " "  << energy/GeV << " " << momentum.x()/GeV << " " << momentum.y()/(GeV)<< " " <<  momentum.z()/(GeV) << "\n";
-      		mu_p_pos.close(); 
+      		
                 total_energy_mu_p += energy;
                 fRunAction->AddMu_plus();
                 n_mu_p++;
 
          } else {
 		//store position
-      		fRunAction->add_number_of_event();
-                G4int numb_of_event = fRunAction->get_n_event();
+      		fRunAction->add_number_of_event(i);
+                G4int numb_of_event = fRunAction->get_n_event(i);
                 if (numb_of_event < 2){
 		    mu_p_pos << 0 << " " << position.x()/(m) << "  " << position.y()/(m) << " " << particleEnergy/GeV << " " << momentum.x()/GeV << " " << momentum.y()/(GeV)<< " " <<  momentum.z()/(GeV) << "\n";
 		}
@@ -182,8 +189,8 @@ void B1EventAction::EndOfEventAction(const G4Event* event)
 
 		//store position
       		//std::ofstream mu_m_pos("data_mu_minus/Energy" + std::to_string(particleEnergy/GeV) + "_" + std::to_string(angle) + ".dat",std::ios_base::app);
-                fRunAction->add_number_of_event();
-                G4int numb_of_event = fRunAction->get_n_event();
+                fRunAction->add_number_of_event(i);
+                G4int numb_of_event = fRunAction->get_n_event(i);
       		mu_m_pos << numb_of_event << " " << position.x()/(m) << "  " << position.y()/(m) << " " << energy/GeV << " " << momentum.x()/GeV << " " << momentum.y()/(GeV)<< " " <<  momentum.z()/(GeV) << "\n";
 		//mu_m_pos.close();
  		total_energy_mu_m += energy;
@@ -193,8 +200,8 @@ void B1EventAction::EndOfEventAction(const G4Event* event)
           } else {
 
                 //store position
-     		fRunAction->add_number_of_event();
-                G4int numb_of_event = fRunAction->get_n_event();
+     		fRunAction->add_number_of_event(i);
+                G4int numb_of_event = fRunAction->get_n_event(i);
                 if(numb_of_event < 2) {
 		   mu_m_pos << 0 << " " <<position.x()/(m) << "  " << position.y()/(m) << " " << particleEnergy/GeV << " " << momentum.x()/GeV << " " << momentum.y()/(GeV)<< " " <<  momentum.z()/(GeV) << "\n";
 		}

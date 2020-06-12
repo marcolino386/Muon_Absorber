@@ -33,10 +33,14 @@ const G4ThreeVector particle_position = step->GetPreStepPoint()->GetPosition();
 //pega momentum da particula
 const G4ThreeVector particle_momentum = step->GetPreStepPoint()->GetMomentum();
 
- 
+const G4StepPoint* thePreVL = step->GetPreStepPoint();
+const G4VPhysicalVolume* thePostVL = step->GetPostStepPoint()->GetPhysicalVolume();
+
+	
 //Checa se a partícula é repetida
-  if (track == track_id) {
-    if (track == 0) {
+if (thePreVL->GetStepStatus() == fGeomBoundary && track == 1) {
+      
+  
       B1Hits* hit = new B1Hits();
       hit->set_partdef(particle_name);
       hit->set_energy(particle_energy);
@@ -46,10 +50,8 @@ const G4ThreeVector particle_momentum = step->GetPreStepPoint()->GetMomentum();
       hitCollection->insert(hit);
       track_id = track;
       return true;
-    }
-    
 
-  }
+}
 
 }
 

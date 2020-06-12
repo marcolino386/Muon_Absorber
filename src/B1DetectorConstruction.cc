@@ -1469,7 +1469,7 @@ G4Tubs* detec_tub = new G4Tubs("detec_tubs", initial_radius, final_radius, detec
 
 G4LogicalVolume* detec_volume = new G4LogicalVolume(detec_tub, world_mat, "detec");
 
-G4double detec_z = (z_0  + 2*dzCarbonConeS + 2*tungs1_pDz + 2*tungs2_pDz + 2*tungs3_dz + 2*tungs4_pDz + 2*dzFaWTail1 + 2*dzFaWTail2 + 2*dzFaWTailR + 2*dzFaWTailB + 2*tail_z + pos_after_detec) - mag_position;
+G4double detec_z = (z_0  + 2*dzCarbonConeS + 2*tungs1_pDz + 2*tungs2_pDz + 2*tungs3_dz + 2*tungs4_pDz + 2*dzFaWTail1 + 2*dzFaWTail2 + 2*dzFaWTailR + 2*dzFaWTailB + 2*tail_z + pos_after_detec + detec_length) - mag_position;
 
 
  new G4PVPlacement(0,
@@ -1482,11 +1482,14 @@ G4double detec_z = (z_0  + 2*dzCarbonConeS + 2*tungs1_pDz + 2*tungs2_pDz + 2*tun
 		false
 		 );
 
+
+
+
 //detector 2
 
 G4Tubs* detec_tub2 = new G4Tubs("detec_tubs", initial_radius, final_radius, detec_length, 0.*deg,360.*deg);
 G4LogicalVolume* detec_volume2 = new G4LogicalVolume(detec_tub2, world_mat, "detec2");
-G4double detec_z2 = (z_0  + 2*dzCarbonConeS + 2*tungs1_pDz + 2*tungs2_pDz + 2*tungs3_dz + 2*tungs4_pDz + 2*dzFaWTail1 + 2*dzFaWTail2 + 2*dzFaWTailR + 2*dzFaWTailB + 2*tail_z + pos_after_detec + 1*m) - mag_position;
+G4double detec_z2 = (z_0  + 2*dzCarbonConeS + 2*tungs1_pDz + 2*tungs2_pDz + 2*tungs3_dz + 2*tungs4_pDz + 2*dzFaWTail1 + 2*dzFaWTail2 + 2*dzFaWTailR + 2*dzFaWTailB + 2*tail_z + pos_after_detec + 1*m + 3*detec_length) - mag_position;
 
 new G4PVPlacement(0,
 		 G4ThreeVector(0,0,detec_z2),
@@ -1498,11 +1501,16 @@ new G4PVPlacement(0,
 		false
 		 );
 
+num_detec=2;
+
+
 
  carbon_Lvolume->SetVisAttributes(color );
 
   fScoringVolume1 = carbon_Lvolume;
   fScoringVolume2 = concrete_Lvolume;
+
+
 
 //sensitive detector1
 
@@ -1512,10 +1520,13 @@ auto sensitive1 = new B1SD(SDname1);
 sdman->AddNewDetector(sensitive1);
 detec_volume->SetSensitiveDetector(sensitive1);
 
+
+
 G4String SDname2 = "SD2";
 auto sensitive2 = new B1SD(SDname2);
 sdman->AddNewDetector(sensitive2);
 detec_volume2->SetSensitiveDetector(sensitive2);
+
 
 
   return physWorld;

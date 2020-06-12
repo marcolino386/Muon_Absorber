@@ -90,7 +90,21 @@ void B1RunAction::BeginOfRunAction(const G4Run*)
   accumulableManager->Reset();
   n_of_mu_plus = 0.;
   n_of_mu_minus = 0.;
-  number_of_event =0;
+  
+
+  const B1DetectorConstruction* detectorConstruction
+   = static_cast<const B1DetectorConstruction*>
+     (G4RunManager::GetRunManager()->GetUserDetectorConstruction());
+
+   
+   
+   for (G4int i=0; i<detectorConstruction->getNumDetec();i++) {
+
+       num_event_detec.push_back(0);
+}
+
+  
+
   //Get angle to write in file
    
 
@@ -216,6 +230,13 @@ void B1RunAction::EndOfRunAction(const G4Run* run)
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
+void B1RunAction::add_number_of_event(G4int detec_id)
+{
+  num_event_detec[detec_id] += 1;
+ // G4cout << num_event_detec[detec_id]  << G4endl;
+  
+}
+
 void B1RunAction::AddEdep1(G4double edep)
 {
   fEdep1  += edep;
@@ -237,5 +258,6 @@ void B1RunAction::AddE_mum(G4double edep)
   fE_mum  += edep;
   
 }
+
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
