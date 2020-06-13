@@ -140,7 +140,7 @@ void B1EventAction::EndOfEventAction(const G4Event* event)
 
       
      int n_hit = HitsCol[i]->entries();
-     G4cout << n_hit << G4endl;
+     //G4cout << n_hit << G4endl;
      
      
      //G4cout << "My detector has " << n_hit << "hits" << G4endl;

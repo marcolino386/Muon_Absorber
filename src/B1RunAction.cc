@@ -197,6 +197,8 @@ void B1RunAction::EndOfRunAction(const G4Run* run)
  
   //write on files
  
+
+  num_event_detec.clear();
   
   // Print
   //  

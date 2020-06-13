@@ -57,6 +57,7 @@ set(EXAMPLEB1_SCRIPTS
   /data_mu_minus1/readme.txt
   /data_mu_plus2/readme.txt
   /data_mu_minus2/readme.txt
+  statdeszyV2.c
   
   )
 
