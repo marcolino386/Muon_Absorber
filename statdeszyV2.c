@@ -26,7 +26,7 @@ int n,nn,s, final;
 
 
 double x[5000], y[5000], en[5000], px[5000], py[5000], pz[5000], xsoma, ysoma, ensoma,pxsoma,pysoma,pzsoma,xmed,ymed,enmed, pxmed, pymed, pzmed ,dx,dy,den, dpx, dpy, dpz;
-double desx, vasx, desy, vasy, desen,vasen, despx, vaspx, despy, vaspy, despz, vaspz; 
+double desx, vasx, desy, vasy, desen,vasen, despx, vaspx, despy, vaspy, despz, vaspz, ptmed, thetamed,pt0,theta0,vaspt,vastheta,despt,destheta,dpt,dtheta; 
 
         
 
@@ -53,10 +53,15 @@ double desx, vasx, desy, vasy, desen,vasen, despx, vaspx, despy, vaspy, despz, v
         pymed = pysoma/final;
         pzmed = pzsoma/final;
 
+	
+        ptmed = sqrt(pxmed*pxmed + pymed*pymed);
+        thetamed = atan(pxmed/pymed);
+
 	vasx=0;
 	vasy=0;
 	vasen=0;
-        
+        vaspt =0;
+        vastheta = 0;
 	
 for(s=1;s<= final;s++){
 	vasx = (xmed-x[s])*(xmed-x[s])+ vasx;
@@ -65,6 +70,9 @@ for(s=1;s<= final;s++){
         vaspx = (pxmed-px[s])*(pxmed-px[s])+ vaspx;
         vaspy = (pymed-py[s])*(pymed-py[s])+ vaspy;
         vaspz = (pzmed-pz[s])*(pzmed-pz[s])+ vaspz;
+        vaspt = (ptmed - sqrt(px[s]*px[s] + py[s]*py[s]))*(ptmed - sqrt(px[s]*px[s] + py[s]*py[s])) + vaspt;
+        vastheta = (thetamed -atan(px[s]/py[s]))*(thetamed -atan(px[s]/py[s]));
+
 	}
 
 	desx=sqrt(vasx)/final;
@@ -73,6 +81,9 @@ for(s=1;s<= final;s++){
         despx=sqrt(vaspx)/final;
         despy=sqrt(vaspy)/final;
         despz=sqrt(vaspz)/final;
+        despt = sqrt(vaspt)/final;
+        destheta = sqrt(vastheta)/final;
+       
 
 dx=x[0]-xmed;
 dy=y[0]-ymed;
@@ -81,11 +92,19 @@ dpx = px[0] - pxmed;
 dpy = py[0] - pymed;
 dpz = pz[0] - pzmed;
 
-//printf("final, xmed, dx,ymed,dy,enmed,den\n");
-printf("%f %f %f %f %f %f %f %f %f %f %f %f %i %f %f %f %f %f %f %f %f %f %f %f %f\n",en[0],x[0],y[0], xmed,ymed,enmed, dx,dy,den, desx, desy,desen,final, px[0], py[0], pz[0], pxmed, pymed, pzmed, dpx,dpy,dpz, despx,despy,despz);
+pt0 = sqrt(px[0]*px[0] + py[0]*py[0]);
+theta0 = atan(px[0]/py[0]);
+
+dpt = pt0 - ptmed;
+dtheta = theta0 - thetamed;
+
+
+
+printf("E0, X0, Y0, Xmed, Ymed, ENmed ,dx, dy, dEn, final, px0, py0, pxmed, pymed, dpx, dpy, despx, despy, pt0, ptmed, dpt, despt, theta0, thetamed, dtheta, destheta \n");
+printf("%f %f %f %f %f %f %f %f %f %f %f %f %i %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f\n",en[0],x[0],y[0], xmed,ymed,enmed, dx,dy,den, desx, desy,desen,final, px[0], py[0], pxmed, pymed, dpx,dpy, despx,despy, pt0, ptmed, dpt, despt, theta0, thetamed, dtheta, destheta);
 printf("==================================================== \n");
 
-fprintf(res, "%f %f %f %f %f %f %f %f %f %f %f %f %i %f %f %f %f %f %f %f %f %f %f %f %f\n",en[0],x[0],y[0], xmed,ymed,enmed, dx,dy,den, desx, desy,desen,final, px[0], py[0], pz[0], pxmed, pymed, pzmed, dpx,dpy,dpz, despx,despy,despz);
+fprintf(res, "%f %f %f %f %f %f %f %f %f %f %f %f %i %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f\n",en[0],x[0],y[0], xmed,ymed,enmed, dx,dy,den, desx, desy,desen,final, px[0], py[0], pxmed, pymed, dpx,dpy, despx,despy, pt0, ptmed, dpt, despt, theta0, thetamed, dtheta, destheta);
      
 printf("==================================================== \n");
 
