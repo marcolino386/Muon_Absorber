@@ -132,7 +132,7 @@ struct dirent *de;  // Pointer for directory entry
      printf(" \n", dir_name);
      while ((de = readdir(dr)) != NULL) {
           bool is_dat = has_txt_extension(de->d_name);
-          printf(de->d_name);
+         // printf(de->d_name);
           if (de->d_type == DT_REG && is_dat == true) {
              char path_data[100];
              char path_write1[100];
