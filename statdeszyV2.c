@@ -9,6 +9,7 @@
 #include <math.h>
 
 
+
 bool has_txt_extension(char const *name)
 {
     size_t len = strlen(name);
@@ -16,7 +17,7 @@ bool has_txt_extension(char const *name)
 }
 
 
-void calc_and_write(FILE* data,FILE* res){
+void calc_and_write(FILE* data,FILE* res1, FILE* res2){
 
 
 
@@ -103,12 +104,13 @@ dtheta = theta0 - thetamed;
 
 
 
-printf("E0, X0, Y0, Xmed, Ymed, ENmed ,dx, dy, dEn, final, px0, py0, pxmed, pymed, dpx, dpy, despx, despy, pt0, ptmed, dpt, despt, theta0, thetamed, dtheta, destheta \n");
-printf("%f %f %f %f %f %f %f %f %f %f %f %f %i %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f\n",en[0],x[0],y[0], xmed,ymed,enmed, dx,dy,den, desx, desy,desen,final, px[0], py[0], pxmed, pymed, dpx,dpy, despx,despy, pt0, ptmed, dpt, despt, theta0, thetamed, dtheta, destheta);
+printf("E0, X0, Y0, Xmed, Ymed, ENmed ,dx, dy, dEn, final \n E0], px[0], py[0], pt0 ,theta0 ,pxmed, pymed, ptmed ,thetamed ,dpx,dpy, dpt ,dtheta,despx,despy, despt, destheta,final");
+printf("%f %f %f %f %f %f %f %f %f %f %f %f %i \n %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f\n",en[0],x[0],y[0], xmed,ymed,enmed, dx,dy,den, desx, desy,desen,final, px[0], py[0], pxmed, pymed, dpx,dpy, despx,despy, pt0, ptmed, dpt, despt, theta0, thetamed, dtheta, destheta);
 printf("==================================================== \n");
 
-fprintf(res, "%f %f %f %f %f %f %f %f %f %f %f %f %i %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f\n",en[0],x[0],y[0], xmed,ymed,enmed, dx,dy,den, desx, desy,desen,final, px[0], py[0], pxmed, pymed, dpx,dpy, despx,despy, pt0, ptmed, dpt, despt, theta0, thetamed, dtheta, destheta);
-     
+fprintf(res1, "%f %f %f %f %f %f %f %f %f %f %f %f %i \n",en[0],x[0],y[0], xmed,ymed,enmed, dx,dy,den, desx, desy,desen,final);
+fprintf(res2, "%f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %i \n", en[0], px[0], py[0], pt0 ,theta0 ,pxmed, pymed, ptmed ,thetamed ,dpx,dpy, dpt ,dtheta,despx,despy, despt, destheta,final);    
+
 printf("==================================================== \n");
 
 
@@ -119,7 +121,7 @@ void make_calculus(char dir_name[]) {
 
 struct dirent *de;  // Pointer for directory entry  
     DIR *dr = opendir(dir_name);
-    FILE *data; FILE *res;
+    FILE *data; FILE *res1; FILE *res2;   
     
     if (dr == NULL)  // opendir returns NULL if couldn't open directory 
     { 
@@ -130,21 +132,24 @@ struct dirent *de;  // Pointer for directory entry
      printf(" \n", dir_name);
      while ((de = readdir(dr)) != NULL) {
           bool is_dat = has_txt_extension(de->d_name);
-          
+          printf(de->d_name);
           if (de->d_type == DT_REG && is_dat == true) {
              char path_data[100];
-             char path_write[100];
+             char path_write1[100];
+             char path_write2[100];
              sprintf(path_data, "%s/%s" ,dir_name, de->d_name);
-             sprintf(path_write, "%s.dat" ,dir_name);
-             printf ("%s/%s\n",dir_name, de->d_name);
+             sprintf(path_write1, "%s_position.dat" ,dir_name);
+             sprintf(path_write2, "%s_momentum.dat" ,dir_name);
+             //printf ("%s/%s\n",dir_name, de->d_name);
              data = fopen(path_data, "r"); 
              fseek(data, 0, SEEK_END);
              if (ftell(data) == 0) {return;}
              fclose(data);
              data = fopen(path_data, "r");
-             res = fopen(path_write, "a"); 
-             if(data == NULL || res == NULL) {return;}
-             calc_and_write(data, res);
+             res1 = fopen(path_write1, "a"); 
+             res2 = fopen(path_write2, "a"); 
+             if(data == NULL) {return;}
+             calc_and_write(data, res1, res2);
      	            
          }
         
