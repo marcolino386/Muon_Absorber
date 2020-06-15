@@ -34,7 +34,7 @@ double desx, vasx, desy, vasy, desen,vasen, despx, vaspx, despy, vaspy, despz, v
 	fclose(data);
 
 
-	xsoma = 0.0, ysoma = 0.0, ensoma = 0.0;
+	xsoma = 0.0, ysoma = 0.0, ensoma = 0.0, pxsoma, pysoma, pzsoma = 0.0;
 
 	for(s=1;s<= final;s++){
 	xsoma = xsoma+x[s];
@@ -62,6 +62,9 @@ double desx, vasx, desy, vasy, desen,vasen, despx, vaspx, despy, vaspy, despz, v
 	vasen=0;
         vaspt =0;
         vastheta = 0;
+        vaspx =0;
+        vaspy = 0;
+        vaspz = 0;
 	
 for(s=1;s<= final;s++){
 	vasx = (xmed-x[s])*(xmed-x[s])+ vasx;
@@ -134,10 +137,14 @@ struct dirent *de;  // Pointer for directory entry
              sprintf(path_data, "%s/%s" ,dir_name, de->d_name);
              sprintf(path_write, "%s.dat" ,dir_name);
              printf ("%s/%s\n",dir_name, de->d_name);
+             data = fopen(path_data, "r"); 
+             fseek(data, 0, SEEK_END);
+             if (ftell(data) == 0) {return;}
+             fclose(data);
              data = fopen(path_data, "r");
-            res = fopen(path_write, "a"); 
-           if(data == NULL || res == NULL) {return;}
-           calc_and_write(data, res);
+             res = fopen(path_write, "a"); 
+             if(data == NULL || res == NULL) {return;}
+             calc_and_write(data, res);
      	            
          }
         
