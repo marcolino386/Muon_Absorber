@@ -79,8 +79,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
 
   // Envelope parameters
   //
-  G4double env_sizeXY = 10*m, env_sizeZ = 10*m;
-  G4Material* env_mat = nist->FindOrBuildMaterial("G4_WATER");
+ 
 
   // Option to switch on/off checking of volumes overlaps
   //
@@ -91,8 +90,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
   //
   // World
   //
-  G4double world_sizeXY = 1.2*env_sizeXY;
-  G4double world_sizeZ  = 1.2*env_sizeZ;
+ 
   G4Material* world_mat = nist->FindOrBuildMaterial("G4_Galactic");
 
   G4Box* solidWorld =
@@ -173,8 +171,8 @@ G4Box* solidMag =
                         world_mat,           //its material
                         "MagField_box"); 
 
-G4VPhysicalVolume* physMag =
-    new G4PVPlacement(0,                     //no rotation
+
+       new G4PVPlacement(0,                     //no rotation
                       G4ThreeVector(0,0, mag_position),       //at (0,0,0)
                       logicMag,            //its logical volume
                       "MagField",               //its name
@@ -189,40 +187,6 @@ G4VPhysicalVolume* physMag =
  
  //-------- ABSORBER --------------
  //materials
-
-  G4double A;  // atomic mass
-     G4double Z;  // atomic number
-    G4double d;  // density
-   
-  
-
-
-
-  
-
-  G4Material* carbon = nist->FindOrBuildMaterial("G4_C");
-  
-
-  
-  G4Material* concrete = nist->FindOrBuildMaterial("G4_CONCRETE");
- 
-  G4Material* elSi = nist->FindOrBuildMaterial("G4_Si");
- 
-  G4Material* elMn = nist->FindOrBuildMaterial("G4_Mn");
-  
-  G4Material* elCr = nist->FindOrBuildMaterial("G4_Cr");
-
-  G4Material* elNi = nist->FindOrBuildMaterial("G4_Ni");
-  
-  G4Material* elFe = nist->FindOrBuildMaterial("G4_Fe");
-  
-  G4Material* elW = nist->FindOrBuildMaterial("G4_W");
-  
-  G4Material* elPb = nist->FindOrBuildMaterial("G4_Pb");
-  
-  G4Material* Polyethylene = nist->FindOrBuildMaterial("G4_POLYETHYLENE");
-  
-  G4Material* matsteel = nist->FindOrBuildMaterial("G4_STAINLESS-STEEL");
 
   //Materiais from CERN model
 
@@ -247,8 +211,7 @@ G4cout << kMedPb<< G4endl;
   std::vector<G4double> aAir = {12.0107, 14.0067, 15.9994, 39.948};
   std::vector<G4double> zAir = {6., 7., 8., 18.};
   std::vector<G4double> wAir = {0.000124, 0.755267, 0.231781, 0.012827};
-  G4double dAir = 1.20479E-3;
-  G4double dAA= 1.20479E-10;
+  
 
 // Polyethylene
   //
@@ -267,10 +230,9 @@ std::vector<G4Element *>conc;
 conc.reserve(aconc.size());
 
 G4Material* kMedConcSh = new G4Material("CONCRETE CC2", 2.35*g/cm3, aconc.size());
-G4String symb = symbol[int(zconc[2]) - 1];
-G4cout << symb << G4endl;
 
-for (G4int i=0; i < aconc.size(); i++) {
+
+for (std::size_t i = 0; i < aconc.size(); i++) {
    G4String symb = symbol[int(zconc[i]) - 1];
    conc[i] = new G4Element(("conc" + std::to_string(i)),symb,zconc[i], aconc[i]);
    kMedConcSh->AddElement(conc[i], wconc[i]);
@@ -291,7 +253,7 @@ G4cout << kMedConcSh << G4endl;
 
   G4Material* kMedSteel = new G4Material("STAINLESS STEEL0", 7.88*g/cm3, asteel.size());
 
-  for (G4int i=0; i < asteel.size(); i++) {
+  for (std::size_t i = 0; i < asteel.size(); i++) {
    G4String symb = symbol[int(zsteel[i]) - 1];
    steel[i] = new G4Element(("Steel" + std::to_string(i)),symb,zsteel[i], asteel[i]);
    kMedSteel->AddElement(steel[i], wsteel[i]);
@@ -312,7 +274,7 @@ G4cout << kMedConcSh << G4endl;
   
   G4Material* kMedNiW = new G4Material("ABSO_Ni/W0", 18.78*g/cm3, aniwcu.size());
   
-  for (G4int i=0; i < aniwcu.size(); i++) {
+  for (std::size_t i = 0; i < aniwcu.size(); i++) {
    G4String symb = symbol[int(zniwcu[i]) - 1];
    G4cout << symb << G4endl;
    Ni_Cu_W[i] = new G4Element(("ABSO_Ni/W0" + std::to_string(i)),symb,zniwcu[i], aniwcu[i]);
@@ -321,20 +283,19 @@ G4cout << kMedConcSh << G4endl;
 
 }
 
-  G4cout << kMedNiW << G4endl;
 
   //
   // Poly Concrete
   //                      H     Li     F       C      Al     Si      Ca      Pb     O
-  std::vector<G4double> aPolyCc = {1., 6.941, 18.998, 12.01, 26.98, 28.086, 40.078, 207.2, 15.999};
+  std::vector<G4double> aPolyCc = {1.*g/mole, 6.941*g/mole, 18.998*g/mole, 12.01*g/mole, 26.98*g/mole, 28.086*g/mole, 40.078*g/mole, 207.2*g/mole, 15.999*g/mole};
   std::vector<G4double> zPolyCc = {1., 3., 9., 6., 13., 14., 20., 82., 8.};
   std::vector<G4double> wPolyCc = {4.9, 1.2, 1.3, 1.1, 0.15, 0.02, 0.06, 0.7, 1.1};
   G4double wtot = 0;
-/*
+
    for (G4int i = 0; i < 9; i++) {
     wtot += wPolyCc[i];
   }
-   for (G4int = 0; i < 9; i++) {
+   for (G4int i = 0; i < 9; i++) {
     wPolyCc[i] /= wtot;
   }
 
@@ -345,9 +306,9 @@ G4cout << kMedConcSh << G4endl;
 
   G4Material* KmedCH2Sh = new G4Material("POLYETHYLEN2$", .95*g/mole, aPolyCc.size() );
   
-  for (G4int i=0; i < aPolyCc.size(); i++) {
-
-   CH2[i] = new G4Element(("Poly" + std::to_string(i)),("Poly" + std::to_string(i)),zPolyCc[i], aPolyCc[i]);
+  for (std::size_t i = 0; i < aPolyCc.size(); i++) {
+   G4String symb = symbol[int(zPolyCc[i]) - 1];
+   CH2[i] = new G4Element(("Poly" + std::to_string(i)),symb,zPolyCc[i], aPolyCc[i]);
    KmedCH2Sh->AddElement(CH2[i], wPolyCc[i]);
    //G4cout << steel[i] << G4endl;
 
@@ -363,7 +324,7 @@ G4cout << kMedConcSh << G4endl;
 
   //cone trunks
 
-/*
+
 
   //carbon cone
  
@@ -391,7 +352,7 @@ G4cout << kMedConcSh << G4endl;
  G4double carbon1_z = (z_0  + dzCarbonConeS ) -  mag_position ;
 
 
- G4Colour  gray    (0.5, 0.5, 0.5) ;
+
 
 
  G4VisAttributes* blue = new G4VisAttributes(G4Colour(0.0, 0.0, 1.0));
@@ -958,7 +919,7 @@ tungs4_Lvolume->SetVisAttributes(aa);
   G4double  rInFaPbConeE = 106.05*cm / 2.;
   G4double  rOuFaPbConeE = 124.35*cm / 2.;
   // Total length
-  G4double dzFaPbCone = dzFaPbCone5 + dzFaPbCone10;
+  //G4double dzFaPbCone = dzFaPbCone5 + dzFaPbCone10;
 
 
   G4Cons* lead_cons_1 = new G4Cons("lead_cons", rInFaPbCone5, rOuFaPbCone5, 
@@ -1062,7 +1023,7 @@ Steel31_Lvolume->SetVisAttributes(SteelCone);
   G4double rInFaCH2Cone2 = 176.9*cm / 2.;
   G4double dFaCH2Cone = 7.5*cm / cos(10.*PI/180.00);
 
-  G4double poly_z_calc = (concrete_pDz + carbon_pDz + SteelCone25_pDz + SteelCone31_pDz - dzFaCH2Cone)*2;
+  
   G4double poly_z = (z_0 + 2*dzFaWPlate + 2*dzFaPbCone5 + 2*dzFaPbCone10 + 2*dzSteelEnvelopeFC + dzFaCH2Cone ) - mag_position;
 
  
@@ -1071,7 +1032,7 @@ Steel31_Lvolume->SetVisAttributes(SteelCone);
 				    carbon_pSphi, carbon_pDphi);
 
 
-  G4LogicalVolume* polyethylene_Lvolume = new G4LogicalVolume(polyethylene_cons, Polyethylene, "polyethylene_logical");
+  G4LogicalVolume* polyethylene_Lvolume = new G4LogicalVolume(polyethylene_cons, KmedCH2Sh, "polyethylene_logical");
 
  Logical_volumes.push_back(polyethylene_Lvolume);
 
