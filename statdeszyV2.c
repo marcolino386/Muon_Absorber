@@ -26,8 +26,9 @@ int n,nn,s, final;
 
 
 
-double x[5000], y[5000], en[5000], px[5000], py[5000], pz[5000], xsoma, ysoma, ensoma,pxsoma,pysoma,pzsoma,xmed,ymed,enmed, pxmed, pymed, pzmed ,dx,dy,den, dpx, dpy, dpz;
-double desx, vasx, desy, vasy, desen,vasen, despx, vaspx, despy, vaspy, despz, vaspz, ptmed, thetamed,pt0,theta0,vaspt,vastheta,despt,destheta,dpt,dtheta; 
+double x[5000], y[5000], en[5000], px[5000], py[5000], pz[5000];
+double xsoma, ysoma, ensoma,pxsoma,pysoma,pzsoma,xmed,ymed,enmed, pxmed, pymed, pzmed ,dx,dy,den, dpx, dpy, dpz = 0.0;
+double desx, vasx, desy, vasy, desen,vasen, despx, vaspx, despy, vaspy, despz, vaspz, ptmed, thetamed,pt0,theta0,vaspt,vastheta,despt,destheta,dpt,dtheta = 0.0; 
 
         
 
@@ -47,25 +48,21 @@ double desx, vasx, desy, vasy, desen,vasen, despx, vaspx, despy, vaspy, despz, v
 	}
 
 	final= final-1;
-	xmed=xsoma/final;
+        if (final == 0) {
+           xmed, ymed, enmed,pxmed,pymed,pzmed, ptmed, thetamed = 0;
+	} else {
+        xmed=xsoma/final;
 	ymed=ysoma/final;
 	enmed=ensoma/final;
         pxmed = pxsoma/final;
         pymed = pysoma/final;
         pzmed = pzsoma/final;
-
-	
         ptmed = sqrt(pxmed*pxmed + pymed*pymed);
         thetamed = atan(pxmed/pymed);
+	}
 
-	vasx=0;
-	vasy=0;
-	vasen=0;
-        vaspt =0;
-        vastheta = 0;
-        vaspx =0;
-        vaspy = 0;
-        vaspz = 0;
+	
+
 	
 for(s=1;s<= final;s++){
 	vasx = (xmed-x[s])*(xmed-x[s])+ vasx;
@@ -78,8 +75,13 @@ for(s=1;s<= final;s++){
         vastheta = (thetamed -atan(px[s]/py[s]))*(thetamed -atan(px[s]/py[s]));
 
 	}
+  
+      if(final == 0) {
 
-	desx=sqrt(vasx)/final;
+	desx, vasx, desy, vasy, desen, despx, despy, despz, despt, destheta = 0;
+
+} else {
+        desx=sqrt(vasx)/final;
 	desy=sqrt(vasy)/final;
 	desen=sqrt(vasen)/final;
         despx=sqrt(vaspx)/final;
@@ -87,6 +89,10 @@ for(s=1;s<= final;s++){
         despz=sqrt(vaspz)/final;
         despt = sqrt(vaspt)/final;
         destheta = sqrt(vastheta)/final;
+
+
+}
+	
        
 
 dx=x[0]-xmed;

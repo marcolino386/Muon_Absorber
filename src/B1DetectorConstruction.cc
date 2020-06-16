@@ -1556,7 +1556,7 @@ G4double detec_z = (z_0  + 2*dzCarbonConeS + 2*tungs1_pDz + 2*tungs2_pDz + 2*tun
 
 //detector 2
 
-G4Tubs* detec_tub2 = new G4Tubs("detec_tubs", initial_radius, final_radius, detec_length, 0.*deg,360.*deg);
+G4Tubs* detec_tub2 = new G4Tubs("detec_tubs", initial_radius, 3*final_radius, detec_length, 0.*deg,360.*deg);
 G4LogicalVolume* detec_volume2 = new G4LogicalVolume(detec_tub2, world_mat, "detec2");
 G4double detec_z2 = (z_0  + 2*dzCarbonConeS + 2*tungs1_pDz + 2*tungs2_pDz + 2*tungs3_dz + 2*tungs4_pDz + 2*dzFaWTail1 + 2*dzFaWTail2 + 2*dzFaWTailR + 2*dzFaWTailB + 2*tail_z + pos_after_detec + 1*m + 3*detec_length) - mag_position;
 
