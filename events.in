@@ -2,57 +2,69 @@
 
 /run/initialize
 
+/gun/direction 0.087 0.087 1
+
+/gun/particle mu+
+
+
+/gun/energy 1 GeV
+/run/beamOn 1000
+
+/gun/energy 2 GeV
+/run/beamOn 1000
+
+/gun/energy 3 GeV
+/run/beamOn 1000
+
+/gun/energy 4 GeV
+/run/beamOn 1000
+
+/gun/energy 5 GeV
+/run/beamOn 1000
+
+/gun/energy 6 GeV
+/run/beamOn 1000
+
+/gun/energy 7 GeV
+/run/beamOn 1000
+
+/gun/energy 8 GeV
+/run/beamOn 1000
+
+/gun/energy 9 GeV
+/run/beamOn 1000
 
 /gun/energy 10 GeV
-#5deg
-/gun/direction 0 0.087 1
+/run/beamOn 1000
+
+/gun/particle mu-
+
+/gun/energy 1 GeV
+/run/beamOn 1000
+
+/gun/energy 2 GeV
+/run/beamOn 1000
+
+/gun/energy 3 GeV
+/run/beamOn 1000
+
+/gun/energy 4 GeV
+/run/beamOn 1000
+
+/gun/energy 5 GeV
+/run/beamOn 1000
+
+/gun/energy 6 GeV
+/run/beamOn 1000
+
+/gun/energy 7 GeV
+/run/beamOn 1000
+
+/gun/energy 8 GeV
+/run/beamOn 1000
+
+/gun/energy 9 GeV
+/run/beamOn 1000
 
 /gun/energy 10 GeV
-
-/gun/particle mu+
-/run/beamOn 300
-
-/gun/energy 20 GeV
-
-/gun/particle mu+
-/run/beamOn 300
-
-/gun/energy 30 GeV
-
-/gun/particle mu+
-/run/beamOn 300
-
-/gun/energy 40 GeV
-
-/gun/particle mu+
-/run/beamOn 300
-
-/gun/energy 50 GeV
-
-/gun/particle mu+
-/run/beamOn 300
-
-/gun/energy 60 GeV
-
-/gun/particle mu+
-/run/beamOn 300
-
-/gun/energy 70 GeV
-
-/gun/particle mu+
-/run/beamOn 300
-
-/gun/energy 80 GeV
-
-/gun/particle mu+
-/run/beamOn 300
-
-/gun/energy 90 GeV
-
-/gun/particle mu+
-/run/beamOn 300
-
-/gun/energy 100 GeV
-
-/gun/particle mu+
-/run/beamOn 300
+/run/beamOn 1000

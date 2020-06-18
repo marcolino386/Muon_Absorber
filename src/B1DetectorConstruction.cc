@@ -129,7 +129,7 @@ G4double concrete_pDz = 126.*cm/2;
 G4double dzFaFlange = 2.*cm;
  G4double dzCarbonConeS = 108.3*cm/2;
 //G4double mag_position = (z_0  + 2*dzCarbonConeS + 2*tungs1_pDz + 2*tungs2_pDz + 2*tungs3_dz + 2*tungs4_pDz + 2*dzFaWTail1 + 2*dzFaWTail2 + 2*dzFaWTailR + 2*dzFaWTailB + tail_z + 5*m)/2;
-G4double mag_position = 5*m;
+G4double mag_position = 4*m;
 //_________
 
 
@@ -1176,6 +1176,7 @@ G4VisAttributes*copperVisAttributes = new G4VisAttributes(brown);
 //--------------STRUCTURE SECTION ----------------------------------
  
 build_abs = true;
+//build_abs = false;
 
 if (build_abs) {
 

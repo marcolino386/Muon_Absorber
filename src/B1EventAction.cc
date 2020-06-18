@@ -203,7 +203,7 @@ void B1EventAction::EndOfEventAction(const G4Event* event)
      		fRunAction->add_number_of_event(i);
                 G4int numb_of_event = fRunAction->get_n_event(i);
                 if(numb_of_event < 2) {
-		   mu_m_pos << 0 << " " <<position.x()/(m) << "  " << position.y()/(m) << " " << energy/GeV << " " << momentum.x()/GeV << " " << momentum.y()/(GeV)<< " " <<  momentum.z()/(GeV) << "\n";
+		   mu_m_pos << 0 << " " <<position.x()/(m) << "  " << position.y()/(m) << " " << particleEnergy/GeV << " " << momentum.x()/GeV << " " << momentum.y()/(GeV)<< " " <<  momentum.z()/(GeV) << "\n";
 		}
       		
       		//mu_m_pos.close();
