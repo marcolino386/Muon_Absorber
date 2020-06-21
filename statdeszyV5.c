@@ -1,4 +1,4 @@
-  	 	 		
+
 #include <stdio.h> 
 #include <dirent.h> 
 #include <stdbool.h>
@@ -22,13 +22,13 @@ void calc_and_write(FILE* data,FILE* res1, FILE* res2){
 
 
 
-int n,nn,s,final0;
+int n,nn,s,final0, fina;
 
 
 
-double x[5000], y[5000], en[5000], px[5000], py[5000], pz[5000];
+double x[50000], y[50000], en[50000], px[50000], py[50000], pz[50000];
 double xsoma, ysoma, ensoma,pxsoma,pysoma,pzsoma,xmed,ymed,enmed, pxmed, pymed, pzmed ,dx,dy,den, dpx, dpy, dpz = 0.0, final;
-double desx, vasx, desy, vasy, desen,vasen, despx, vaspx, despy, vaspy, despz, vaspz, ptmed, thetamed,pt0,theta0,vaspt,vastheta,despt,destheta,dpt,dtheta = 0.0; 
+double desx, vasx, desy, vasy, desen,vasen, despx, vaspx, despy, vaspy, despz, vaspz, ptmed, thetamed,pt0,theta0,vaspt,vastheta,despt,destheta,dpt,dtheta,slopeX0, slopeXmed,slopeY0,slopeYmed,dslopeY,dslopeX = 0.0; 
 
         
 
@@ -48,8 +48,8 @@ double desx, vasx, desy, vasy, desen,vasen, despx, vaspx, despy, vaspy, despz, v
 	}
 
 	final= (final0-1)/1.0;
-        if (final0 == 0.0) {
-           xmed, ymed, enmed,pxmed,pymed,pzmed, ptmed, thetamed = 0.0;
+        if (final0 == 0) {
+           xmed, ymed, enmed,pxmed,pymed,pzmed, ptmed, thetamed, slopeXmed, slopeYmed = 0.0;
 	} else {
         xmed=xsoma/final;
 	ymed=ysoma/final;
@@ -59,6 +59,10 @@ double desx, vasx, desy, vasy, desen,vasen, despx, vaspx, despy, vaspy, despz, v
         pzmed = pzsoma/final;
         ptmed = sqrt(pxmed*pxmed + pymed*pymed);
         thetamed = atan2(pymed,pxmed);
+        
+	slopeXmed = pxmed/pzmed;
+	
+	slopeYmed = pymed/pzmed;       
 	}
 
 	
@@ -76,7 +80,7 @@ for(s=1;s<= final0;s++){
 
 	}
   
-      if(final0 == 0.0) {
+      if(final0 == 0) {
 
 	desx, vasx, desy, vasy, desen, despx, despy, despz, despt, destheta = 0.0;
 
@@ -93,6 +97,9 @@ for(s=1;s<= final0;s++){
 
 }
 	
+slopeX0 = px[0]/pz[0];
+
+slopeY0 = py[0]/pz[0];
        
 
 dx=x[0]-xmed;
@@ -101,6 +108,8 @@ den=en[0]-enmed;
 dpx = px[0] - pxmed;
 dpy = py[0] - pymed;
 dpz = pz[0] - pzmed;
+dslopeX = slopeXmed - slopeX0;
+dslopeY = slopeYmed - slopeY0;
 
 
 pt0 = sqrt(px[0]*px[0] + py[0]*py[0]);
@@ -116,10 +125,11 @@ printf("%f %f %f %f %f %f %f %f %f %f %f %f %i \n %f %f %f %f %f %f %f %f %f %f 
 printf("==================================================== \n");
 
 fprintf(res1, "%f %f %f %f %f %f %f %f %f %f %f %f %i \n",en[0],x[0],y[0], xmed,ymed,enmed, dx,dy,den, desx, desy,desen,final0);
-fprintf(res2, "%f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %i \n", en[0], px[0], py[0], pt0 ,theta0 ,pxmed, pymed, ptmed ,thetamed ,dpx,dpy, dpt ,dtheta,despx,despy, despt, destheta,final0);    
+fprintf(res2, "%f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f \n", en[0], px[0], py[0], pt0 , theta0 , pxmed, pymed, ptmed , thetamed , dpx, dpy, dpt, dtheta, despx, despy, despt, destheta, final ,slopeX0,slopeY0,slopeXmed,slopeYmed,dslopeX,dslopeY);    
 
 printf("==================================================== \n");
 
+//fprintf(res2, "%f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %i \n", en[0], px[0], py[0], pt0 ,theta0 ,pxmed, pymed, ptmed ,thetamed ,dpx,dpy, dpt ,dtheta,despx,despy, despt, destheta,final0); 
 
 }
 

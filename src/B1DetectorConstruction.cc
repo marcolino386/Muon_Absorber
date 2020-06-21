@@ -1535,7 +1535,7 @@ G4double detec_length = 0.5*cm;
 G4double initial_radius = 0;
 G4double final_radius = (z_0 + 2*carbon_pDz + 2*concrete_pDz + pos_after_detec)*tan(final_angle*PI/180.00);
 
-G4Tubs* detec_tub = new G4Tubs("detec_tubs", initial_radius, final_radius, detec_length, 0.*deg,360.*deg);
+G4Tubs* detec_tub = new G4Tubs("detec_tubs", initial_radius, 2*final_radius, detec_length, 0.*deg,360.*deg);
 
 G4LogicalVolume* detec_volume = new G4LogicalVolume(detec_tub, world_mat, "detec");
 
