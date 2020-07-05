@@ -1178,6 +1178,9 @@ G4VisAttributes*copperVisAttributes = new G4VisAttributes(brown);
 build_abs = true;
 //build_abs = false;
 
+build_magnetic = true;
+//build_magnetic = false;
+
 if (build_abs) {
 
 
@@ -1541,7 +1544,7 @@ G4LogicalVolume* detec_volume = new G4LogicalVolume(detec_tub, world_mat, "detec
 
 G4double detec_z = (z_0  + 2*dzCarbonConeS + 2*tungs1_pDz + 2*tungs2_pDz + 2*tungs3_dz + 2*tungs4_pDz + 2*dzFaWTail1 + 2*dzFaWTail2 + 2*dzFaWTailR + 2*dzFaWTailB + 2*tail_z + pos_after_detec + detec_length) - mag_position;
 
-
+/*
  new G4PVPlacement(0,
 		 G4ThreeVector(0,0,detec_z),
 		 detec_volume,
@@ -1552,7 +1555,7 @@ G4double detec_z = (z_0  + 2*dzCarbonConeS + 2*tungs1_pDz + 2*tungs2_pDz + 2*tun
 		false
 		 );
 
-
+*/
 
 
 //detector 2
@@ -1607,9 +1610,12 @@ void B1DetectorConstruction::ConstructSDandField() {
   
     G4MagneticField* magField = new G4UniformMagField(G4ThreeVector(0.,0.,-.5*tesla));
     G4FieldManager* FieldMgr  =new G4FieldManager(magField);
-    logicMag->SetFieldManager(FieldMgr, true);
-    G4cout << "Applying magnetic field" << G4endl;
-  
+    if (build_magnetic) {
+        logicMag->SetFieldManager(FieldMgr, true);
+        G4cout << "Applying magnetic field" << G4endl;
+     } else {
+        G4cout << "magnetic field disabled" << G4endl;
+    }
 
   
 

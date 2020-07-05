@@ -62,6 +62,7 @@ class B1RunAction : public G4UserRunAction
     void AddMu_plus() {n_of_mu_plus++;}
     void AddMu_minus() {n_of_mu_minus++;}
     void add_number_of_event(G4int detec_id);
+    void add_event(){nEvent++;}
     G4int get_n_event(G4int detec_id) {
         return num_event_detec[detec_id];	
        // G4cout << num << G4endl;
@@ -71,6 +72,7 @@ class B1RunAction : public G4UserRunAction
     G4Accumulable<G4double> fEdep2;
     G4Accumulable<G4double> fE_mum;
     G4Accumulable<G4double> fE_mup;
+    G4int nEvent;
     G4double n_of_mu_plus;
     G4double  n_of_mu_minus;
     std::vector<G4int >num_event_detec;

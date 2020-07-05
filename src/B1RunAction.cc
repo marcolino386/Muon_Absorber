@@ -50,7 +50,8 @@ B1RunAction::B1RunAction()
   fE_mup(0.),
   fE_mum(0.),
   n_of_mu_plus(0.),
-  n_of_mu_minus(0.)
+  n_of_mu_minus(0.),
+  nEvent(0)
 { 
   // add new units for dose
   // 
@@ -166,7 +167,7 @@ void B1RunAction::EndOfRunAction(const G4Run* run)
    #define PI 3.14159265
     G4double angle = atan(y/z)*180/PI;
    
-
+   G4cout << nEvent << G4endl;
 
   std::ofstream mu_p_energy("energy_mu_plus_data/" + std::to_string(particleEnergy/GeV) + ".dat",std::ios_base::app);
  

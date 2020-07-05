@@ -78,7 +78,7 @@ void B1EventAction::EndOfEventAction(const G4Event* event)
 
 }
   
-    
+    fRunAction->add_event();
 
      double n_mu_p = 0.0;
      double n_mu_m = 0.0;
@@ -92,24 +92,29 @@ void B1EventAction::EndOfEventAction(const G4Event* event)
 
    const G4ParticleGun* particleGun = generatorAction->GetParticleGun();
 
+   
+   G4double part_en = (particleGun->GetParticleEnergy())/GeV;
+   
+  
+   
 
-   G4double particleEnergy = particleGun->GetParticleEnergy();
-
+  G4double x = particleGun->GetParticleMomentumDirection().x();
   G4double y = particleGun->GetParticleMomentumDirection().y();
   G4double z = particleGun->GetParticleMomentumDirection().z();
   
    #define PI 3.14159265
-    G4double angle = atan(y/z)*180/PI;
+    
+   // G4double angle_a = atan(y/z)*180/PI;
+    
+   G4double angle_a = acos((z/sqrt(x*x+y*y+z*z)))*180/PI;
+    
+   
   
      const B1DetectorConstruction* detectorConstruction
       = static_cast<const B1DetectorConstruction*>
         (G4RunManager::GetRunManager()->GetUserDetectorConstruction());
    
      G4bool sim_struct = detectorConstruction->get_sim_state();
-
-  
- // pega as collections ID's
-  
  
    G4SDManager * SDman = G4SDManager::GetSDMpointer();
    G4HCofThisEvent* HCE = event->GetHCofThisEvent();
@@ -128,9 +133,13 @@ void B1EventAction::EndOfEventAction(const G4Event* event)
 
 
  for(G4int i=0; i < num; i++) { 
+   std::stringstream particleEnergy;
+   std::stringstream angle;
+   angle << std::setprecision(4) << angle_a;
+   particleEnergy << std::setprecision(4) << part_en;
    
-   std::ofstream mu_p_pos("data_mu_plus" + std::to_string(i + 1) +  "/Energy" + std::to_string(particleEnergy/GeV) + "_Angle_" + std::to_string(angle) + ".dat",std::ios_base::app);
-   std::ofstream mu_m_pos("data_mu_minus" + std::to_string(i + 1) +  "/Energy" + std::to_string(particleEnergy/GeV) + "_Angle_" + std::to_string(angle) + ".dat",std::ios_base::app);
+   std::ofstream mu_p_pos("data_mu_plus" + std::to_string(i + 1) +  "/Energy" + particleEnergy.str() + "_Angle_" + angle.str() + ".dat",std::ios_base::app);
+   std::ofstream mu_m_pos("data_mu_minus" + std::to_string(i + 1) +  "/Energy" + particleEnergy.str() + "_Angle_" + angle.str() + ".dat",std::ios_base::app);
 
    col[i] = SDman->GetCollectionID("SD" + std::to_string(i + 1));
 
@@ -175,7 +184,7 @@ void B1EventAction::EndOfEventAction(const G4Event* event)
       		fRunAction->add_number_of_event(i);
                 G4int numb_of_event = fRunAction->get_n_event(i);
                 if (numb_of_event < 2){
-		    mu_p_pos << 0 << " " << position.x()/(m) << "  " << position.y()/(m) << " " << particleEnergy/GeV << " " << momentum.x()/GeV << " " << momentum.y()/(GeV)<< " " <<  momentum.z()/(GeV) << "\n";
+		    mu_p_pos << 0 << " " << position.x()/(m) << "  " << position.y()/(m) << " " << particleEnergy.str() << " " << momentum.x()/GeV << " " << momentum.y()/(GeV)<< " " <<  momentum.z()/(GeV) << "\n";
 		}
       		
       		//mu_p_pos0.close();
@@ -203,7 +212,7 @@ void B1EventAction::EndOfEventAction(const G4Event* event)
      		fRunAction->add_number_of_event(i);
                 G4int numb_of_event = fRunAction->get_n_event(i);
                 if(numb_of_event < 2) {
-		   mu_m_pos << 0 << " " <<position.x()/(m) << "  " << position.y()/(m) << " " << particleEnergy/GeV << " " << momentum.x()/GeV << " " << momentum.y()/(GeV)<< " " <<  momentum.z()/(GeV) << "\n";
+		   mu_m_pos << 0 << " " <<position.x()/(m) << "  " << position.y()/(m) << " " << particleEnergy.str() << " " << momentum.x()/GeV << " " << momentum.y()/(GeV)<< " " <<  momentum.z()/(GeV) << "\n";
 		}
       		
       		//mu_m_pos.close();

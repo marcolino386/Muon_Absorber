@@ -68,6 +68,11 @@ class B1DetectorConstruction : public G4VUserDetectorConstruction
     G4LogicalVolume* fScoringVolume2;
     std::vector<G4LogicalVolume *> Logical_volumes;
     G4LogicalVolume* logicMag;
-    G4LogicalVolume* logicWorld;};
+    G4LogicalVolume* logicWorld;
+    G4bool build_magnetic;
+
+
+};
+    
 
 #endif
