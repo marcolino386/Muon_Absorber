@@ -132,17 +132,17 @@ void B1EventAction::EndOfEventAction(const G4Event* event)
     
 
 
- for(G4int i=0; i < num; i++) { 
+ for(G4int i=1; i < num; i++) { 
    std::stringstream particleEnergy;
    std::stringstream angle;
    angle << std::setprecision(4) << angle_a;
    particleEnergy << std::setprecision(4) << part_en;
 
 
-   if(i==1) {
+  
    std::ofstream mu_p_pos("data_mu_plus" + std::to_string(i + 1) +  "/Energy" + particleEnergy.str() + "_Angle_" + angle.str() + ".dat",std::ios_base::app);
    std::ofstream mu_m_pos("data_mu_minus" + std::to_string(i + 1) +  "/Energy" + particleEnergy.str() + "_Angle_" + angle.str() + ".dat",std::ios_base::app);
-   }
+   
 
    col[i] = SDman->GetCollectionID("SD" + std::to_string(i + 1));
 
