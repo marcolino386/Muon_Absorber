@@ -132,7 +132,7 @@ void B1EventAction::EndOfEventAction(const G4Event* event)
     
 
 
- for(G4int i=1; i < num; i++) { 
+ for(G4int i=0; i < num; i++) { 
    std::stringstream particleEnergy;
    std::stringstream angle;
    angle << std::setprecision(4) << angle_a;

@@ -9,8 +9,15 @@ def end_calculus(X0,Y0,E0,px0,py0,pz0):
 def pt_array(px,py,pz):
     A = []
     for i in range(np.size(px)):
-       pt = np.sqrt(px[i]*px[i] + py[i]*py[i] + pz[i]*pz[i])
-       A.extend(pt)
+       pti = np.sqrt(px[i]*px[i] + py[i]*py[i])
+       A.append(pti)
+    return A
+
+def theta_array(px,py,pz):
+    A = []
+    for i in range(np.size(px)):
+       thetai = np.arccos((pz[i])/np.sqrt(px[i]*px[i] + py[i]*py[i] + pz[i]*pz[i]))
+       A.append(thetai)
     return A
     
 def modify_array():
@@ -54,11 +61,20 @@ def make_calculus(path):
            #modify_array()
            X0 = X[0]; Y0 = Y[0];   E0 = E[0]; px0 = px[0]; py0 = py[0];  pz0 = pz[0]
            X = np.delete(X,0); Y = np.delete(Y,0); E = np.delete(E,0); px = np.delete(px,0); py = np.delete(py,0); pz = np.delete(pz,0);
+          
+           
+           #cria as arrays de pt e theta 
            pt = pt_array(px,py,pz)
+           theta = theta_array(px,py,pz)
 
            #calcula media e desvio padrão utilizando a bilbioteca
-           Xmed = np.mean(X); Ymed = np.mean(Y); Emed = np.mean(E); pxmed = np.mean(px); pymed = np.mean(py); pzmed = np.mean(pz)
-           desX = np.std(X); desY = np.std(Y); desE = np.std(E); despx = np.std(px); despy = np.std(py); despz = np.std(pz)  
+           Xmed = np.mean(X); Ymed = np.mean(Y); Emed = np.mean(E); pxmed = np.mean(px); pymed = np.mean(py); pzmed = np.mean(pz); thetamed_rad = np.mean(theta);ptmed = np.mean(pt)
+           desX = np.std(X); desY = np.std(Y); desE = np.std(E); despx = np.std(px); despy = np.std(py); despz = np.std(pz); despt = np.std(pt); destheta_rad = np.std(theta)
+
+            
+           # 1rad ----- 57,2958
+           thetamed = thetamed_rad*(57.2958)
+           destheta = destheta_rad*(57.2958)
 
            #calculando a variavel slope
            slopeXmed = pxmed/pzmed
@@ -69,16 +85,14 @@ def make_calculus(path):
            dslopeY = slopeYmed - slopeY0
  
            #desvio
-           dx = Xmed - X0; dy = Ymed - Y0; dE = Emed - E0; dpx = pxmed - px0; dpy = pymed - py0;  dslopeX = slopeXmed - slopeX0; dslopeY = slopeYmed - slopeY0
+           dx = Xmed - X0; dy = Ymed - Y0; dE = E0-Emed  ; dpx = pxmed - px0; dpy = pymed - py0;  dslopeX = slopeXmed - slopeX0; dslopeY = slopeYmed - slopeY0
 
            #modulo do momentum e dpt
-           ptmed = np.sqrt(pxmed*pxmed + pymed*pymed + pzmed*pzmed)
-           pt0 = np.sqrt(px0*px0 + py0*py0 + pz0*pz0)
+           pt0 = np.sqrt(px0*px0 + py0*py0)
            dpt = ptmed - pt0
 
            #angulo do momentum 
-           theta0 = np.arctan2(py0,px0)
-           thetamed = np.arctan2(pymed,pxmed)
+           theta0 = np.arccos((pz0)/np.sqrt(px0*px0 + py0*py0 + pz0*pz0))
            dtheta = thetamed - theta0
          
            
@@ -92,7 +106,7 @@ def make_calculus(path):
            print("######################################")
            #en[0], px[0], py[0],theta0, pt0 , pxmed, pymed, ptmed , thetamed , dpx, dpy, dpt, dtheta, despx, despy,slopeX0,slopeY0,slopeXmed,slopeYmed,dslopeX,dslopeY, final0
            print("en[0], px[0], py[0],theta0, pt0 , pxmed, pymed, ptmed , thetamed , dpx, dpy, dpt, dtheta, despx, despy,slopeX0,slopeY0,slopeXmed,slopeYmed,dslopeX,dslopeY, final0")
-           print(str(E0) + " " + str(px0) + " " + str(py0) +  " " + str(theta0) + " " + str(pt0) + " " + str(pxmed) + " " + str(pymed) + " " + str(ptmed) + " " + str(thetamed) + " " + str(dpx) + " " + str(dpy) + " " + str(dpt) + " " + str(dtheta) + " " + str(despx) + " " + str(despy) + " " + str(slopeX0) + " " + str(slopeY0) + " " + str(slopeXmed) + " " + str(slopeYmed) + " " + str(dslopeX) + " " + str(dslopeY) + " " + str(final) + "\n") 
+           print(str(E0) + " " + str(px0) + " " + str(py0) +  " " + str(theta0) + " " + str(pt0) + " " + str(pxmed) + " " + str(pymed) + " " + str(ptmed) + " " + str(thetamed) + " " + str(dpx) + " " + str(dpy) + " " + str(dpt) + " " + str(dtheta) + " " + str(despx) + " " + str(despy) + " " + str(slopeX0) + " " + str(slopeY0) + " " + str(slopeXmed) + " " + str(slopeYmed) + " " + str(dslopeX) + " " + str(dslopeY) + " " + str(destheta) + " " + str(despt) + " " + str(final) +  "\n") 
            
           
 
@@ -101,11 +115,11 @@ def make_calculus(path):
 
            # "E0, X0, Y0, Xmed, Ymed, ENmed ,dx, dy, dEn, desX, desY,desen, final0"
 
-           data_position.write(str(E0) + " " + str(X0) + " " + str(Y0) + " " + str(Ymed) + " " + str(Emed) + " " + str(dx) + " " + str(dy) + " " + str(dE) + " " + str(desX) + " " + str(desY) + " " + str(desE) + " " + str(final) + "\n")
+           data_position.write(str(E0) + " " + str(X0) + " " + str(Y0) + " " + str(Xmed) + " " + str(Ymed)  + " " + str(Emed) + " " + str(dx) + " " + str(dy) + " " + str(dE) + " " + str(desX) + " " + str(desY) + " " + str(desE) + " " + str(final) + "\n") 
 
-           #"en[0], px[0], py[0],theta0, pt0 , pxmed, pymed, ptmed , thetamed , dpx, dpy, dpt, dtheta, despx, despy,slopeX0,slopeY0,slopeXmed,slopeYmed,dslopeX,dslopeY, final0"
+           #"en[0], px[0], py[0],theta0, pt0 , pxmed, pymed, ptmed , thetamed , dpx, dpy, dpt, dtheta, despx, despy,slopeX0,slopeY0,slopeXmed,slopeYmed,dslopeX,dslopeY, destheta, despt final0"
 
-           data_momentum.write(str(E0) + " " + str(px0) + " " + str(py0) +  " " + str(theta0) + " " + str(pt0) + " " + str(pxmed) + " " + str(pymed) + " " + str(ptmed) + " " + str(thetamed) + " " + str(dpx) + " " + str(dpy) + " " + str(dpt) + " " + str(dtheta) + " " + str(despx) + " " + str(despy) + " " + str(slopeX0) + " " + str(slopeY0) + " " + str(slopeXmed) + " " + str(slopeYmed)+ " " + str(dslopeX) + " " + str(dslopeY) + " " + str(final) + "\n")
+           data_momentum.write(str(E0) + " " + str(px0) + " " + str(py0) +  " " + str(theta0) + " " + str(pt0) + " " + str(pxmed) + " " + str(pymed) + " " + str(ptmed) + " " + str(thetamed) + " " + str(dpx) + " " + str(dpy) + " " + str(dpt) + " " + str(dtheta) + " " + str(despx) + " " + str(despy) + " " + str(slopeX0) + " " + str(slopeY0) + " " + str(slopeXmed) + " " + str(slopeYmed)+ " " + str(dslopeX) + " " + str(dslopeY) + " " + str(destheta) + " " + str(despt) + " " + str(final) +  "\n") 
 
 
     print("DONE")   
@@ -114,5 +128,4 @@ def make_calculus(path):
        
    
 make_calculus("data_mu_plus2/")
-   
 #make_calculus("data_mu_minus2/")
