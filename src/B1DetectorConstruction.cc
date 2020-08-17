@@ -33,10 +33,12 @@
 #include "G4NistManager.hh"
 #include "G4Box.hh"
 #include "G4Cons.hh"
+#include "G4SubtractionSolid.hh"
 #include "G4Orb.hh"
 #include "G4Sphere.hh"
 #include "G4Tubs.hh"
 #include "G4Trd.hh"
+#include "G4VSolid.hh"
 #include "G4LogicalVolume.hh"
 #include "G4PVPlacement.hh"
 #include "G4SystemOfUnits.hh"
@@ -126,7 +128,7 @@ G4double pos_after_detec = 3.*m;
 G4double z_0 = 90.0*cm;
 G4double carbon_pDz = 225.0*cm/2;
 G4double concrete_pDz = 126.*cm/2;
-G4double dzFaFlange = 2.*cm;
+G4double dzFaFlange = 2.*cm/2;
  G4double dzCarbonConeS = 108.3*cm/2;
 //G4double mag_position = (z_0  + 2*dzCarbonConeS + 2*tungs1_pDz + 2*tungs2_pDz + 2*tungs3_dz + 2*tungs4_pDz + 2*dzFaWTail1 + 2*dzFaWTail2 + 2*dzFaWTailR + 2*dzFaWTailB + tail_z + 5*m)/2;
 G4double mag_position = 4*m;
@@ -139,11 +141,11 @@ G4double mag_position = 4*m;
   // 1st Central Part 24 deg
   G4double dzFaWPlateC1 = 7.95*cm/2;
   G4double rInFaQPlateC1 = 16.35*cm;
-  G4double rOuFaQPlateC1 = rOuFaQPlateF + (dzFaWPlateF * tan(24.*PI/180.00));
+  G4double rOuFaQPlateC1 = rOuFaQPlateF + (2*dzFaWPlateF * tan(24.*PI/180.00));
   // 2nd Central Part 5 deg
   G4double dzFaWPlateC2 = 1.05*cm/2;
-  G4double rInFaQPlateC2 = rInFaQPlateC1 + (dzFaWPlateC1 * tan(initial_angle*PI/180.00));
-  G4double rOuFaQPlateC2 = rOuFaQPlateC1 + (dzFaWPlateC1 * tan(24.*PI/180.00));
+  G4double rInFaQPlateC2 = rInFaQPlateC1 + (2*dzFaWPlateC1 * tan(final_angle*PI/180.00));
+  G4double rOuFaQPlateC2 = rOuFaQPlateC1 + (2*dzFaWPlateC1 * tan(24.*PI/180.00));
   G4double rInFaQPlateC3 = 17.94*cm;
   G4double rOuFaQPlateC3 = 44.49*cm;
   // Rear Flange
@@ -151,7 +153,7 @@ G4double mag_position = 4*m;
   G4double rInFaQPlateR = 21.00*cm;
   G4double rOuFaQPlateR = 42.55*cm;
   // Lenth of Plate - Rear Flange
-  G4double dzFaWPlate = dzFaWPlateF + dzFaWPlateC1 + dzFaWPlateC2;
+  G4double dzFaWPlate = dzFaWPlateF + dzFaWPlateC1 + dzFaWPlateC2 + dzFaWPlateR;
 
 //-------------------------------
 
@@ -334,11 +336,11 @@ G4cout << kMedConcSh << G4endl;
   // Inner radius at the front
   G4double carbon1_pRmin1 = 4.5*cm;
   // Outer radius at the front
-  G4double carbon1_pRmax1 = (z_0 + dzFaFlange)*tan(final_angle*PI/180.00);
+  G4double carbon1_pRmax1 = (z_0 + 2*dzFaFlange)*tan(final_angle*PI/180.00);
   // Inner radius at start of inner opening cone
   G4double carbon1_pRmin2 = 7.0*cm;
   // Outer radius at start of inner opening cone
-  G4double carbon1_pRmax2 = (z_0 + dzFaFlange + 2*dzCarbonConeS)*tan(final_angle*PI/180.00);
+  G4double carbon1_pRmax2 = (z_0 + 2*dzFaFlange + 2*dzCarbonConeS)*tan(final_angle*PI/180.00);
   G4double carbon_pSphi = 0.*deg;
   G4double carbon_pDphi = 360.*deg;
   
@@ -349,7 +351,7 @@ G4cout << kMedConcSh << G4endl;
   G4LogicalVolume* carbon1_Lvolume = new G4LogicalVolume(carbon1_cons, kMedCSh, "carbon1_logical");
 
 
- G4double carbon1_z = (z_0  + dzCarbonConeS ) -  mag_position ;
+ G4double carbon1_z = (z_0  + dzCarbonConeS + 2*dzFaWPlate - 2*dzFaWPlateR - 2*dzFaWPlateC2- 2*dzFaWPlateC1) -  mag_position ;
 
 
 // aaa
@@ -366,9 +368,9 @@ G4double carbon_Dz_2 = (2*carbon_pDz - 2*dzCarbonConeS)/2;
 G4double carbon_pRmin1 = carbon1_pRmin2;
 G4double carbon_pRmax1 = carbon1_pRmax2;
 G4double carbon_pRmin2 = 11.0*cm;
-G4double carbon_pRmax2 = (z_0 + 2*carbon_pDz)*tan(final_angle*PI/180.00);
+G4double carbon_pRmax2 = (z_0 + 2*dzFaFlange + 2*carbon_pDz)*tan(final_angle*PI/180.00);
 
-G4double carbon_z = (z_0  + 2*dzCarbonConeS + carbon_Dz_2 ) - mag_position;
+G4double carbon_z = (z_0  + 2*dzCarbonConeS + carbon_Dz_2 + 2*dzFaWPlate - 2*dzFaWPlateR - 2*dzFaWPlateC2- 2*dzFaWPlateC1) - mag_position;
 
 G4Cons* carbon_cons = new G4Cons("carbon_cons", carbon_pRmin1, carbon_pRmax1, 
 		                   carbon_pRmin2, carbon_pRmax2, carbon_Dz_2,
@@ -399,7 +401,7 @@ Logical_volumes.push_back(carbon_Lvolume);
 
  G4LogicalVolume* concrete_Lvolume = new G4LogicalVolume(concrete_cons, kMedConcSh, "concrete_logical");
 
-G4double concrete_z = (z_0 + 2*carbon_pDz + concrete_pDz ) - mag_position;
+G4double concrete_z = (z_0 + 2*carbon_pDz + concrete_pDz + 2*dzFaWPlate  - 2*dzFaWPlateR - 2*dzFaWPlateC2- 2*dzFaWPlateC1) - mag_position;
 
 
  
@@ -494,25 +496,25 @@ concrete_Lvolume->SetVisAttributes(red);
   G4double dzSteelEnvelopeFC = 4.00*cm/2;
   // Inner Radius
   G4double rInSteelEnvelopeFC1 = 35.90*cm / 2.;
-  G4double rInSteelEnvelopeFC2 = rInSteelEnvelopeFC1 + (dzSteelEnvelopeFC * tan(final_angle*PI/180.00));
+  G4double rInSteelEnvelopeFC2 = rInSteelEnvelopeFC1 + (2*dzSteelEnvelopeFC * tan(final_angle*PI/180.00));
   // Outer Radius
   G4double rOuSteelEnvelopeFC1 = 88.97*cm / 2.;
-  G4double rOuSteelEnvelopeFC2 = rOuSteelEnvelopeFC1 + (dzSteelEnvelopeFC * tan(5.*PI/180.00));
+  G4double rOuSteelEnvelopeFC2 = rOuSteelEnvelopeFC1 + (2*dzSteelEnvelopeFC * tan(5.*PI/180.00));
   //
   // 5 deg cone
   G4double dzSteelEnvelopeC5 = 168.9*cm/2;
-  G4double rInSteelEnvelopeC5 = rOuSteelEnvelopeFC2 - (dSteelEnvelope / cos(5. * PI/180.00));
+  G4double rInSteelEnvelopeC5 = rOuSteelEnvelopeFC2 - (2*dSteelEnvelope / cos(5. * PI/180.00));
   G4double rOuSteelEnvelopeC5 = rOuSteelEnvelopeFC2;
   // 10 deg cone
   G4double dzSteelEnvelopeC10 = (227.1*cm - 4.*cm)/2;
   G4double rInSteelEnvelopeC10 = 116.22*cm / 2.;
-  G4double rOuSteelEnvelopeC10 = rInSteelEnvelopeC10 + (dSteelEnvelope / cos(10 *PI/180.00));
+  G4double rOuSteelEnvelopeC10 = rInSteelEnvelopeC10 + (2*dSteelEnvelope / cos(10 *PI/180.00));
   // Rear ring
   G4double dzSteelEnvelopeR = 4.*cm/2;
   G4double rInSteelEnvelopeR2 = 196.3*cm / 2.;
   G4double rOuSteelEnvelopeR2 = 212.0*cm / 2.;
-  G4double rInSteelEnvelopeR1 = rInSteelEnvelopeR2 - (dzSteelEnvelopeR * tan(final_angle*PI/180.00));
-  G4double rOuSteelEnvelopeR1 = rInSteelEnvelopeR1 + (dSteelEnvelope / cos(final_angle*PI/180.00));
+  G4double rInSteelEnvelopeR1 = rInSteelEnvelopeR2 - (2*dzSteelEnvelopeR * tan(final_angle*PI/180.00));
+  G4double rOuSteelEnvelopeR1 = rInSteelEnvelopeR1 + (2*dSteelEnvelope / cos(final_angle*PI/180.00));
   // Front insert
 
   G4double dzSteelEnvelopeFI = 1.*cm/2;
@@ -532,7 +534,7 @@ concrete_Lvolume->SetVisAttributes(red);
 
   Logical_volumes.push_back(sEnvelope1_Lvolume);
 
-  G4double sEnvelope1_z = (z_0 + dzSteelEnvelopeFC + 2*dzFaWPlate ) - mag_position;
+  G4double sEnvelope1_z = (z_0 + dzSteelEnvelopeFC + 2*dzFaWPlate -2*dzFaWPlateR ) - mag_position;
   
   // 5 deg cone
   
@@ -544,7 +546,7 @@ concrete_Lvolume->SetVisAttributes(red);
 
   Logical_volumes.push_back(sEnvelope2_Lvolume);
 
-   G4double sEnvelope2_z = (z_0 + 2*dzSteelEnvelopeFC + dzSteelEnvelopeC5 + 2*dzFaWPlate ) - mag_position;
+   G4double sEnvelope2_z = (z_0 + 2*dzSteelEnvelopeFC + dzSteelEnvelopeC5 + 2*dzFaWPlate-2*dzFaWPlateR) - mag_position;
  
   // 10 deg cone
   
@@ -556,7 +558,7 @@ concrete_Lvolume->SetVisAttributes(red);
 
   Logical_volumes.push_back(sEnvelope3_Lvolume);
 
-  G4double sEnvelope3_z = (z_0 + 2*dzSteelEnvelopeFC + 2*dzSteelEnvelopeC5 + dzSteelEnvelopeC10+ 2*dzFaWPlate) - mag_position;
+  G4double sEnvelope3_z = (z_0 + 2*dzSteelEnvelopeFC + 2*dzSteelEnvelopeC5 + dzSteelEnvelopeC10+ 2*dzFaWPlate-2*dzFaWPlateR) - mag_position;
 
   // Rear Ring
   
@@ -569,9 +571,12 @@ concrete_Lvolume->SetVisAttributes(red);
 
   Logical_volumes.push_back(sEnvelope4_Lvolume);
  
-  G4double sEnvelope4_z = (z_0 + 2*dzSteelEnvelopeFC + 2*dzSteelEnvelopeC5 + 2*dzSteelEnvelopeC10 + dzSteelEnvelopeR+ 2*dzFaWPlate) - mag_position;
+  G4double sEnvelope4_z = (z_0 + 2*dzSteelEnvelopeFC + 2*dzSteelEnvelopeC5 + 2*dzSteelEnvelopeC10 + dzSteelEnvelopeR+ 2*dzFaWPlate-2*dzFaWPlateR) - mag_position;
     
   // Insert
+
+
+G4double dzFaWTail1   =  6.00*cm/2;
 
   G4Tubs* sEnvelope_tub = new G4Tubs("sEnvelope_tubs", rInSteelEnvelopeFI, rOuSteelEnvelopeFI, dzSteelEnvelopeFI, 0.*deg,360.*deg);
   
@@ -579,7 +584,7 @@ concrete_Lvolume->SetVisAttributes(red);
  
  Logical_volumes.push_back(sEnvelopeT_Lvolume);
  
- G4double sEnvelopeT_z = (z_0 + 2*dzSteelEnvelopeFC + 2*dzSteelEnvelopeC5 + 2*dzSteelEnvelopeC10 + 2*dzSteelEnvelopeR + 2*dzFaWPlate) - mag_position;
+ G4double sEnvelopeT_z = (z_0 + 2*dzSteelEnvelopeFC + 2*dzSteelEnvelopeC5 + 2*dzSteelEnvelopeC10 + 2*dzSteelEnvelopeR + 2*dzFaWPlate-2*dzFaWPlateR + 2*dzSteelEnvelopeFI - 0.5*cm) - mag_position;
 
 
 
@@ -599,7 +604,7 @@ sEnvelopeT_Lvolume->SetVisAttributes(color);
  // Pos 2
   ///////////////////////////////////
   //    FA End Plate               //
-  //    Drawing ALIP2A__0037       //
+  //    Drawing ALIP2A__0037       //	q
   ///////////////////////////////////
   //
   //
@@ -620,23 +625,27 @@ sEnvelopeT_Lvolume->SetVisAttributes(color);
     new G4Box("endplate_box",                       //its name
       dxEndPlate, dyEndPlate, dzEndPlate);
 
-  G4LogicalVolume* endplate_Lvolume = new G4LogicalVolume(endplate_box, kMedSteel, "sEnvelope1_logical");//MISSING MATERIAL!!!!!!!!!
+ // G4LogicalVolume* endplate_Lvolume = new G4LogicalVolume(endplate_box, kMedSteel, "sEnvelope1_logical");//MISSING MATERIAL!!!!!!!!!
 
-  Logical_volumes.push_back(endplate_Lvolume);
+ // Logical_volumes.push_back(endplate_Lvolume);
 
-  G4double endplate_z = (z_0 + 2*dzSteelEnvelopeFC + 2*dzSteelEnvelopeC5 + 2*dzSteelEnvelopeC10 + 2*dzSteelEnvelopeR + 2*dzFaWPlate + dzEndPlate) - mag_position;
+  G4double endplate_z = (z_0 + 2*dzSteelEnvelopeFC + 2*dzSteelEnvelopeC5 + 2*dzSteelEnvelopeC10 + 2*dzSteelEnvelopeR + 2 + dzEndPlate + 2*dzSteelEnvelopeFI - 2*dzFaWPlateR + 2*dzFaWPlate + 0.1*cm) - mag_position;
 
-   endplate_Lvolume->SetVisAttributes(gray);
    
-  G4Tubs* endplate_tub1 = new G4Tubs("endplate1_tub", 0., rInEndPlate, (dzEndPlate + 0.1*cm), 0.*deg,360.*deg);
+   
+  G4Tubs* endplate_tub1 = new G4Tubs("endplate1_tub", 0., rInEndPlate, (dzEndPlate+ 0.1*cm), 0.*deg,360.*deg);
   
-  G4LogicalVolume* endplate2_Lvolume = new G4LogicalVolume(endplate_tub1, kMedSteel, "endplate_tub1_logical");
+  //G4LogicalVolume* endplate2_Lvolume = new G4LogicalVolume(endplate_tub1, world_mat, "endplate_tub1_logical");
 
-  Logical_volumes.push_back(endplate2_Lvolume);
+  //Logical_volumes.push_back(endplate2_Lvolume);
+  
+  G4VSolid* hole_square = new G4SubtractionSolid("Box+Cylinder", endplate_box, endplate_tub1); 
+  
+  G4LogicalVolume* endplate_Lvolume = new G4LogicalVolume(hole_square, kMedSteel, "sEnvelope1_logical");//MISSING MATERIAL!!!!!!!!!
+   
+  endplate_Lvolume->SetVisAttributes(gray);
 
-   endplate2_Lvolume->SetVisAttributes(G4VisAttributes::Invisible);
-
-  G4Tubs* endplate_tub2 = new G4Tubs("endplate2_tub", rInEndPlateI, rOuEndPlateI, (dzEndPlateI + 0.1), 0.*deg,360.*deg);
+  G4Tubs* endplate_tub2 = new G4Tubs("endplate2_tub", rInEndPlateI, rOuEndPlateI, (dzEndPlateI + 0.1*cm), 0.*deg,360.*deg);
   
   G4LogicalVolume* endplate3_Lvolume = new G4LogicalVolume(endplate_tub2, kMedSteel, "endplate_tub2_logical");
 
@@ -703,7 +712,7 @@ G4LogicalVolume* tungs1_Lvolume_1 = new G4LogicalVolume(tungs1_cons_1, kMedNiW, 
 Logical_volumes.push_back(tungs1_Lvolume_1);
 
 
-G4double tungs1_z_1 = (z_0 + 2*dzCarbonConeS + tungs1_pDz_1) - mag_position;
+G4double tungs1_z_1 = (z_0 + 2*dzCarbonConeS + tungs1_pDz_1 + 2*dzFaFlange) - mag_position;
 
 //final
 
@@ -712,7 +721,7 @@ G4double tungs1_pRmax1 = 15.0*cm / 2.;
 G4double tungs1_pRmin2 = tungs1_pRmin1;
 G4double tungs1_pRmax2 = tungs1_pRmax1;
 
-G4double tungs1_z = (z_0 +  2*dzCarbonConeS + 2*tungs1_pDz_1 + tungs1_pDz_2 + 2*dzFaWPlate) - mag_position;
+G4double tungs1_z = (z_0 +  2*dzCarbonConeS + 2*tungs1_pDz_1 + tungs1_pDz_2 + 2*dzFaFlange) - mag_position;
 
 G4Cons* tungs1_cons = new G4Cons("Tungsten_shield_part1", tungs1_pRmin1, tungs1_pRmax1, 
 		                   tungs1_pRmin2, tungs1_pRmax2, tungs1_pDz_2,
@@ -762,7 +771,7 @@ G4double tungs2_pRmax2_1 =  20.7*cm/2;
  Logical_volumes.push_back(tungs2_Lvolume_1);
 
 
-G4double tungs2_z_1 = (z_0  + 2*dzCarbonConeS + 2*tungs1_pDz + tungs2_pDz_1 ) - mag_position;
+G4double tungs2_z_1 = (z_0  + 2*dzCarbonConeS + 2*tungs1_pDz + tungs2_pDz_1 + 2*dzFaFlange ) - mag_position;
 
 //2
 
@@ -772,7 +781,7 @@ G4double tungs2_pRmin2 = 12.58*cm / 2.;
 G4double tungs2_pRmin1 = 9.10*cm / 2.;
 G4double tungs2_pRmax1 = tungs2_pRmax1_1;
 
-G4double tungs2_z = (z_0  + 2*dzCarbonConeS + 2*tungs1_pDz + 2*tungs2_pDz_1 + tungs2_pDz_2 + 2*dzFaWPlate) - mag_position;
+G4double tungs2_z = (z_0  + 2*dzCarbonConeS + 2*tungs1_pDz + 2*tungs2_pDz_1 + tungs2_pDz_2 + 2*dzFaFlange) - mag_position;
 
 G4Cons* tungs2_cons = new G4Cons("Tungsten_shield_part2_2", tungs2_pRmin1, tungs2_pRmax1, 
 		                   tungs2_pRmin2, tungs2_pRmax2, tungs2_pDz_2,
@@ -856,7 +865,7 @@ G4double tungs3_pRmin2 = 13.23*cm / 2.;
 G4double tungs3_pRmax1 = 30.60*cm / 2.;
 G4double tungs3_pRmax2 = 32.35*cm / 2.;
 
-G4double tungs3_z = (z_0  + 2*dzCarbonConeS + 2*tungs1_pDz + 2*tungs2_pDz + tungs3_dz ) - mag_position;
+G4double tungs3_z = (z_0  + 2*dzCarbonConeS + 2*tungs1_pDz + 2*tungs2_pDz + tungs3_dz + 2*dzFaFlange) - mag_position;
 
 G4Cons* tungs3_cons = new G4Cons("Tungsten_shield_part3", tungs3_pRmin1, tungs3_pRmax1, 
 		                   tungs3_pRmin2, tungs3_pRmax2, tungs3_dz,
@@ -885,7 +894,7 @@ tungs3_Lvolume->SetVisAttributes(aa);
  G4double tungs4_pRmax1 = 48.80*cm / 2.;
  G4double tungs4_pRmax2 = 52.05*cm/ 2.;
 
- G4double tungs4_z = (z_0  + 2*dzCarbonConeS + 2*tungs1_pDz + 2*tungs2_pDz + 2*tungs3_dz + tungs4_pDz ) - mag_position;
+ G4double tungs4_z = (z_0  + 2*dzCarbonConeS + 2*tungs1_pDz + 2*tungs2_pDz + 2*tungs3_dz + tungs4_pDz + 2*dzFaFlange) - mag_position;
 
 G4Cons* tungs4_cons = new G4Cons("Tungsten_shield_part4", tungs4_pRmin1, tungs4_pRmax1, 
 		                   tungs4_pRmin2, tungs4_pRmax2, tungs4_pDz,
@@ -921,12 +930,12 @@ tungs4_Lvolume->SetVisAttributes(aa);
   // Total length
   //G4double dzFaPbCone = dzFaPbCone5 + dzFaPbCone10;
 
-
+	
   G4Cons* lead_cons_1 = new G4Cons("lead_cons", rInFaPbCone5, rOuFaPbCone5, 
 		                   rInFaPbCone10, rOuFaPbCone10, dzFaPbCone5,
 				    carbon_pSphi, carbon_pDphi);
 
-   G4double lead_z_1 = (z_0 + 2*dzFaWPlate + dzFaPbCone5 + 2*dzSteelEnvelopeFC) - mag_position;
+   G4double lead_z_1 = (z_0 + 2*dzFaWPlate + dzFaPbCone5 + 2*dzSteelEnvelopeFC - 2*dzFaWPlateR) - mag_position;
  
   G4LogicalVolume* lead_Lvolume_1 = new G4LogicalVolume(lead_cons_1, kMedPb, "lead_logical1");
 
@@ -941,7 +950,7 @@ tungs4_Lvolume->SetVisAttributes(aa);
 
    Logical_volumes.push_back(lead_Lvolume);
 
-  G4double lead_z = (z_0 + 2*dzFaWPlate + 2*dzFaPbCone5 + dzFaPbCone10 + 2*dzSteelEnvelopeFC) - mag_position;
+  G4double lead_z = (z_0 + 2*dzFaWPlate + 2*dzFaPbCone5 + dzFaPbCone10 + 2*dzSteelEnvelopeFC - 2*dzFaWPlateR) - mag_position;
 
    G4Colour  white   (1.0, 1.0, 1.0);
   
@@ -979,7 +988,7 @@ G4LogicalVolume* Steel25_Lvolume = new G4LogicalVolume(Steel25_cons, kMedSteel, 
 
 Logical_volumes.push_back(Steel25_Lvolume);
 
-G4double Steel25_z = (z_0 + 2*carbon_pDz + 2*concrete_pDz + SteelCone25_pDz )  - mag_position; 
+G4double Steel25_z = (z_0 + 2*carbon_pDz + 2*concrete_pDz + SteelCone25_pDz + 2*dzFaWPlate - 2*dzFaWPlateR - 2*dzFaWPlateC2 - 2*dzFaWPlateC1)  - mag_position; 
 
 
 G4Colour  green   (0.0, 1.0, 0.0);
@@ -1008,7 +1017,7 @@ G4LogicalVolume* Steel31_Lvolume = new G4LogicalVolume(Steel31_cons, kMedSteel, 
 
 Logical_volumes.push_back(Steel31_Lvolume);
 
-G4double Steel31_z = (z_0 + 2*carbon_pDz + 2*concrete_pDz + 2*SteelCone25_pDz + SteelCone31_pDz )  - mag_position; 
+G4double Steel31_z = (z_0 + 2*carbon_pDz + 2*concrete_pDz + 2*SteelCone25_pDz + SteelCone31_pDz + 2*dzFaWPlate - 2*dzFaWPlateR - 2*dzFaWPlateC2 - 2*dzFaWPlateC1)  - mag_position; 
 
 Steel31_Lvolume->SetVisAttributes(SteelCone);
 
@@ -1024,7 +1033,7 @@ Steel31_Lvolume->SetVisAttributes(SteelCone);
   G4double dFaCH2Cone = 7.5*cm / cos(10.*PI/180.00);
 
   
-  G4double poly_z = (z_0 + 2*dzFaWPlate + 2*dzFaPbCone5 + 2*dzFaPbCone10 + 2*dzSteelEnvelopeFC + dzFaCH2Cone ) - mag_position;
+  G4double poly_z = (z_0 + 2*dzFaWPlate + 2*dzFaPbCone5 + 2*dzFaPbCone10 + 2*dzSteelEnvelopeFC + dzFaCH2Cone - 2*dzFaWPlateR) - mag_position;
 
  
   G4Cons* polyethylene_cons = new G4Cons("polyethylene_cons", rInFaCH2Cone1, (rInFaCH2Cone1 + dFaCH2Cone), 
@@ -1058,29 +1067,29 @@ G4VisAttributes*copperVisAttributes = new G4VisAttributes(brown);
 //    Outer radius at the end of the section inside the FA
       G4double rOuFaWTail2  = 35.27*cm/2.;
 //    Length of the Flange section inside the FA
-      G4double dzFaWTail1   =  6.00*cm/2;
+    //  G4double dzFaWTail1   =  6.00*cm/2;
 //    Length of the Flange section ouside the FA
       G4double dzFaWTail2   = 12.70*cm/2;
 //    Inner radius at the end of the section inside the FA 
-      G4double rInFaWTail2  = rInFaWTail1 +  (dzFaWTail1 * tan(0.71*PI/180.00));
+      G4double rInFaWTail2  = rInFaWTail1 +  (2*dzFaWTail1 * tan(0.71*PI/180.00));
 //    Inner radius at the end of the flange
-      G4double rInFaWTail3  = rInFaWTail2 +  (dzFaWTail2 * tan(0.71*PI/180.00));
+      G4double rInFaWTail3  = rInFaWTail2 +  (2*dzFaWTail2 * tan(0.71*PI/180.00));
 //    Outer radius at the end of the flange
-      G4double rOuFaWTail3  = rOuFaWTail2 +  (dzFaWTail2 * tan(2.*PI/180.00));
+      G4double rOuFaWTail3  = rOuFaWTail2 +  (2*dzFaWTail2 * tan(2.*PI/180.00));
 //    Outer radius of the recess for station 1
       G4double rOuFaWTailR  = 30.8*cm/2.;
 //    Length of the recess
       G4double dzFaWTailR   = 36.00*cm/2;
 //    Inner radiues at the end of the recess      
-      G4double rInFaWTail4  =  rInFaWTail3 +  (dzFaWTailR * tan(0.71*PI/180.00));
+      G4double rInFaWTail4  =  rInFaWTail3 +  (2*dzFaWTailR * tan(0.71*PI/180.00));
 //    Outer radius at the end of the recess      
-      G4double rOuFaWTail4  =  rOuFaWTail3 +  (dzFaWTailR * tan(2.0*PI/180.00));
+      G4double rOuFaWTail4  =  rOuFaWTail3 +  (2*dzFaWTailR * tan(2.0*PI/180.00));
 //    Inner radius of the straight section
       G4double rInFaWTailS  = 22.30*cm/2.;
 //    Length of the bulge
       G4double dzFaWTailB   = 13.0*cm/2;
 //    Outer radius at the end of the bulge
-      G4double rOuFaWTailB  =  rOuFaWTail4 +  (dzFaWTailB * tan(2.0*PI/180.00));
+      G4double rOuFaWTailB  =  rOuFaWTail4 +  (2*dzFaWTailB * tan(2.0*PI/180.00));
 //    Outer radius at the end of the tail 
       G4double rOuFaWTailE  = 31.6*cm/2.;
 //    Total length of the tail
@@ -1099,8 +1108,8 @@ G4VisAttributes*copperVisAttributes = new G4VisAttributes(brown);
 
      Logical_volumes.push_back(wtail1_Lvolume);
 
-     G4double wtail1_z = (z_0  + 2*dzCarbonConeS + 2*tungs1_pDz + 2*tungs2_pDz + 2*tungs3_dz + 2*tungs4_pDz + dzFaWTail1) - mag_position;
-     G4cout << (2*dzCarbonConeS + 2*tungs1_pDz + 2*tungs2_pDz + 2*tungs3_dz + 2*tungs4_pDz)/m << G4endl;
+     G4double wtail1_z = (z_0  + 2*dzCarbonConeS + 2*tungs1_pDz + 2*tungs2_pDz + 2*tungs3_dz + 2*tungs4_pDz + dzFaWTail1 + 2*dzFaWPlate - 2*dzFaWPlateR - 2*dzFaWPlateC2 - 2*dzFaWPlateC1) - mag_position;
+     G4cout << (2*dzCarbonConeS + 2*tungs1_pDz + 2*tungs2_pDz + 2*tungs3_dz + 2*tungs4_pDz + 2*dzFaWPlateF)/m << G4endl;
 
 //    Flange section outside FA
    
@@ -1113,7 +1122,7 @@ G4VisAttributes*copperVisAttributes = new G4VisAttributes(brown);
  
      Logical_volumes.push_back(wtail2_Lvolume);
   
-    G4double wtail2_z = (z_0  + 2*dzCarbonConeS + 2*tungs1_pDz + 2*tungs2_pDz + 2*tungs3_dz + 2*tungs4_pDz + 2*dzFaWTail1 + dzFaWTail2) - mag_position;
+    G4double wtail2_z = (z_0  + 2*dzCarbonConeS + 2*tungs1_pDz + 2*tungs2_pDz + 2*tungs3_dz + 2*tungs4_pDz + 2*dzFaWTail1 + dzFaWTail2 +  2*dzFaWPlate - 2*dzFaWPlateR - 2*dzFaWPlateC2 - 2*dzFaWPlateC1) - mag_position;
     
 
       
@@ -1127,7 +1136,7 @@ G4VisAttributes*copperVisAttributes = new G4VisAttributes(brown);
 
     Logical_volumes.push_back(wtail3_Lvolume);
   
-    G4double wtail3_z = (z_0  + 2*dzCarbonConeS + 2*tungs1_pDz + 2*tungs2_pDz + 2*tungs3_dz + 2*tungs4_pDz + 2*dzFaWTail1 + 2*dzFaWTail2 + dzFaWTailR) - mag_position;
+    G4double wtail3_z = (z_0  + 2*dzCarbonConeS + 2*tungs1_pDz + 2*tungs2_pDz + 2*tungs3_dz + 2*tungs4_pDz + 2*dzFaWTail1 + 2*dzFaWTail2 + dzFaWTailR + 2*dzFaWPlate - 2*dzFaWPlateR - 2*dzFaWPlateC2 - 2*dzFaWPlateC1) - mag_position;
     
 
     
@@ -1145,7 +1154,7 @@ G4VisAttributes*copperVisAttributes = new G4VisAttributes(brown);
   
    Logical_volumes.push_back(wtail4_Lvolume);
   
-   G4double wtail4_z = (z_0  + 2*dzCarbonConeS + 2*tungs1_pDz + 2*tungs2_pDz + 2*tungs3_dz + 2*tungs4_pDz + 2*dzFaWTail1 + 2*dzFaWTail2 + 2*dzFaWTailR + dzFaWTailB) - mag_position;
+   G4double wtail4_z = (z_0  + 2*dzCarbonConeS + 2*tungs1_pDz + 2*tungs2_pDz + 2*tungs3_dz + 2*tungs4_pDz + 2*dzFaWTail1 + 2*dzFaWTail2 + 2*dzFaWTailR + dzFaWTailB + 2*dzFaWPlate - 2*dzFaWPlateR - 2*dzFaWPlateC2 - 2*dzFaWPlateC1) - mag_position;
 
 
 
@@ -1166,7 +1175,7 @@ G4VisAttributes*copperVisAttributes = new G4VisAttributes(brown);
 
   Logical_volumes.push_back(wtail5_Lvolume);
   
-   G4double wtail5_z = (z_0  + 2*dzCarbonConeS + 2*tungs1_pDz + 2*tungs2_pDz + 2*tungs3_dz + 2*tungs4_pDz + 2*dzFaWTail1 + 2*dzFaWTail2 + 2*dzFaWTailR + 2*dzFaWTailB + tail_z) - mag_position;
+   G4double wtail5_z = (z_0  + 2*dzCarbonConeS + 2*tungs1_pDz + 2*tungs2_pDz + 2*tungs3_dz + 2*tungs4_pDz + 2*dzFaWTail1 + 2*dzFaWTail2 + 2*dzFaWTailR + 2*dzFaWTailB + tail_z + 2*dzFaWPlate - 2*dzFaWPlateR - 2*dzFaWPlateC2 - 2*dzFaWPlateC1) - mag_position;
 
 
 //TGeoVolume* voFaWTail = new TGeoVolume("YFaWTail", shFaWTail, kMedNiW);
@@ -1193,7 +1202,7 @@ new G4PVPlacement(0,
 		 "concrete_cone",
 		 logicMag,
 		 false,
-		 1);
+		 1, checkOverlaps);
 
 
 new G4PVPlacement(0,
@@ -1202,7 +1211,7 @@ new G4PVPlacement(0,
 		    "carbon1_cone",
 		    logicMag,
 		    false,
-		    1
+		    1,checkOverlaps
 		    );
 
 
@@ -1214,7 +1223,7 @@ new G4PVPlacement(0,
 		    "carbon_cone",
 		    logicMag,
 		    false,
-		    1
+		    1,checkOverlaps
 		    );
 
 
@@ -1225,8 +1234,10 @@ new G4PVPlacement(0,
 		    "tungs1_cone_1",
 		    logicMag,
 		    false,
-		    1
+		    1,checkOverlaps
 		    );
+
+
 
 new G4PVPlacement(0,
 		    G4ThreeVector(0,0,tungs1_z),
@@ -1237,14 +1248,16 @@ new G4PVPlacement(0,
 		    1
 		    );
 
+
 new G4PVPlacement(0,
 		    G4ThreeVector(0,0,tungs2_z_1),
 		    tungs2_Lvolume_1,
 		    "tungs2_cone_1",
 		    logicMag,
 		    false,
-		    1
-		    );
+		    1,checkOverlaps
+		 );
+
 
 new G4PVPlacement(0,
 		    G4ThreeVector(0,0,tungs2_z),
@@ -1252,7 +1265,7 @@ new G4PVPlacement(0,
 		    "tungs2_cone",
 		    logicMag,
 		    false,
-		    1
+		    1,checkOverlaps
 		    );
 
 
@@ -1263,8 +1276,9 @@ new G4PVPlacement(0,
 		    "tungs3_cone",
 		    logicMag,
 		    false,
-		    1
+		    1,checkOverlaps
 		    );
+
 
 new G4PVPlacement(0,
 		    G4ThreeVector(0,0,tungs4_z),
@@ -1272,7 +1286,7 @@ new G4PVPlacement(0,
 		    "tungs4_cone",
 		    logicMag,
 		    false,
-		    1
+		    1,checkOverlaps
 		    );
 
 
@@ -1282,7 +1296,7 @@ new G4PVPlacement(0,
 		    "Steel25_cone",
 		    logicMag,
 		    false,
-		    1
+		    1,checkOverlaps
 		    );
 
 
@@ -1293,9 +1307,8 @@ new G4PVPlacement(0,
 		    "Steel31_cone",
 		    logicMag,
 		    false,
-		    1
+		    1,checkOverlaps
 		    );
-
 
 
 new G4PVPlacement(0,
@@ -1304,18 +1317,20 @@ new G4PVPlacement(0,
 		    "polyethylene_cone",
 		    logicMag,
 		    false,
-		    1);
+		    1, checkOverlaps);
 
 
 
 new G4PVPlacement(0,
-		    G4ThreeVector(0,0,lead_z_1),
+		    G4ThreeVector(0,0,lead_z_1),			
 		    lead_Lvolume_1,
 		    "lead_1",
 		    logicMag,
 		    false,
-		    1
+		    1,checkOverlaps
 		    );
+
+
 
 new G4PVPlacement(0,
 		    G4ThreeVector(0,0,lead_z),
@@ -1323,7 +1338,7 @@ new G4PVPlacement(0,
 		    "lead",
 		    logicMag,
 		    false,
-		    1
+		    1,checkOverlaps
 		    );
 
 
@@ -1333,7 +1348,7 @@ new G4PVPlacement(0,
 		    "flange1",
 		    logicMag,
 		    false,
-		    1
+		    1,checkOverlaps
 		    );
 
 new G4PVPlacement(0,
@@ -1342,7 +1357,7 @@ new G4PVPlacement(0,
 		    "flange",
 		    logicMag,
 		    false,
-		    1
+		    1,checkOverlaps
 		    );
 
 
@@ -1354,7 +1369,7 @@ new G4PVPlacement(0,
 		    "sEnvelope1",
 		    logicMag,
 		    false,
-		    1
+		    1,checkOverlaps
 		    );
 
 
@@ -1365,7 +1380,7 @@ new G4PVPlacement(0,
 		    "sEnvelope2",
 		    logicMag,
 		    false,
-		    1
+		    1,checkOverlaps
 		    );
 
 
@@ -1376,7 +1391,7 @@ new G4PVPlacement(0,
 		    "sEnvelope3",
 		    logicMag,
 		    false,
-		    1
+		    1,checkOverlaps
 		    );
 
 
@@ -1386,8 +1401,9 @@ new G4PVPlacement(0,
 		    "sEnvelope4",
 		    logicMag,
 		    false,
-		    1
+		    1,checkOverlaps
 		    );
+
 
 new G4PVPlacement(0,
 		    G4ThreeVector(0,0,sEnvelopeT_z),
@@ -1395,7 +1411,7 @@ new G4PVPlacement(0,
 		    "sEnvelope1T",
 		    logicMag,
 		    false,
-		    1
+		    1,checkOverlaps
 		    );
 
 
@@ -1407,8 +1423,9 @@ new G4PVPlacement(0,
 		    "plateAB1",
 		    logicMag,
 		    false,
-		    1
+		    1,checkOverlaps
 		    );
+
 
 new G4PVPlacement(0,
 		    G4ThreeVector(0,0,plateAB2_z),
@@ -1416,7 +1433,7 @@ new G4PVPlacement(0,
 		    "plateAB2",
 		    logicMag,
 		    false,
-		    1
+		    1,checkOverlaps
 		    );
 
 
@@ -1426,8 +1443,11 @@ new G4PVPlacement(0,
 		    "plateAB3",
 		    logicMag,
 		    false,
-		    1
+		    1,checkOverlaps
 		    );
+
+
+
 
 new G4PVPlacement(0,
 		    G4ThreeVector(0,0,plateAB4_z),
@@ -1435,7 +1455,7 @@ new G4PVPlacement(0,
 		    "plateAB4",
 		    logicMag,
 		    false,
-		    1
+		    1,checkOverlaps
 		    );
 
 
@@ -1447,28 +1467,32 @@ new G4PVPlacement(0,
 new G4PVPlacement(0,
 		    G4ThreeVector(0,0,endplate_z),
 		    endplate_Lvolume,
-		    "endplate",
+		    "endplate1",
 		    logicMag,
 		    false,
-		    1
+		    1,checkOverlaps
 		    );
 
+
+/*
 new G4PVPlacement(0,
 		    G4ThreeVector(0,0,0),
 		    endplate2_Lvolume,
-		    "endplate",
+		    "endplate2",
 		    endplate_Lvolume,
 		    false,
-		    1
+		    1,checkOverlaps
 		    );
 
+
+*/
 new G4PVPlacement(0,
 		    G4ThreeVector(0,0,0),
 		    endplate3_Lvolume,
-		    "endplate",
+		    "endplate3",
 		    endplate_Lvolume,
 		    false,
-		    1
+		    1,checkOverlaps
 		    );
 
 
@@ -1478,7 +1502,7 @@ new G4PVPlacement(0,
 		    "wtail1",
 		    logicMag,
 		    false,
-		    1
+		    1,checkOverlaps
 		    );
 
 new G4PVPlacement(0,
@@ -1487,7 +1511,7 @@ new G4PVPlacement(0,
 		    "wtail2",
 		    logicMag,
 		    false,
-		    1
+		    1,checkOverlaps
 		    );
 
 new G4PVPlacement(0,
@@ -1496,7 +1520,7 @@ new G4PVPlacement(0,
 		    "wtail3",
 		    logicMag,
 		    false,
-		    1
+		    1,checkOverlaps
 		    );
 
 
@@ -1507,7 +1531,7 @@ new G4PVPlacement(0,
 		    "wtail4",
 		    logicMag,
 		    false,
-		    1
+		    1,checkOverlaps
 		    );
 
 new G4PVPlacement(0,
@@ -1516,10 +1540,10 @@ new G4PVPlacement(0,
 		    "wtail5",
 		    logicMag,
 		    false,
-		    1
+		    1,checkOverlaps
 		    );
 
-
+	
 
 
 
@@ -1536,16 +1560,16 @@ new G4PVPlacement(0,
 //detector 1
 pos_after_detec = 0.01*m;
 G4double detec_length = 0.5*cm;
-G4double initial_radius = 0;
-G4double final_radius = (z_0 + 2*carbon_pDz + 2*concrete_pDz + pos_after_detec)*tan(final_angle*PI/180.00);
+G4double initial_radius = rInFaWTailS;
+G4double final_radius = (5.979*m)*tan(9*PI/180.00);
 
-G4Tubs* detec_tub = new G4Tubs("detec_tubs", initial_radius, 2*final_radius, detec_length, 0.*deg,360.*deg);
+G4Tubs* detec_tub = new G4Tubs("detec_tubs", initial_radius, final_radius, detec_length, 0.*deg,360.*deg);
 
 G4LogicalVolume* detec_volume = new G4LogicalVolume(detec_tub, world_mat, "detec");
 
-G4double detec_z = (z_0  + 2*dzCarbonConeS + 2*tungs1_pDz + 2*tungs2_pDz + 2*tungs3_dz + 2*tungs4_pDz + 2*dzFaWTail1 + 2*dzFaWTail2 + 2*dzFaWTailR + 2*dzFaWTailB + 2*tail_z + pos_after_detec + detec_length) - mag_position;
+G4double detec_z = (z_0  + 2*dzCarbonConeS + 2*tungs1_pDz + 2*tungs2_pDz + 2*tungs3_dz + 2*tungs4_pDz + detec_length + 40*cm) - mag_position;
 
-
+/*
  new G4PVPlacement(0,
 		 G4ThreeVector(0,0,detec_z),
 		 detec_volume,
@@ -1553,11 +1577,11 @@ G4double detec_z = (z_0  + 2*dzCarbonConeS + 2*tungs1_pDz + 2*tungs2_pDz + 2*tun
 		 logicMag,
 		 false,
 		 0,
-		false
+		checkOverlaps
 		 );
 
 
-
+*/
 
 //detector 2
 
@@ -1627,4 +1651,4 @@ void B1DetectorConstruction::ConstructSDandField() {
 
 }
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......*dzFaWPlate
