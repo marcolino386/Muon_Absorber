@@ -281,7 +281,8 @@ G4cout << kMedConcSh << G4endl;
 //matmgr.Material("ABSO", 7, "MAGNESIUM$", 24.31, 12., 1.74, 25.3, 46.0);
 
 
-G4Material* kMedMg = new G4Material("Magnesium", 12.,24.31*g/mole,1.74*g/mole);
+//G4Material* kMedMg = new G4Material("Magnesium", 12.,24.31*g/mole,1.74*g/mole);
+G4Material* kMedMg = nist->FindOrBuildMaterial("G4_Mg");
 
 
 
@@ -1241,21 +1242,21 @@ shFaCompRing2->SetVisAttributes(SteelCone);
   z += dzFaMgRingO + (dzFaMgRingI / 2.);
   Ta.setZ(z);
   Tr = G4Transform3D(Ra,Ta);
-  voFaCompRing->AddPlacedVolume(shFaMgRing2, Tr);
+  voFaMgRing->AddPlacedVolume(shFaMgRing2, Tr);
   
   // 3rd section
 
   z += (dzFaMgRingI / 2.) + (dzFaMgRingI / 2.);
   Ta.setZ(z);
   Tr = G4Transform3D(Ra,Ta);
-  voFaCompRing->AddPlacedVolume(shFaMgRing3, Tr);  
+  voFaMgRing->AddPlacedVolume(shFaMgRing3, Tr);  
   
   // 4th section
 
   z += (dzFaMgRingI / 2.) + dzFaMgRingO;
   Ta.setZ(z);
   Tr = G4Transform3D(Ra,Ta);
-  voFaCompRing->AddPlacedVolume(shFaMgRing4, Tr);  
+  voFaMgRing->AddPlacedVolume(shFaMgRing4, Tr);  
 
   
 
@@ -1408,9 +1409,11 @@ Ta.setZ(voFaPbCone_z);
 Tr = G4Transform3D(Ra,Ta);
 voFaPbCone->MakeImprint(logicMag, Tr);
 
+
 Ta.setZ(voFaCompRing_z);
 Tr = G4Transform3D(Ra,Ta);
 voFaCompRing->MakeImprint(logicMag, Tr);
+
 
 Ta.setZ(voFaMgRing_z);
 Tr = G4Transform3D(Ra,Ta);
