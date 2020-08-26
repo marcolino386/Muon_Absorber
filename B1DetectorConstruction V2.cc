@@ -184,11 +184,6 @@ G4cout << kMedPb<< G4endl;
   std::vector<G4double> wconc = {.01, .001, .529107, .016, .002, .033872, .337021, .013, .044, .014};
 //matmgr.Mixture("ABSO", 57, "CONCRETE2$", aconc, zconc, 2.35, 10, wconc);
 
-
-
-
-
-
 std::vector<G4Element *>conc;
 conc.reserve(aconc.size());
 
@@ -276,13 +271,6 @@ G4cout << kMedConcSh << G4endl;
    //G4cout << steel[i] << G4endl;
 
 }
-
-//Magnesium
-//matmgr.Material("ABSO", 7, "MAGNESIUM$", 24.31, 12., 1.74, 25.3, 46.0);
-
-
-G4Material* kMedMg = new G4Material("Magnesium", 12.,24.31*g/mole,1.74*g/mole);
-
 
 
 //some importante initial values
@@ -1145,127 +1133,6 @@ Logical_volumes.push_back(voFaSteelCone31);
 voFaSteelCone31->SetVisAttributes(SteelCone);
 
 
- ///////////////////////////////////
-  //    FA Composite Ring          //
-  //    Drawing ALIP2A__0126       //
-  ///////////////////////////////////
-  // 1st section
-  G4double dzFaCompRing1 = 0.8*cm/2;
-  G4double rInFaCompRing1 = 11.0*cm / 2.;
-  G4double rOuFaCompRing1 = 32.4*cm / 2.;
-  // 2nd section
-  G4double dzFaCompRing2 = 1.2*cm/2;
-  G4double rInFaCompRing2 = 14.0*cm / 2.;
-  G4double rOuFaCompRing2 = 35.3*cm / 2.;
-
-
-
-  
-  G4Cons* shFaCompRing1_cone = new G4Cons("shFaCompRing1_cone", rInFaCompRing1,  rOuFaCompRing1,rInFaCompRing1, rOuFaCompRing1, dzFaCompRing1, angle0, angle360);
-
-  G4LogicalVolume* shFaCompRing1 = new G4LogicalVolume(shFaCompRing1_cone, kMedCSh, "shFaCompRing1");
-  
-
-  
-  G4Cons* shFaCompRing2_cone = new G4Cons("shFaCompRing2_cone", rInFaCompRing2,  rOuFaCompRing2,rInFaCompRing2, rOuFaCompRing2, dzFaCompRing2, angle0, angle360);
-
-  G4LogicalVolume* shFaCompRing2 = new G4LogicalVolume(shFaCompRing2_cone, kMedCSh, "shFaCompRing2");
-
-
-  G4AssemblyVolume* voFaCompRing = new G4AssemblyVolume();
-
-  // 1st section
-  z = dzFaCompRing1;
-  Ta.setZ(z);
-  Tr = G4Transform3D(Ra,Ta);
-  voFaCompRing->AddPlacedVolume(shFaCompRing1, Tr);
-  
-  // 2nd section
-  z += dzFaCompRing1 + dzFaCompRing2;
-  Ta.setZ(z);
-  Tr = G4Transform3D(Ra,Ta);
-  voFaCompRing->AddPlacedVolume(shFaCompRing2, Tr);
-  
-
- //setting color
-shFaCompRing1->SetVisAttributes(SteelCone);
-shFaCompRing2->SetVisAttributes(SteelCone); 
-
-
-///////////////////////////////////
-  //    FA Magnesium Ring          //
-  //    Drawing ALIP2A__0127       //
-  ///////////////////////////////////
-  //
-  // The inner radii
-  // section 1+3
-  G4double dzFaMgRingO = 0.7*cm/2;
-  G4double rInFaMgRingO = 3.0*cm;
-  // section 2
-  G4double dzFaMgRingI = 0.6*cm/2;
-  G4double rInFaMgRingI = 3.5*cm;
-
-
-
-
-  G4Cons* shFaMgRing1_cone = new G4Cons("shFaMgRing1_cone", rInFaMgRingO,  rInFaCompRing1,rInFaMgRingO, rInFaCompRing1, dzFaMgRingO, angle0, angle360);
-
-  G4LogicalVolume* shFaMgRing1 = new G4LogicalVolume(shFaMgRing1_cone, kMedMg, "shFaMgRing1");
-
-
-  G4Cons* shFaMgRing2_cone = new G4Cons("shFaMgRing2_cone", rInFaMgRingI,  rInFaCompRing1,rInFaMgRingI, rInFaCompRing1, dzFaMgRingI / 2., angle0, angle360);
-
-  G4LogicalVolume* shFaMgRing2 = new G4LogicalVolume(shFaMgRing2_cone, kMedMg, "shFaMgRing2");
-
-
-  G4Cons* shFaMgRing3_cone = new G4Cons("shFaMgRing2_cone", rInFaMgRingI,  rInFaCompRing2,rInFaMgRingI, rInFaCompRing2, dzFaMgRingI / 2., angle0, angle360);
-
-  G4LogicalVolume* shFaMgRing3 = new G4LogicalVolume(shFaMgRing3_cone, kMedMg, "shFaMgRing3");
-
- 
-  G4Cons* shFaMgRing4_cone = new G4Cons("shFaMgRing4_cone", rInFaMgRingO, rInFaCompRing2,rInFaMgRingO, rInFaCompRing2, dzFaMgRingO, angle0, angle360);
-
-  G4LogicalVolume* shFaMgRing4 = new G4LogicalVolume(shFaMgRing4_cone, kMedMg, "shFaMgRing4");
-
-
-
-  G4AssemblyVolume* voFaMgRing = new G4AssemblyVolume();
-
-  // 1st section
-  z = dzFaMgRingO;
-  Ta.setZ(z);
-  Tr = G4Transform3D(Ra,Ta);
-  voFaMgRing->AddPlacedVolume(shFaMgRing1, Tr);
-  
-  // 2nd section
-  z += dzFaMgRingO + (dzFaMgRingI / 2.);
-  Ta.setZ(z);
-  Tr = G4Transform3D(Ra,Ta);
-  voFaCompRing->AddPlacedVolume(shFaMgRing2, Tr);
-  
-  // 3rd section
-
-  z += (dzFaMgRingI / 2.) + (dzFaMgRingI / 2.);
-  Ta.setZ(z);
-  Tr = G4Transform3D(Ra,Ta);
-  voFaCompRing->AddPlacedVolume(shFaMgRing3, Tr);  
-  
-  // 4th section
-
-  z += (dzFaMgRingI / 2.) + dzFaMgRingO;
-  Ta.setZ(z);
-  Tr = G4Transform3D(Ra,Ta);
-  voFaCompRing->AddPlacedVolume(shFaMgRing4, Tr);  
-
-  
-
-//setting color
-shFaMgRing1->SetVisAttributes(copperVisAttributes);
-shFaMgRing2->SetVisAttributes(copperVisAttributes);
-shFaMgRing3->SetVisAttributes(copperVisAttributes);
-shFaMgRing4->SetVisAttributes(copperVisAttributes);
-
-
 ///---------MAKING THE ASSEMBLY VOLUMES----------------------///
 
 
@@ -1298,6 +1165,17 @@ z = z + dzFaSteelCone25 + dzFaSteelCone31;
 Ta.setZ(z);
 Tr = G4Transform3D(Ra,Ta);
 voFaAccM->AddPlacedVolume(voFaSteelCone31, Tr);
+
+//Position of voFaAccM_z in world
+
+G4double voFaAccM_z = zFa + 2*dzFaFlange - mag_position; 
+
+
+G4double shFaGraphiteCone1_z = zFa + 2*dzFaFlange + dzFaGraphiteConeS - mag_position;
+G4double shFaGraphiteCone2_z = shFaGraphiteCone1_z + dzFaGraphiteConeS + (dzFaGraphiteCone - dzFaGraphiteConeS);
+G4double voFaConcreteCone_z = shFaGraphiteCone2_z + (dzFaGraphiteCone - dzFaGraphiteConeS) + dzFaConcreteCone;
+G4double voFaSteelCone25_z = voFaConcreteCone_z + dzFaConcreteCone + dzFaSteelCone25;
+G4double voFaSteelCone31_z = voFaSteelCone25_z + dzFaSteelCone25 + dzFaSteelCone31;
 
 
 //inner shield
@@ -1335,29 +1213,46 @@ Tr = G4Transform3D(Ra,Ta);
 voFaInnerShield->AddPlacedVolume(voFaWTube4, Tr);
 
 
-//Position of volumes in world
-
-G4double voFaAccM_z = zFa + 2*dzFaFlange - mag_position; 
-
+//Position of voFaInnerShield in world
 G4double voFaInnerShield_z = zFa + 2*dzFaGraphiteConeS + 2*dzFaFlange - mag_position;
 
 
-G4double voFaWTube5_z = zFa + 412.*cm - mag_position;
+G4double shFaWTube1_1_z = zFa + 2*dzFaFlange + 2*dzFaGraphiteConeS + dzFaWTube1C - mag_position;
+G4double shFaWTube1_2_z = shFaWTube1_1_z + dzFaWTube1C + dzFaWTube1R;
+G4double shFaWTube2_1_z = shFaWTube1_2_z + dzFaWTube1R + dzFaWTube2F - 0.6*cm;
+G4double shFaWTube2_2_z = shFaWTube2_1_z + dzFaWTube2F + dzFaWTube2C;
+G4double voFaWTube3_z = shFaWTube2_2_z + dzFaWTube2C + dzFaWTube3;
+//G4double voFaWTube4_z = voFaWTube3_z + dzFaWTube3 + dzFaWTube4;
+G4double voFaWTube4_z = 412.*cm - mag_position;
 
-
+// Other volumes
 
 
 
 G4double voFaWPlateteA_z = zFa - mag_position;
 
 
+G4double shFaWPlateA1_z = zFa + dzFaWPlateF - mag_position;
+G4double shFaWPlateA2_z = shFaWPlateA1_z + dzFaWPlateF + dzFaWPlateC1;
+G4double shFaWPlateA3_z = shFaWPlateA2_z + dzFaWPlateC1 + dzFaWPlateC2;
+G4double shFaWPlateA4_z = shFaWPlateA3_z + dzFaWPlateC2 + dzFaWPlateR;
+
+
+
 G4double voFaSteelEnvelope_z = zFa + 2*dzFaWPlate - mag_position;
 
+G4double shFaSteelEnvelopeC1_z = zFa + 2*dzFaWPlate + dzSteelEnvelopeFC - mag_position;
+G4double shFaSteelEnvelopeC2_z = shFaSteelEnvelopeC1_z + dzSteelEnvelopeFC + dzSteelEnvelopeC5;
+G4double shFaSteelEnvelopeC3_z = shFaSteelEnvelopeC2_z + dzSteelEnvelopeC5 + dzSteelEnvelopeC10;
+G4double shFaSteelEnvelopeC4_z = shFaSteelEnvelopeC3_z + dzSteelEnvelopeC10 + dzSteelEnvelopeR;
 
 //G4double shFaSteelEnvelopeT = ... (Onde...)
 
 
 G4double voFaPbCone_z = voFaSteelEnvelope_z + 2*dzSteelEnvelopeFC; 
+
+G4double shFaPbCone1_z = shFaSteelEnvelopeC1_z + dzSteelEnvelopeFC + dzFaPbCone5;
+G4double shFaPbCone2_z = shFaPbCone1_z + dzFaPbCone5 + dzFaPbCone10;
 
 
 G4double voFaCH2Cone_z = voFaPbCone_z + 2*dzFaPbCone + dzFaCH2Cone ;
@@ -1367,10 +1262,6 @@ G4double voFaFlange_z = zFa - mag_position;
 G4double dzFa = (dzFaFlange + dzFaGraphiteCone + dzFaConcreteCone + dzFaSteelCone25 + dzFaSteelCone31)*2;
 
 G4double voFaEndPlate_z = zFa + (dzFa + dzEndPlate) - mag_position;
-
-G4double voFaCompRing_z = zFa - mag_position;
-
-G4double voFaMgRing_z = zFa - mag_position;
 
 
 //--------------STRUCTURE SECTION ----------------------------------
@@ -1408,14 +1299,6 @@ Ta.setZ(voFaPbCone_z);
 Tr = G4Transform3D(Ra,Ta);
 voFaPbCone->MakeImprint(logicMag, Tr);
 
-Ta.setZ(voFaCompRing_z);
-Tr = G4Transform3D(Ra,Ta);
-voFaCompRing->MakeImprint(logicMag, Tr);
-
-Ta.setZ(voFaMgRing_z);
-Tr = G4Transform3D(Ra,Ta);
-voFaMgRing->MakeImprint(logicMag, Tr);
-
 
 new G4PVPlacement(0,
 		 G4ThreeVector(0, 0,voFaCH2Cone_z),
@@ -1435,19 +1318,19 @@ new G4PVPlacement(0,
 		 false,
 		 1, checkOverlaps);
 
-
+/*
 
 new G4PVPlacement(0,
-		 G4ThreeVector(0, 0,voFaWTube5_z),
-		 voFaWTube5,
-		 "voFaWTube5",
+		 G4ThreeVector(0, 0,voFaEndPlate_z),
+		 voFaEndPlate,
+		 "voFaEndPlate",
 		 logicMag,
 		 false,
 		 1, checkOverlaps);
 
 
 
-
+*/
 
 
 /*
@@ -1827,9 +1710,9 @@ G4Tubs* detec_tub = new G4Tubs("detec_tubs", initial_radius, final_radius, detec
 
 G4LogicalVolume* detec_volume = new G4LogicalVolume(detec_tub, world_mat, "detec");
 
-G4double detec_z = zFa + (dzFa + 2*dzEndPlate) + 1*cm - mag_position;
+//G4double detec_z = (z_0  + 2*dzCarbonConeS + 2*tungs1_pDz + 2*tungs2_pDz + 2*tungs3_dz + 2*tungs4_pDz + detec_length + 40*cm) - mag_position;
 
-
+/*
  new G4PVPlacement(0,
 		 G4ThreeVector(0,0,detec_z),
 		 detec_volume,
@@ -1841,7 +1724,7 @@ G4double detec_z = zFa + (dzFa + 2*dzEndPlate) + 1*cm - mag_position;
 		 );
 
 
-
+*/
 
 //detector 2
 

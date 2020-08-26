@@ -125,7 +125,7 @@ void B1EventAction::EndOfEventAction(const G4Event* event)
 
    
       
-     G4int num = 2;
+     G4int num = 1;
      col.reserve(num + 1);
      HitsCol.reserve(num + 1);
 
