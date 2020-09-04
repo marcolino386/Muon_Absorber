@@ -267,7 +267,7 @@ G4cout << kMedConcSh << G4endl;
   std::vector<G4Element* >CH2;
   CH2.reserve(aPolyCc.size());
 
-  G4Material* KmedCH2Sh = new G4Material("POLYETHYLEN2$", .95*g/mole, aPolyCc.size() );
+  G4Material* KmedCH2Sh = new G4Material("POLYETHYLEN2$", .95*g/cm3, aPolyCc.size() );
   
   for (std::size_t i = 0; i < aPolyCc.size(); i++) {
    G4String symb = symbol[int(zPolyCc[i]) - 1];
@@ -281,8 +281,8 @@ G4cout << kMedConcSh << G4endl;
 //matmgr.Material("ABSO", 7, "MAGNESIUM$", 24.31, 12., 1.74, 25.3, 46.0);
 
 
-//G4Material* kMedMg = new G4Material("Magnesium", 12.,24.31*g/mole,1.74*g/mole);
-G4Material* kMedMg = nist->FindOrBuildMaterial("G4_Mg");
+G4Material* kMedMg = new G4Material("Magnesium", 12.,24.31*g/mole,1.74*g/cm3);
+//G4Material* kMedMg = nist->FindOrBuildMaterial("G4_Mg");
 
 
 
@@ -424,7 +424,14 @@ G4Material* kMedMg = nist->FindOrBuildMaterial("G4_Mg");
   G4Cons* shFaSteelEnvelopeC1_cone = new G4Cons("shFaSteelEnvelopeC1_cone", rInSteelEnvelopeFC1, rOuSteelEnvelopeFC1,  rInSteelEnvelopeFC2, rOuSteelEnvelopeFC2, dzSteelEnvelopeFC, angle0, angle360);
  
 
-  G4LogicalVolume* shFaSteelEnvelopeC1 = new G4LogicalVolume(shFaSteelEnvelopeC1_cone, kMedSteel, "shFaSteelEnvelopeC1");  
+ // Insert
+
+  G4Tubs* shFaSteelEnvelopeT_tub = new G4Tubs("shFaSteelEnvelopeT_tub", rInSteelEnvelopeFI, rOuSteelEnvelopeFI, dzSteelEnvelopeFI, 0.*deg,360.*deg);
+
+ G4VSolid* shFaSteelEnvelopeC1_T = new G4SubtractionSolid("SteelEnv", shFaSteelEnvelopeC1_cone, shFaSteelEnvelopeT_tub, 0,G4ThreeVector(0,0, (-dzSteelEnvelopeFC + dzSteelEnvelopeFI)));  
+
+
+  G4LogicalVolume* shFaSteelEnvelopeC1 = new G4LogicalVolume(shFaSteelEnvelopeC1_T, kMedSteel, "shFaSteelEnvelopeC1");  
 
   Logical_volumes.push_back(shFaSteelEnvelopeC1);
 
@@ -465,11 +472,12 @@ G4Material* kMedMg = nist->FindOrBuildMaterial("G4_Mg");
   // Insert
 
 
-  G4Tubs* shFaSteelEnvelopeT_tub = new G4Tubs("shFaSteelEnvelopeT_tub", rInSteelEnvelopeFI, rOuSteelEnvelopeFI, dzSteelEnvelopeFI, 0.*deg,360.*deg);
-  
- G4LogicalVolume* shFaSteelEnvelopeT = new G4LogicalVolume(shFaSteelEnvelopeT_tub, kMedSteel, "shFaSteelEnvelopeT");//FALTA MATERIAL
+ // G4Tubs* shFaSteelEnvelopeT_tub = new G4Tubs("shFaSteelEnvelopeT_tub", rInSteelEnvelopeFI, rOuSteelEnvelopeFI, dzSteelEnvelopeFI, 0.*deg,360.*deg);
  
- Logical_volumes.push_back(shFaSteelEnvelopeT);
+
+ 
+ 
+
 
   
  G4AssemblyVolume* voFaSteelEnvelope = new G4AssemblyVolume();
@@ -505,7 +513,7 @@ shFaSteelEnvelopeC1->SetVisAttributes(color);
 shFaSteelEnvelopeC2->SetVisAttributes(color);
 shFaSteelEnvelopeC3->SetVisAttributes(color);
 shFaSteelEnvelopeC4->SetVisAttributes(color);
-shFaSteelEnvelopeT->SetVisAttributes(color);
+//shFaSteelEnvelopeT->SetVisAttributes(color);
 
 
   
@@ -1420,6 +1428,7 @@ Tr = G4Transform3D(Ra,Ta);
 voFaMgRing->MakeImprint(logicMag, Tr);
 
 
+
 new G4PVPlacement(0,
 		 G4ThreeVector(0, 0,voFaCH2Cone_z),
 		 voFaCH2Cone,
@@ -1448,368 +1457,6 @@ new G4PVPlacement(0,
 		 false,
 		 1, checkOverlaps);
 
-
-
-
-
-
-/*
-new G4PVPlacement(0,
-		 G4ThreeVector(0, 0,shFaGraphiteCone1_z),
-		 shFaGraphiteCone1,
-		 "shFaGraphiteCone1",
-		 logicMag,
-		 false,
-		 1, checkOverlaps);
-
-new G4PVPlacement(0,
-		    G4ThreeVector(0,0,shFaGraphiteCone2_z),
-		    shFaGraphiteCone2,
-		    "shFaGraphiteCone2",
-		    logicMag,
-		    false,
-		    1,checkOverlaps
-		    );
-
-
-
-
-new G4PVPlacement(0,
-		    G4ThreeVector(0,0,voFaConcreteCone_z),
-		    voFaConcreteCone,
-		    "voFaConcreteCone",
-		    logicMag,
-		    false,
-		    1,checkOverlaps
-		    );
-
-
-
-new G4PVPlacement(0,
-		    G4ThreeVector(0,0,voFaSteelCone25_z),
-		    voFaSteelCone25,
-		    "voFaSteelCone25_z",
-		    logicMag,
-		    false,
-		    1,checkOverlaps
-		    );
-
-
-
-new G4PVPlacement(0,
-		    G4ThreeVector(0,0,voFaSteelCone31_z),
-		    voFaSteelCone31,
-		    "voFaSteelCone31",
-		    logicMag,
-		    false,
-		    1
-		    );
-
-
-
-new G4PVPlacement(0,
-		    G4ThreeVector(0,0,shFaWTube1_1_z),
-		    shFaWTube1_1,
-		    "shFaWTube1_1",
-		    logicMag,
-		    false,
-		    1,checkOverlaps
-		 );
-
-
-new G4PVPlacement(0,
-		    G4ThreeVector(0,0,shFaWTube1_2_z),
-		     shFaWTube1_2,
-		    " shFaWTube1_2",
-		    logicMag,
-		    false,
-		    1,checkOverlaps
-		    );
-
-
-
-
-new G4PVPlacement(0,
-		    G4ThreeVector(0,0,shFaWTube2_1_z),
-		    shFaWTube2_1,
-		    "shFaWTube2_1",
-		    logicMag,
-		    false,
-		    1,checkOverlaps
-		    );
-
-
-new G4PVPlacement(0,
-		    G4ThreeVector(0,0,shFaWTube2_2_z),
-		    shFaWTube2_2,
-		    "shFaWTube2_2",
-		    logicMag,
-		    false,
-		    1,checkOverlaps
-		    );
-
-
-new G4PVPlacement(0,
-		    G4ThreeVector(0,0,voFaWTube3_z),
-		    voFaWTube3,
-		    "voFaWTube3",
-		    logicMag,
-		    false,
-		    1,checkOverlaps
-		    );
-
-
-
-new G4PVPlacement(0,
-		    G4ThreeVector(0,0,voFaWTube4_z),
-		    voFaWTube4,
-		    "voFaWTube4",
-		    logicMag,
-		    false,
-		    1,checkOverlaps
-		    );
-
-
-new G4PVPlacement(0,
-		    G4ThreeVector(0,0,shFaWPlateA1_z),
-		    shFaWPlateA1,
-		    "shFaWPlateA1",
-		    logicMag,
-		    false,
-		    1, checkOverlaps);
-
-
-
-new G4PVPlacement(0,
-		    G4ThreeVector(0,0,shFaWPlateA2_z),			
-		    shFaWPlateA2,
-		    "shFaWPlateA2",
-		    logicMag,
-		    false,
-		    1,checkOverlaps
-		    );
-
-
-
-new G4PVPlacement(0,
-		    G4ThreeVector(0,0,shFaWPlateA3_z),
-		    shFaWPlateA3,
-		    "shFaWPlateA3",
-		    logicMag,
-		    false,
-		    1,checkOverlaps
-		    );
-
-
-new G4PVPlacement(0,
-		    G4ThreeVector(0,0,shFaWPlateA4_z),
-		    shFaWPlateA4,
-		    "shFaWPlateA4",
-		    logicMag,
-		    false,
-		    1,checkOverlaps
-		    );
-
-
-new G4PVPlacement(0,
-		    G4ThreeVector(0,0,shFaSteelEnvelopeC1_z),
-		    shFaSteelEnvelopeC1,
-		    "shFaSteelEnvelopeC1",
-		    logicMag,
-		    false,
-		    1,checkOverlaps
-		    );
-
-
-
-
-new G4PVPlacement(0,
-		    G4ThreeVector(0,0,shFaSteelEnvelopeC2_z),
-		    shFaSteelEnvelopeC2,
-		    "shFaSteelEnvelopeC2",
-		    logicMag,
-		    false,
-		    1,checkOverlaps
-		    );
-
-
-
-new G4PVPlacement(0,
-		    G4ThreeVector(0,0,shFaSteelEnvelopeC3_z),
-		    shFaSteelEnvelopeC3,
-		    "shFaSteelEnvelopeC3",
-		    logicMag,
-		    false,
-		    1,checkOverlaps
-		    );
-
-
-
-new G4PVPlacement(0,
-		    G4ThreeVector(0,0,shFaSteelEnvelopeC4_z),
-		    shFaSteelEnvelopeC4,
-		    "shFaSteelEnvelopeC4",
-		    logicMag,
-		    false,
-		    1,checkOverlaps
-		    );
-
-
-new G4PVPlacement(0,
-		    G4ThreeVector(0,0,shFaPbCone1_z),
-		    shFaPbCone1,
-		    "shFaPbCone1",
-		    logicMag,
-		    false,
-		    1,checkOverlaps
-		    );
-
-
-
-new G4PVPlacement(0,
-		    G4ThreeVector(0,0,shFaPbCone2_z),
-		    shFaPbCone2,
-		    "shFaPbCone2",
-		    logicMag,
-		    false,
-		    1,checkOverlaps
-		    );
-
-
-
-/*
-new G4PVPlacement(0,
-		    G4ThreeVector(0,0,plateAB1_z),
-		    plateAB1_Lvolume,
-		    "plateAB1",
-		    logicMag,
-		    false,
-		    1,checkOverlaps
-		    );
-
-
-new G4PVPlacement(0,
-		    G4ThreeVector(0,0,plateAB2_z),
-		    plateAB2_Lvolume,
-		    "plateAB2",
-		    logicMag,
-		    false,
-		    1,checkOverlaps
-		    );
-
-
-new G4PVPlacement(0,
-		    G4ThreeVector(0,0,plateAB3_z),
-		    plateAB3_Lvolume,
-		    "plateAB3",
-		    logicMag,
-		    false,
-		    1,checkOverlaps
-		    );
-
-
-
-
-new G4PVPlacement(0,
-		    G4ThreeVector(0,0,plateAB4_z),
-		    plateAB4_Lvolume,
-		    "plateAB4",
-		    logicMag,
-		    false,
-		    1,checkOverlaps
-		    );
-
-
-
-
-
-
-
-new G4PVPlacement(0,
-		    G4ThreeVector(0,0,endplate_z),
-		    endplate_Lvolume,
-		    "endplate1",
-		    logicMag,
-		    false,
-		    1,checkOverlaps
-		    );
-
-
-
-new G4PVPlacement(0,
-		    G4ThreeVector(0,0,0),
-		    endplate2_Lvolume,
-		    "endplate2",
-		    endplate_Lvolume,
-		    false,
-		    1,checkOverlaps
-		    );
-
-
-
-new G4PVPlacement(0,
-		    G4ThreeVector(0,0,0),
-		    endplate3_Lvolume,
-		    "endplate3",
-		    endplate_Lvolume,
-		    false,
-		    1,checkOverlaps
-		    );
-
-
-new G4PVPlacement(0,
-		    G4ThreeVector(0,0,wtail1_z),
-		    wtail1_Lvolume,
-		    "wtail1",
-		    logicMag,
-		    false,
-		    1,checkOverlaps
-		    );
-
-
-
-new G4PVPlacement(0,
-		    G4ThreeVector(0,0,wtail2_z),
-		    wtail2_Lvolume,
-		    "wtail2",
-		    logicMag,
-		    false,
-		    1,checkOverlaps
-		    );
-
-new G4PVPlacement(0,
-		    G4ThreeVector(0,0,wtail3_z),
-		    wtail3_Lvolume,
-		    "wtail3",
-		    logicMag,
-		    false,
-		    1,checkOverlaps
-		    );
-
-
-
-new G4PVPlacement(0,
-		    G4ThreeVector(0,0,wtail4_z),
-		    wtail4_Lvolume,
-		    "wtail4",
-		    logicMag,
-		    false,
-		    1,checkOverlaps
-		    );
-
-new G4PVPlacement(0,
-		    G4ThreeVector(0,0,wtail5_z),
-		    wtail5_Lvolume,
-		    "wtail5",
-		    logicMag,
-		    false,
-		    1,checkOverlaps
-		    );
-
-	
-
-
-*/
 
 }
 
