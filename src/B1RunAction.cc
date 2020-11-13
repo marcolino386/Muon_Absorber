@@ -40,6 +40,7 @@
 #include "G4LogicalVolume.hh"
 #include "G4UnitsTable.hh"
 #include "G4SystemOfUnits.hh"
+#include "G4Timer.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -82,6 +83,7 @@ B1RunAction::~B1RunAction()
 
 void B1RunAction::BeginOfRunAction(const G4Run*)
 { 
+ G4cout << "BEGIN RUN" << G4endl;
 	
   // inform the runManager to save random number seed
   G4RunManager::GetRunManager()->SetRandomNumberStore(false);
@@ -105,20 +107,23 @@ void B1RunAction::BeginOfRunAction(const G4Run*)
 }
 
   
-
-  //Get angle to write in file
-   
-
-    
+  
+  timer = new G4Timer();
+  timer->Start();
+     
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void B1RunAction::EndOfRunAction(const G4Run* run)
 {
+   
+  timer->Stop();
+ 
+ 
   G4int nofEvents = run->GetNumberOfEvent();
   if (nofEvents == 0) return;
-
+  
   // Merge accumulables 
   G4AccumulableManager* accumulableManager = G4AccumulableManager::Instance();
   accumulableManager->Merge();
@@ -227,8 +232,10 @@ void B1RunAction::EndOfRunAction(const G4Run* run)
      << G4endl
      << "Average energy deposited by mu- : " 
      << G4BestUnit(mu_minus_edep_av,"Energy") << G4endl
-     << G4endl
+     << "Time of Run: " << timer->GetRealElapsed()
+     
      << G4endl;
+ 
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

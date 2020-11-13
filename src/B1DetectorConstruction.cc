@@ -1538,8 +1538,9 @@ sdman->AddNewDetector(sensitive2);
 detec_volume2->SetSensitiveDetector(sensitive2);
 
 
-
+G4cout << "!!!!!!!!!Funfando!!!!!!" << G4endl;
   return physWorld;
+
 }
 
 void B1DetectorConstruction::ConstructSDandField() {

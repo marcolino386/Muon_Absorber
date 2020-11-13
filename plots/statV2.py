@@ -32,7 +32,7 @@ def make_calculus(path):
     data_momentum = open(data_name + "_momentum.dat", "w") 
     data_position = open(data_name + "_position.dat", "w") 
     #entra em todos os arquivos .dat da pasta da variavel path
-    for filename in glob.glob(os.path.join(path, '*.dat')):
+    for filename in glob.glob(os.path.join(path, '*7.125.dat')):
         #transforma o arquivo em um array
         A = np.loadtxt(filename, dtype = float)
         #se o numero de elementos for 7 significa que nenhum muon passou, apenas há o muon do evento sem absorber
@@ -127,5 +127,5 @@ def make_calculus(path):
     data_position.close()         
        
    
-make_calculus("data_mu_plus2/")
+make_calculus("data_mu_plus1/")
 #make_calculus("data_mu_minus2/")

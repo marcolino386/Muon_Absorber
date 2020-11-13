@@ -33,6 +33,7 @@
 #include "G4UserRunAction.hh"
 #include "G4Accumulable.hh"
 #include "globals.hh"
+#include <G4Timer.hh>
 #include <vector>
 
 class G4Run;
@@ -67,6 +68,7 @@ class B1RunAction : public G4UserRunAction
         return num_event_detec[detec_id];	
        // G4cout << num << G4endl;
        }
+    G4Timer* timer;
   private:
     G4Accumulable<G4double> fEdep1;
     G4Accumulable<G4double> fEdep2;

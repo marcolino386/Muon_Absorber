@@ -61,6 +61,7 @@ void B1EventAction::BeginOfEventAction(const G4Event*)
 {    
   fEdep_mu_plus = 0.;
   fEdep_mu_minus = 0.;
+
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

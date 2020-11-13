@@ -28,11 +28,12 @@
 /// \brief Definition of the B1SteppingAction class
 
 #ifndef B1SteppingAction_h
-#define B1SteppingAction_h 1
+#define B1SteppingAction_h 
 
 #include "G4UserSteppingAction.hh"
 #include "globals.hh"
 #include 	<vector>
+#include "G4TrackStatus.hh"
 
 class B1EventAction;
 
@@ -51,6 +52,7 @@ class B1SteppingAction : public G4UserSteppingAction
 
     // method from the base class
     virtual void UserSteppingAction(const G4Step*);
+    
 
   private:
     B1EventAction*  fEventAction;

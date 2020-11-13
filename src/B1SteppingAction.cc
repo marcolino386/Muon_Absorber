@@ -70,9 +70,9 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step)
   //get currente particle    
   
   G4String particle_name = step->GetTrack()->GetParticleDefinition()->GetParticleName();
+  auto track = step->GetTrack();
 
-  
-  if (particle_name == "mu+" || particle_name == "mu-") {
+if (particle_name == "mu+" || particle_name == "mu-") {
 	for(G4int i=0; i < Log_volumes.size(); i++) {
                 
 		if (Log_volumes[i] == volume) {
@@ -91,6 +91,11 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step)
 
 
 }
+   
+	  
+   if (track->GetTrackID() != 1) {
+     track->SetTrackStatus(fKillTrackAndSecondaries);
+	  }
    
   
  

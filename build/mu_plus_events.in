@@ -1,0 +1,427 @@
+# Macro file for absorver changind 1 degress starting from 2deg to 10deg
+
+/run/initialize
+
+/gun/particle mu+
+
+
+/gun/energy 10 GeV
+
+#2deg
+/gun/direction 0 0.036 1
+/run/beamOn 300
+
+#3deg
+/gun/direction 0 0.052 1
+/run/beamOn 300
+
+#4deg
+/gun/direction 0 0.069 1
+/run/beamOn 300
+
+#5deg
+/gun/direction 0 0.087 1
+/run/beamOn 300
+
+#6deg
+/gun/direction 0 0.105 1
+/run/beamOn 300
+
+#7deg
+/gun/direction 0 0.122 1
+/run/beamOn 300 
+
+#8deg
+/gun/direction 0 0.14 1
+/run/beamOn 300
+
+#9deg
+/gun/direction 0 0.158 1
+
+#10deg
+/gun/direction 0 0.176 1
+/run/beamOn 300
+
+
+
+
+
+/gun/energy 20 GeV
+
+#2deg
+/gun/direction 0 0.036 1
+/run/beamOn 300
+
+#3deg
+/gun/direction 0 0.052 1
+/run/beamOn 300
+
+#4deg
+/gun/direction 0 0.069 1
+/run/beamOn 300
+
+#5deg
+/gun/direction 0 0.087 1
+/run/beamOn 300
+
+#6deg
+/gun/direction 0 0.105 1
+/run/beamOn 300
+
+#7deg
+/gun/direction 0 0.122 1
+/run/beamOn 300 
+
+#8deg
+/gun/direction 0 0.14 1
+/run/beamOn 300
+
+#9deg
+/gun/direction 0 0.158 1
+
+#10deg
+/gun/direction 0 0.176 1
+/run/beamOn 300
+
+
+
+
+
+/gun/energy 30 GeV
+
+#2deg
+/gun/direction 0 0.036 1
+/run/beamOn 300
+
+#3deg
+/gun/direction 0 0.052 1
+/run/beamOn 300
+
+#4deg
+/gun/direction 0 0.069 1
+/run/beamOn 300
+
+#5deg
+/gun/direction 0 0.087 1
+/run/beamOn 300
+
+#6deg
+/gun/direction 0 0.105 1
+/run/beamOn 300
+
+#7deg
+/gun/direction 0 0.122 1
+/run/beamOn 300 
+
+#8deg
+/gun/direction 0 0.14 1
+/run/beamOn 300
+
+#9deg
+/gun/direction 0 0.158 1
+/run/beamOn 300
+
+#10deg
+/gun/direction 0 0.176 1
+/run/beamOn 300
+
+
+
+/gun/energy 40 GeV
+
+#2deg
+/gun/direction 0 0.036 1
+/run/beamOn 300
+
+#3deg
+/gun/direction 0 0.052 1
+/run/beamOn 300
+
+#4deg
+/gun/direction 0 0.069 1
+/run/beamOn 300
+
+#5deg
+/gun/direction 0 0.087 1
+/run/beamOn 300
+
+#6deg
+/gun/direction 0 0.105 1
+/run/beamOn 300
+
+#7deg
+/gun/direction 0 0.122 1
+/run/beamOn 300 
+
+#8deg
+/gun/direction 0 0.14 1
+/run/beamOn 300
+
+#9deg
+/gun/direction 0 0.158 1
+/run/beamOn 300
+
+#10deg
+/gun/direction 0 0.176 1
+/run/beamOn 300
+
+
+
+
+/gun/energy 50 GeV
+
+#2deg
+/gun/direction 0 0.036 1
+/run/beamOn 300
+
+#3deg
+/gun/direction 0 0.052 1
+/run/beamOn 300
+
+#4deg
+/gun/direction 0 0.069 1
+/run/beamOn 300
+
+#5deg
+/gun/direction 0 0.087 1
+/run/beamOn 300
+
+#6deg
+/gun/direction 0 0.105 1
+/run/beamOn 300
+
+#7deg
+/gun/direction 0 0.122 1
+/run/beamOn 300 
+
+#8deg
+/gun/direction 0 0.14 1
+/run/beamOn 300
+
+#9deg
+/gun/direction 0 0.158 1
+/run/beamOn 300
+#10deg
+/gun/direction 0 0.176 1
+/run/beamOn 300
+
+
+
+
+
+
+
+
+/gun/energy 60 GeV
+
+#2deg
+/gun/direction 0 0.036 1
+/run/beamOn 300
+
+#3deg
+/gun/direction 0 0.052 1
+/run/beamOn 300
+
+#4deg
+/gun/direction 0 0.069 1
+/run/beamOn 300
+
+#5deg
+/gun/direction 0 0.087 1
+/run/beamOn 300
+
+#6deg
+/gun/direction 0 0.105 1
+/run/beamOn 300
+
+#7deg
+/gun/direction 0 0.122 1
+/run/beamOn 300 
+
+#8deg
+/gun/direction 0 0.14 1
+/run/beamOn 300
+
+#9deg
+/gun/direction 0 0.158 1
+/run/beamOn 300
+#10deg
+/gun/direction 0 0.176 1
+/run/beamOn 300
+
+
+
+/gun/energy 70 GeV
+
+#2deg
+/gun/direction 0 0.036 1
+/run/beamOn 300
+
+#3deg
+/gun/direction 0 0.052 1
+/run/beamOn 300
+
+#4deg
+/gun/direction 0 0.069 1
+/run/beamOn 300
+
+#5deg
+/gun/direction 0 0.087 1
+/run/beamOn 300
+
+#6deg
+/gun/direction 0 0.105 1
+/run/beamOn 300
+
+#7deg
+/gun/direction 0 0.122 1
+/run/beamOn 300 
+
+#8deg
+/gun/direction 0 0.14 1
+/run/beamOn 300
+
+#9deg
+/gun/direction 0 0.158 1
+/run/beamOn 300
+
+#10deg
+/gun/direction 0 0.176 1
+/run/beamOn 300
+
+
+
+
+
+/gun/energy 80 GeV
+
+#2deg
+/gun/direction 0 0.036 1
+/run/beamOn 300
+
+#3deg
+/gun/direction 0 0.052 1
+/run/beamOn 300
+
+#4deg
+/gun/direction 0 0.069 1
+/run/beamOn 300
+
+#5deg
+/gun/direction 0 0.087 1
+/run/beamOn 300
+
+#6deg
+/gun/direction 0 0.105 1
+/run/beamOn 300
+
+#7deg
+/gun/direction 0 0.122 1
+/run/beamOn 300 
+
+#8deg
+/gun/direction 0 0.14 1
+/run/beamOn 300
+
+#9deg
+/gun/direction 0 0.158 1
+/run/beamOn 300
+
+#10deg
+/gun/direction 0 0.176 1
+/run/beamOn 300
+
+
+
+
+
+
+
+
+/gun/energy 90 GeV
+
+#2deg
+/gun/direction 0 0.036 1
+/run/beamOn 300
+
+#3deg
+/gun/direction 0 0.052 1
+/run/beamOn 300
+
+#4deg
+/gun/direction 0 0.069 1
+/run/beamOn 300
+
+#5deg
+/gun/direction 0 0.087 1
+/run/beamOn 300
+
+#6deg
+/gun/direction 0 0.105 1
+/run/beamOn 300
+
+#7deg
+/gun/direction 0 0.122 1
+/run/beamOn 300 
+
+#8deg
+/gun/direction 0 0.14 1
+/run/beamOn 300
+
+#9deg
+/gun/direction 0 0.158 1
+/run/beamOn 300
+#10deg
+/gun/direction 0 0.176 1
+/run/beamOn 300
+
+
+
+
+
+
+
+/gun/energy 100 GeV
+
+#2deg
+/gun/direction 0 0.036 1
+/run/beamOn 300
+
+#3deg
+/gun/direction 0 0.052 1
+/run/beamOn 300
+
+#4deg
+/gun/direction 0 0.069 1
+/run/beamOn 300
+
+#5deg
+/gun/direction 0 0.087 1
+/run/beamOn 300
+
+#6deg
+/gun/direction 0 0.105 1
+/run/beamOn 300
+
+#7deg
+/gun/direction 0 0.122 1
+/run/beamOn 300 
+
+#8deg
+/gun/direction 0 0.14 1
+/run/beamOn 300
+
+#9deg
+/gun/direction 0 0.158 1
+/run/beamOn 300
+#10deg
+/gun/direction 0 0.176 1
+/run/beamOn 300
+
+
+
+
+
+
+
+
