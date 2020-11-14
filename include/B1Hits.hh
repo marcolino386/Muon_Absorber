@@ -4,6 +4,12 @@
 #include "G4Step.hh"
 #include "G4ParticleDefinition.hh"
 
+
+
+/// \file B1Hits.hh
+/// \brief Definition of the B1Hits class.
+
+///B1Hits class.
 class B1Hits: public G4VHit {
 
 public:

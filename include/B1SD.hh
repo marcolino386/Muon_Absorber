@@ -5,12 +5,18 @@
 #include "B1Hits.hh"
 #include <vector>
 
+
+/// \file B1SD.hh
+/// \brief Definition of the B1SD class.
+
 class G4Step;
 class G4HCofThisEvent;
 class G4TouchableHistory;
 class B1Hits;
 
+
 using namespace std;
+///Sensitive Detector class. Store the hits in a hit collection
 class B1SD: public G4VSensitiveDetector
 {
 public:
@@ -18,7 +24,7 @@ public:
   B1SD(G4String SDname);
   //destrutor
   ~B1SD();
-  //função chamda a cada hit
+  ///Process hits
   G4bool ProcessHits(G4Step* step, G4TouchableHistory* ROhist);
 
   void Initialize(G4HCofThisEvent* HCE);

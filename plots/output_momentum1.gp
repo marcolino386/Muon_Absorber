@@ -1,3 +1,5 @@
+#plot data about momentum in 4 windows
+
 #set terminal wxt size 1000,900 enhanced font 'Verdana,10' persist
 
 set terminal postscript enhanced color solid  "Times" 16

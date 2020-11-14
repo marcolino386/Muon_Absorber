@@ -1,0 +1,600 @@
+# Macro file for running a lot of events in a certain angle
+
+/run/initialize
+
+/gun/direction 0.707106781 0.707106781 40
+
+/gun/particle mu+
+
+
+/gun/energy 1 GeV
+/run/beamOn 1000
+
+/gun/energy 2 GeV
+/run/beamOn 1000
+
+/gun/energy 3 GeV
+/run/beamOn 1000
+
+/gun/energy 4 GeV
+/run/beamOn 1000
+
+/gun/energy 5 GeV
+/run/beamOn 1000
+
+/gun/energy 6 GeV
+/run/beamOn 1000
+
+/gun/energy 7 GeV
+/run/beamOn 1000
+
+/gun/energy 8 GeV
+/run/beamOn 1000
+
+/gun/energy 9 GeV
+/run/beamOn 1000
+
+/gun/energy 10 GeV
+/run/beamOn 1000
+
+
+/gun/direction 0.707106781 0.707106781 30
+
+
+/gun/energy 1 GeV
+/run/beamOn 1000
+
+/gun/energy 2 GeV
+/run/beamOn 1000
+
+/gun/energy 3 GeV
+/run/beamOn 1000
+
+/gun/energy 4 GeV
+/run/beamOn 1000
+
+/gun/energy 5 GeV
+/run/beamOn 1000
+
+/gun/energy 6 GeV
+/run/beamOn 1000
+
+/gun/energy 7 GeV
+/run/beamOn 1000
+
+/gun/energy 8 GeV
+/run/beamOn 1000
+
+/gun/energy 9 GeV
+/run/beamOn 1000
+
+/gun/energy 10 GeV
+/run/beamOn 1000
+
+
+/gun/direction 0.707106781 0.707106781 25
+
+/gun/energy 1 GeV
+/run/beamOn 1000
+
+/gun/energy 2 GeV
+/run/beamOn 1000
+
+/gun/energy 3 GeV
+/run/beamOn 1000
+
+/gun/energy 4 GeV
+/run/beamOn 1000
+
+/gun/energy 5 GeV
+/run/beamOn 1000
+
+/gun/energy 6 GeV
+/run/beamOn 1000
+
+/gun/energy 7 GeV
+/run/beamOn 1000
+
+/gun/energy 8 GeV
+/run/beamOn 1000
+
+/gun/energy 9 GeV
+/run/beamOn 1000
+
+/gun/energy 10 GeV
+/run/beamOn 1000
+
+/gun/direction 0.707106781 0.707106781 21
+
+/gun/energy 1 GeV
+/run/beamOn 1000
+
+/gun/energy 2 GeV
+/run/beamOn 1000
+
+/gun/energy 3 GeV
+/run/beamOn 1000
+
+/gun/energy 4 GeV
+/run/beamOn 1000
+
+/gun/energy 5 GeV
+/run/beamOn 1000
+
+/gun/energy 6 GeV
+/run/beamOn 1000
+
+/gun/energy 7 GeV
+/run/beamOn 1000
+
+/gun/energy 8 GeV
+/run/beamOn 1000
+
+/gun/energy 9 GeV
+/run/beamOn 1000
+
+/gun/energy 10 GeV
+/run/beamOn 1000
+
+
+/gun/direction 0.707106781 0.707106781 19
+
+/gun/energy 1 GeV
+/run/beamOn 1000
+
+/gun/energy 2 GeV
+/run/beamOn 1000
+
+/gun/energy 3 GeV
+/run/beamOn 1000
+
+/gun/energy 4 GeV
+/run/beamOn 1000
+
+/gun/energy 5 GeV
+/run/beamOn 1000
+
+/gun/energy 6 GeV
+/run/beamOn 1000
+
+/gun/energy 7 GeV
+/run/beamOn 1000
+
+/gun/energy 8 GeV
+/run/beamOn 1000
+
+/gun/energy 9 GeV
+/run/beamOn 1000
+
+/gun/energy 10 GeV
+/run/beamOn 1000
+
+/gun/direction 0.707106781 0.707106781 16
+
+/gun/particle mu+
+
+
+/gun/energy 1 GeV
+/run/beamOn 1000
+
+/gun/energy 2 GeV
+/run/beamOn 1000
+
+/gun/energy 3 GeV
+/run/beamOn 1000
+
+/gun/energy 4 GeV
+/run/beamOn 1000
+
+/gun/energy 5 GeV
+/run/beamOn 1000
+
+/gun/energy 6 GeV
+/run/beamOn 1000
+
+/gun/energy 7 GeV
+/run/beamOn 1000
+
+/gun/energy 8 GeV
+/run/beamOn 1000
+
+/gun/energy 9 GeV
+/run/beamOn 1000
+
+/gun/energy 10 GeV
+/run/beamOn 1000
+
+
+/gun/direction 0.707106781 0.707106781 13
+
+/gun/energy 1 GeV
+/run/beamOn 1000
+
+/gun/energy 2 GeV
+/run/beamOn 1000
+
+/gun/energy 3 GeV
+/run/beamOn 1000
+
+/gun/energy 4 GeV
+/run/beamOn 1000
+
+/gun/energy 5 GeV
+/run/beamOn 1000
+
+/gun/energy 6 GeV
+/run/beamOn 1000
+
+/gun/energy 7 GeV
+/run/beamOn 1000
+
+/gun/energy 8 GeV
+/run/beamOn 1000
+
+/gun/energy 9 GeV
+/run/beamOn 1000
+
+/gun/energy 10 GeV
+/run/beamOn 1000
+
+
+/gun/direction 0.707106781 0.707106781 11
+
+/gun/energy 1 GeV
+/run/beamOn 1000
+
+/gun/energy 2 GeV
+/run/beamOn 1000
+
+/gun/energy 3 GeV
+/run/beamOn 1000
+
+/gun/energy 4 GeV
+/run/beamOn 1000
+
+/gun/energy 5 GeV
+/run/beamOn 1000
+
+/gun/energy 6 GeV
+/run/beamOn 1000
+
+/gun/energy 7 GeV
+/run/beamOn 1000
+
+/gun/energy 8 GeV
+/run/beamOn 1000
+
+/gun/energy 9 GeV
+/run/beamOn 1000
+
+/gun/energy 10 GeV
+/run/beamOn 1000
+
+
+/gun/direction 0.707106781 0.707106781 10
+
+/gun/energy 1 GeV
+/run/beamOn 1000
+
+/gun/energy 2 GeV
+/run/beamOn 1000
+
+/gun/energy 3 GeV
+/run/beamOn 1000
+
+/gun/energy 4 GeV
+/run/beamOn 1000
+
+/gun/energy 5 GeV
+/run/beamOn 1000
+
+/gun/energy 6 GeV
+/run/beamOn 1000
+
+/gun/energy 7 GeV
+/run/beamOn 1000
+
+/gun/energy 8 GeV
+/run/beamOn 1000
+
+/gun/energy 9 GeV
+/run/beamOn 1000
+
+/gun/energy 10 GeV
+/run/beamOn 1000
+
+
+/gun/direction 0.707106781 0.707106781 9
+
+/gun/energy 1 GeV
+/run/beamOn 1000
+
+/gun/energy 2 GeV
+/run/beamOn 1000
+
+/gun/energy 3 GeV
+/run/beamOn 1000
+
+/gun/energy 4 GeV
+/run/beamOn 1000
+
+/gun/energy 5 GeV
+/run/beamOn 1000
+
+/gun/energy 6 GeV
+/run/beamOn 1000
+
+/gun/energy 7 GeV
+/run/beamOn 1000
+
+/gun/energy 8 GeV
+/run/beamOn 1000
+
+/gun/energy 9 GeV
+/run/beamOn 1000
+
+/gun/energy 10 GeV
+/run/beamOn 1000
+
+
+/gun/direction 0.707106781 0.707106781 8
+
+/gun/energy 1 GeV
+/run/beamOn 1000
+
+/gun/energy 2 GeV
+/run/beamOn 1000
+
+/gun/energy 3 GeV
+/run/beamOn 1000
+
+/gun/energy 4 GeV
+/run/beamOn 1000
+
+/gun/energy 5 GeV
+/run/beamOn 1000
+
+/gun/energy 6 GeV
+/run/beamOn 1000
+
+/gun/energy 7 GeV
+/run/beamOn 1000
+
+/gun/energy 8 GeV
+/run/beamOn 1000
+
+/gun/energy 9 GeV
+/run/beamOn 1000
+
+/gun/energy 10 GeV
+/run/beamOn 1000
+
+/gun/direction 0.707106781 0.707106781 7
+
+/gun/energy 1 GeV
+/run/beamOn 1000
+
+/gun/energy 2 GeV
+/run/beamOn 1000
+
+/gun/energy 3 GeV
+/run/beamOn 1000
+
+/gun/energy 4 GeV
+/run/beamOn 1000
+
+/gun/energy 5 GeV
+/run/beamOn 1000
+
+/gun/energy 6 GeV
+/run/beamOn 1000
+
+/gun/energy 7 GeV
+/run/beamOn 1000
+
+/gun/energy 8 GeV
+/run/beamOn 1000
+
+/gun/energy 9 GeV
+/run/beamOn 1000
+
+/gun/energy 10 GeV
+/run/beamOn 1000
+
+/gun/direction 0.707106781 0.707106781 6.5
+
+/gun/energy 1 GeV
+/run/beamOn 1000
+
+/gun/energy 2 GeV
+/run/beamOn 1000
+
+/gun/energy 3 GeV
+/run/beamOn 1000
+
+/gun/energy 4 GeV
+/run/beamOn 1000
+
+/gun/energy 5 GeV
+/run/beamOn 1000
+
+/gun/energy 6 GeV
+/run/beamOn 1000
+
+/gun/energy 7 GeV
+/run/beamOn 1000
+
+/gun/energy 8 GeV
+/run/beamOn 1000
+
+/gun/energy 9 GeV
+/run/beamOn 1000
+
+/gun/energy 10 GeV
+/run/beamOn 1000
+
+/gun/direction 0.707106781 0.707106781 6.3
+
+/gun/energy 1 GeV
+/run/beamOn 1000
+
+/gun/energy 2 GeV
+/run/beamOn 1000
+
+/gun/energy 3 GeV
+/run/beamOn 1000
+
+/gun/energy 4 GeV
+/run/beamOn 1000
+
+/gun/energy 5 GeV
+/run/beamOn 1000
+
+/gun/energy 6 GeV
+/run/beamOn 1000
+
+/gun/energy 7 GeV
+/run/beamOn 1000
+
+/gun/energy 8 GeV
+/run/beamOn 1000
+
+/gun/energy 9 GeV
+/run/beamOn 1000
+
+/gun/energy 10 GeV
+/run/beamOn 1000
+
+
+/gun/direction 0.707106781 0.707106781 6.0
+
+/gun/energy 1 GeV
+/run/beamOn 1000
+
+/gun/energy 2 GeV
+/run/beamOn 1000
+
+/gun/energy 3 GeV
+/run/beamOn 1000
+
+/gun/energy 4 GeV
+/run/beamOn 1000
+
+/gun/energy 5 GeV
+/run/beamOn 1000
+
+/gun/energy 6 GeV
+/run/beamOn 1000
+
+/gun/energy 7 GeV
+/run/beamOn 1000
+
+/gun/energy 8 GeV
+/run/beamOn 1000
+
+/gun/energy 9 GeV
+/run/beamOn 1000
+
+/gun/energy 10 GeV
+/run/beamOn 1000
+
+
+/gun/direction 0.707106781 0.707106781 5.7
+
+/gun/energy 1 GeV
+/run/beamOn 1000
+
+/gun/energy 2 GeV
+/run/beamOn 1000
+
+/gun/energy 3 GeV
+/run/beamOn 1000
+
+/gun/energy 4 GeV
+/run/beamOn 1000
+
+/gun/energy 5 GeV
+/run/beamOn 1000
+
+/gun/energy 6 GeV
+/run/beamOn 1000
+
+/gun/energy 7 GeV
+/run/beamOn 1000
+
+/gun/energy 8 GeV
+/run/beamOn 1000
+
+/gun/energy 9 GeV
+/run/beamOn 1000
+
+/gun/energy 10 GeV
+/run/beamOn 1000
+
+
+/gun/direction 0.707106781 0.707106781 5.8
+
+/gun/energy 1 GeV
+/run/beamOn 1000
+
+/gun/energy 2 GeV
+/run/beamOn 1000
+
+/gun/energy 3 GeV
+/run/beamOn 1000
+
+/gun/energy 4 GeV
+/run/beamOn 1000
+
+/gun/energy 5 GeV
+/run/beamOn 1000
+
+/gun/energy 6 GeV
+/run/beamOn 1000
+
+/gun/energy 7 GeV
+/run/beamOn 1000
+
+/gun/energy 8 GeV
+/run/beamOn 1000
+
+/gun/energy 9 GeV
+/run/beamOn 1000
+
+/gun/energy 10 GeV
+/run/beamOn 1000
+
+
+/gun/direction 0.707106781 0.707106781 5.7
+
+/gun/energy 1 GeV
+/run/beamOn 1000
+
+/gun/energy 2 GeV
+/run/beamOn 1000
+
+/gun/energy 3 GeV
+/run/beamOn 1000
+
+/gun/energy 4 GeV
+/run/beamOn 1000
+
+/gun/energy 5 GeV
+/run/beamOn 1000
+
+/gun/energy 6 GeV
+/run/beamOn 1000
+
+/gun/energy 7 GeV
+/run/beamOn 1000
+
+/gun/energy 8 GeV
+/run/beamOn 1000
+
+/gun/energy 9 GeV
+/run/beamOn 1000
+
+/gun/energy 10 GeV
+/run/beamOn 1000
+
+

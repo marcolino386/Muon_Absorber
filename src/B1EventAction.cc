@@ -1,29 +1,4 @@
-//
-// ********************************************************************
-// * License and Disclaimer                                           *
-// *                                                                  *
-// * The  Geant4 software  is  copyright of the Copyright Holders  of *
-// * the Geant4 Collaboration.  It is provided  under  the terms  and *
-// * conditions of the Geant4 Software License,  included in the file *
-// * LICENSE and available at  http://cern.ch/geant4/license .  These *
-// * include a list of copyright holders.                             *
-// *                                                                  *
-// * Neither the authors of this software system, nor their employing *
-// * institutes,nor the agencies providing financial support for this *
-// * work  make  any representation or  warranty, express or implied, *
-// * regarding  this  software system or assume any liability for its *
-// * use.  Please see the license in the file  LICENSE  and URL above *
-// * for the full disclaimer and the limitation of liability.         *
-// *                                                                  *
-// * This  code  implementation is the result of  the  scientific and *
-// * technical work of the GEANT4 collaboration.                      *
-// * By using,  copying,  modifying or  distributing the software (or *
-// * any work based  on the software)  you  agree  to acknowledge its *
-// * use  in  resulting  scientific  publications,  and indicate your *
-// * acceptance of all terms of the Geant4 Software license.          *
-// ********************************************************************
-//
-//
+
 /// \file B1EventAction.cc
 /// \brief Implementation of the B1EventAction class
 
@@ -44,10 +19,7 @@
 
 B1EventAction::B1EventAction(B1RunAction* runAction)
 : G4UserEventAction(),
-  fRunAction(runAction),
-  fEdep_mu_plus(0.),
-  fEdep_mu_minus(0.)
-
+  fRunAction(runAction)
 {} 
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -59,8 +31,7 @@ B1EventAction::~B1EventAction()
 
 void B1EventAction::BeginOfEventAction(const G4Event*)
 {    
-  fEdep_mu_plus = 0.;
-  fEdep_mu_minus = 0.;
+  
 
 }
 
@@ -68,23 +39,12 @@ void B1EventAction::BeginOfEventAction(const G4Event*)
 
 void B1EventAction::EndOfEventAction(const G4Event* event)
 {   
-  // accumulate statistics in run action
-
-  if(fEdep_mu_plus != 0.) {
-     fRunAction->AddEdep1(fEdep_mu_plus);
-     //fRunAction->AddMu_plus();
-} else if (fEdep_mu_minus != 0.) {
-     fRunAction->AddEdep2(fEdep_mu_minus);
-    // fRunAction->AddMu_minus();
-
-}
   
     fRunAction->add_event();
 
      double n_mu_p = 0.0;
      double n_mu_m = 0.0;
-     G4double total_energy_mu_p = 0;
-     G4double total_energy_mu_m = 0;
+    
 
     const B1PrimaryGeneratorAction* generatorAction
    = static_cast<const B1PrimaryGeneratorAction*>
@@ -161,7 +121,7 @@ void B1EventAction::EndOfEventAction(const G4Event* event)
 
  for(int i1 = 0; i1 < n_hit; i1++) {
       B1Hits* hit = (*HitsCol[i])[i1];
-      //G4cout << "aaa" << G4endl;
+      
       const G4String name = hit->getParticleInTarget();
       
       //G4cout << name << G4endl;
@@ -172,16 +132,13 @@ void B1EventAction::EndOfEventAction(const G4Event* event)
 	if (name == "mu+") {
 	
           if (sim_struct) {
-		//G4cout << "heyy" << G4endl;
          
                //store position
       		fRunAction->add_number_of_event(i);
                 G4int numb_of_event = fRunAction->get_n_event(i);
       		mu_p_pos << numb_of_event << " " << position.x()/(m) << "  " << position.y()/(m) << " "  << energy/GeV << " " << momentum.x()/GeV << " " << momentum.y()/(GeV)<< " " <<  momentum.z()/(GeV) << "\n";
-      		
-                total_energy_mu_p += energy;
-                fRunAction->AddMu_plus();
-                n_mu_p++;
+      		           
+               
 
          } else {
 		//store position
@@ -190,25 +147,20 @@ void B1EventAction::EndOfEventAction(const G4Event* event)
                 if (numb_of_event < 2){
 		    mu_p_pos << 0 << " " << position.x()/(m) << "  " << position.y()/(m) << " " << particleEnergy.str() << " " << momentum.x()/GeV << " " << momentum.y()/(GeV)<< " " <<  momentum.z()/(GeV) << "\n";
 		}
-      		
-      		//mu_p_pos0.close();
 
-             }
- 	
-	} else if (name=="mu-") {
+	   }
+
+          }  else if (name=="mu-") {
         
         
          if (sim_struct) {
 
 		//store position
-      		//std::ofstream mu_m_pos("data_mu_minus/Energy" + std::to_string(particleEnergy/GeV) + "_" + std::to_string(angle) + ".dat",std::ios_base::app);
+      	
                 fRunAction->add_number_of_event(i);
                 G4int numb_of_event = fRunAction->get_n_event(i);
       		mu_m_pos << numb_of_event << " " << position.x()/(m) << "  " << position.y()/(m) << " " << energy/GeV << " " << momentum.x()/GeV << " " << momentum.y()/(GeV)<< " " <<  momentum.z()/(GeV) << "\n";
-		//mu_m_pos.close();
- 		total_energy_mu_m += energy;
-                fRunAction->AddMu_minus();
-                 n_mu_m++;
+		
 
           } else {
 
@@ -218,15 +170,13 @@ void B1EventAction::EndOfEventAction(const G4Event* event)
                 if(numb_of_event < 2) {
 		   mu_m_pos << 0 << " " <<position.x()/(m) << "  " << position.y()/(m) << " " << particleEnergy.str() << " " << momentum.x()/GeV << " " << momentum.y()/(GeV)<< " " <<  momentum.z()/(GeV) << "\n";
 		}
-      		
-      		//mu_m_pos.close();
 
       }
 	
 
 	}
     }
-      
+    
 }
 
 
@@ -234,22 +184,9 @@ mu_m_pos.close();
 mu_p_pos.close();
 
 }
+
+}
    
-
-
-
- if(n_mu_p != 0.0 && sim_struct == true) {
-       G4double value = total_energy_mu_p/n_mu_p;
-       //G4cout << value/(GeV) << G4endl;
-       fRunAction->AddE_mup(value);
-    } else {fRunAction->AddE_mup(total_energy_mu_p);}
- 
- if(n_mu_m != 0.0 && sim_struct == true) {
-       G4double value = total_energy_mu_m/n_mu_m;
-       fRunAction->AddE_mum(value);
-    } else {fRunAction->AddE_mum(total_energy_mu_m);}
-
-} 
 
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

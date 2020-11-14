@@ -2,7 +2,7 @@
 
 reset
 set terminal postscript enhanced color solid  "Times" 10
-set output 'freqxy3e10GeV20kpB00.eps'
+set output 'freqxy3e10GeV1kpB05.eps'
 set multiplot layout 2,2 rowsfirst
 
 # linha
@@ -34,7 +34,7 @@ set xlabel "x (m)"
 set ylabel "Frequency"
 #count and plot
 set parametric
-plot "Energy3_Angle_7.014.dat" u (hist($2,width)):(1.0) smooth freq w boxes lc rgb"green" t '<x> = 0.583 m' ,"Energy3_Angle_7.014.dat" u (hist($3,width)):(1.0) smooth freq w l t '<y> =0.583 m'
+plot "Energy3_Angle_7.014.dat" u (hist($2,width)):(1.0) smooth freq w boxes lc rgb"green" t '' ,"Energy3_Angle_7.014.dat" u (hist($3,width)):(1.0) smooth freq w l t ''
 
 
 #grafico 2
@@ -65,7 +65,7 @@ set tics out nomirror
 set xlabel "x (m)"
 set ylabel "Frequency"
 #count and plot
-plot "Energy10_Angle_7.014.dat" u (hist($2,width)):(1.0) smooth freq w boxes lc rgb"green" t '<x> =0.583 m' ,"Energy10_Angle_7.014.dat" u (hist($3,width)):(1.0) smooth freq w l t '<y> =0.583 m'
+plot "Energy10_Angle_7.014.dat" u (hist($2,width)):(1.0) smooth freq w boxes lc rgb"green" t '' ,"Energy10_Angle_7.014.dat" u (hist($3,width)):(1.0) smooth freq w l t ''
 
 
 

@@ -7,6 +7,11 @@
 #include "G4SDManager.hh"
 #include "G4ios.hh"
 
+
+/// \file B1SD.cc
+/// \brief Implementation of the B1SD class.
+
+
 B1SD::B1SD(G4String SDname): G4VSensitiveDetector(SDname),
   hitCollection(nullptr), HCID(-1) {
   //cria a hit collection

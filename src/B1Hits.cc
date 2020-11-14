@@ -13,6 +13,10 @@
 #include "G4ios.hh"
 
 
+
+
+/// \file B1Hits.cc
+/// \brief Implementarion of the B1Hits class. 
 B1Hits::B1Hits() {
 
 }

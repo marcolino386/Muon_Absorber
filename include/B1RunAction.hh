@@ -1,29 +1,4 @@
-//
-// ********************************************************************
-// * License and Disclaimer                                           *
-// *                                                                  *
-// * The  Geant4 software  is  copyright of the Copyright Holders  of *
-// * the Geant4 Collaboration.  It is provided  under  the terms  and *
-// * conditions of the Geant4 Software License,  included in the file *
-// * LICENSE and available at  http://cern.ch/geant4/license .  These *
-// * include a list of copyright holders.                             *
-// *                                                                  *
-// * Neither the authors of this software system, nor their employing *
-// * institutes,nor the agencies providing financial support for this *
-// * work  make  any representation or  warranty, express or implied, *
-// * regarding  this  software system or assume any liability for its *
-// * use.  Please see the license in the file  LICENSE  and URL above *
-// * for the full disclaimer and the limitation of liability.         *
-// *                                                                  *
-// * This  code  implementation is the result of  the  scientific and *
-// * technical work of the GEANT4 collaboration.                      *
-// * By using,  copying,  modifying or  distributing the software (or *
-// * any work based  on the software)  you  agree  to acknowledge its *
-// * use  in  resulting  scientific  publications,  and indicate your *
-// * acceptance of all terms of the Geant4 Software license.          *
-// ********************************************************************
-//
-//
+
 /// \file B1RunAction.hh
 /// \brief Definition of the B1RunAction class
 
@@ -38,14 +13,11 @@
 
 class G4Run;
 
-/// Run action class
-///
-/// In EndOfRunAction(), it calculates the dose in the selected volume 
-/// from the energy deposit accumulated via stepping and event actions.
-/// The computed dose is then printed on the screen.
+
+
 
 using namespace std;
-
+/// Run action class
 class B1RunAction : public G4UserRunAction
 {
   public:
@@ -56,24 +28,18 @@ class B1RunAction : public G4UserRunAction
     virtual void BeginOfRunAction(const G4Run*);
     virtual void   EndOfRunAction(const G4Run*);
 
-    void AddEdep1 (G4double edep); 
-    void AddEdep2 (G4double edep);
-    void AddE_mum (G4double edep) ; 
-    void AddE_mup (G4double edep) ;
-    void AddMu_plus() {n_of_mu_plus++;}
-    void AddMu_minus() {n_of_mu_minus++;}
     void add_number_of_event(G4int detec_id);
+    /// add nEvent value in vector
     void add_event(){nEvent++;}
+    /// increase 1 in nEvent variable
     G4int get_n_event(G4int detec_id) {
+        ///get the number of the event to store in the output file
         return num_event_detec[detec_id];	
        // G4cout << num << G4endl;
        }
     G4Timer* timer;
   private:
-    G4Accumulable<G4double> fEdep1;
-    G4Accumulable<G4double> fEdep2;
-    G4Accumulable<G4double> fE_mum;
-    G4Accumulable<G4double> fE_mup;
+    
     G4int nEvent;
     G4double n_of_mu_plus;
     G4double  n_of_mu_minus;

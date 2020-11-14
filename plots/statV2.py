@@ -1,3 +1,5 @@
+#Calculate mean, variation of all the data.
+
 import numpy as np
 import os
 import glob
