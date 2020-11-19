@@ -44,8 +44,6 @@ def make_calculus(ang, energy, charge,path,index,data_momentum,data_position,fie
     
     Pxb,Pyb = B[:,4],B[:,5]
     Pxb0 = Pxb[0]; Pyb0 = Pyb[0]
-    DeltaPx = px0 - Pxb0
-    DeltaPy = py0 - Pyb0
     #se o numero de elementos for 7 significa que nenhum muon passou, apenas há o muon do evento sem absorber
     if np.size(A) <= 7:
        #seleciona a variavel de sua respectiva coluna da matriz(array)
@@ -57,6 +55,8 @@ def make_calculus(ang, energy, charge,path,index,data_momentum,data_position,fie
           theta0 = np.arccos((pz)/np.sqrt(px*px + py*py + pz*pz))*(180.00/3.14159265)
           slopeX = px/pz
           slopeY=py/pz
+          DeltaPx = px - Pxb0
+          DeltaPy = py - Pyb0
                 
 
        #Printa
@@ -81,6 +81,7 @@ def make_calculus(ang, energy, charge,path,index,data_momentum,data_position,fie
        X0 = X[0]; Y0 = Y[0];   E0 = E[0]; px0 = px[0]; py0 = py[0];  pz0 = pz[0]
        X = np.delete(X,0); Y = np.delete(Y,0); E = np.delete(E,0); px = np.delete(px,0); py = np.delete(py,0); pz = np.delete(pz,0);
        
+  
        
         
            
@@ -113,7 +114,10 @@ def make_calculus(ang, energy, charge,path,index,data_momentum,data_position,fie
        theta0 = np.arccos((pz0)/np.sqrt(px0*px0 + py0*py0 + pz0*pz0))*(180.00/3.14159265)
        dtheta = thetamed - theta0
          
-           
+       DeltaPx = pxmed - Pxb0
+       DeltaPy = pymed - Pyb0   
+     
+    
        #Printa dados
 
        # E0, X0, Y0, Xmed, Ymed, ENmed ,dx, dy, dEn, desX, des , desx, desy,desen, final0
