@@ -40,7 +40,7 @@ for j in charge:
                 all_E_L.append(list(E))
 
                 freq,dE = make_hist(E,width)
-                arq = open('{2}/dados_calc/histogram_Energy{0}_Angle_{1}_{3}.dat'.format(Ei,t,drt,j),'w')
+                arq = open('{2}/histogram_Energy{0}_Angle_{1}_{3}.dat'.format(Ei,t,drt,j),'w')
                 for i,f in enumerate(freq):
                     arq.write('{0} {1} \n'.format(dE[i],int(f)))
                 arq.close()
@@ -50,7 +50,7 @@ for j in charge:
         
         if all_E_L != []:
             freq,dE = make_hist(np.hstack(all_E),width)
-            arq = open('{1}/dados_calc/histogram_Energy{0}_Angle_all_{2}.dat'.format(Ei,drt, j),'w')
+            arq = open('{1}/histogram_Energy{0}_Angle_all_{2}.dat'.format(Ei,drt, j),'w')
             for i,f in enumerate(freq):
                 arq.write('{0} {1} \n'.format(dE[i],int(f)))
             arq.close()

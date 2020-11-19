@@ -15,10 +15,14 @@ arq pos:				arq mome:
 13	final0				13	dtheta
 					14	despx
 					15	despy	
-					16	final0
-					17	slopeX0
-					18	slopeY0
-					19	slopeXmed
-					20	slopeYmed
-					21	dslopeX
-					22	dslopeY
+					16	slopeX0
+					17	slopeY0
+					18	slopeXmed
+					19	slopeYmed
+					20	dslopeX
+					21	dslopeY
+                                        22      destheta
+                                        23      despt
+                                        24      DeltaPx
+                                        25      DeltaPy
+                                        26     final0

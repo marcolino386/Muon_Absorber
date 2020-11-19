@@ -1367,6 +1367,8 @@ build_magnetic = true;
 
 if (build_abs) {
 
+
+
 Ta.setZ(voFaAccM_z);
 Tr = G4Transform3D(Ra,Ta);
 voFaAccM->MakeImprint(logicMag, Tr);
@@ -1433,6 +1435,7 @@ new G4PVPlacement(0,
 		 1, checkOverlaps);
 
 
+
 }
 
 
@@ -1442,23 +1445,23 @@ new G4PVPlacement(0,
 
 
 
-//detector 1
+//detector 2
 pos_after_detec = 0.01*m;
 G4double detec_length = 0.5*cm;
-G4double initial_radius = 5*cm;
-G4double final_radius = (5.979*m)*tan(9*PI/180.00);
+//G4double initial_radius = 5*cm;
+//G4double final_radius = (5.979*m)*tan(9*PI/180.00);
 
-G4Tubs* detec_tub = new G4Tubs("detec_tubs", initial_radius, final_radius, detec_length, 0.*deg,360.*deg);
+G4Tubs* detec_tub2 = new G4Tubs("detec_tubs2", rInFaWTube5C2, rOuSteelEnvelopeR2, detec_length, 0.*deg,360.*deg);
 
-G4LogicalVolume* detec_volume = new G4LogicalVolume(detec_tub, world_mat, "detec");
+G4LogicalVolume* detec_volume2 = new G4LogicalVolume(detec_tub2, world_mat, "detec");
 
-G4double detec_z = zFa + (dzFa + 2*dzEndPlate) + 1*cm - mag_position;
+G4double detec_z2 = zFa + (dzFa + 2*dzEndPlate) + 1*cm - mag_position;
 
 
  new G4PVPlacement(0,
-		 G4ThreeVector(0,0,detec_z),
-		 detec_volume,
-		 "detector",
+		 G4ThreeVector(0,0,detec_z2),
+		 detec_volume2,
+		 "detector2",
 		 logicMag,
 		 false,
 		 0,
@@ -1468,25 +1471,27 @@ G4double detec_z = zFa + (dzFa + 2*dzEndPlate) + 1*cm - mag_position;
 
 
 
-//detector 2
+//detector 1
 
-G4Tubs* detec_tub2 = new G4Tubs("detec_tubs", initial_radius, 3*final_radius, detec_length, 0.*deg,360.*deg);
-G4LogicalVolume* detec_volume2 = new G4LogicalVolume(detec_tub2, world_mat, "detec2");
-//G4double detec_z2 = (z_0  + 2*dzCarbonConeS + 2*tungs1_pDz + 2*tungs2_pDz + 2*tungs3_dz + 2*tungs4_pDz + 2*dzFaWTail1 + 2*dzFaWTail2 + 2*dzFaWTailR + 2*dzFaWTailB + 2*tail_z + pos_after_detec + 1*m + 3*detec_length) - mag_position;
 
-/*
+
+G4Tubs* detec_tub1 = new G4Tubs("detec_tubs1", rInFaMgRingO, rOuFaQPlateF, detec_length, 0.*deg,360.*deg);
+G4LogicalVolume* detec_volume1 = new G4LogicalVolume(detec_tub1, world_mat, "detec2");
+G4double detec_z1 = zFa - 1*cm - mag_position;
+
+
 
 new G4PVPlacement(0,
-		 G4ThreeVector(0,0,detec_z2),
-		 detec_volume2,
-		 "detector2",
+		 G4ThreeVector(0,0,detec_z1),
+		 detec_volume1,
+		 "detector1",
 		 logicMag,
 		 false,
 		 0,
 		false
 		 );
 
-*/
+
 
 num_detec=2;
 
@@ -1503,7 +1508,7 @@ auto sdman = G4SDManager::GetSDMpointer();
 G4String SDname1 = "SD1";
 auto sensitive1 = new B1SD(SDname1);
 sdman->AddNewDetector(sensitive1);
-detec_volume->SetSensitiveDetector(sensitive1);
+detec_volume1->SetSensitiveDetector(sensitive1);
 
 
 

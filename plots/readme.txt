@@ -8,6 +8,10 @@ Arquivos:
 
 - output_momentum1.gp - faz graficos de Pt
 
-- dxdy - graficos de variação posição para todos os angulos em função da energia
+- plot_dxdy_angle.gp - graficos de variação posição para todos os angulos em função da energia
 
 - angle_all.gp - histograma de energia para todos os angulos 
+
+- freqxy3e10GeV20kpB00.gp - histograma de posição p 3 e 10 Gev e grafico 2d.
+
+

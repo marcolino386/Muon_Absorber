@@ -86,7 +86,7 @@ void B1EventAction::EndOfEventAction(const G4Event* event)
 
    
       
-     G4int num = 1;
+     G4int num = 2;
      col.reserve(num + 1);
      HitsCol.reserve(num + 1);
 
@@ -136,7 +136,7 @@ void B1EventAction::EndOfEventAction(const G4Event* event)
                //store position
       		fRunAction->add_number_of_event(i);
                 G4int numb_of_event = fRunAction->get_n_event(i);
-      		mu_p_pos << numb_of_event << " " << position.x()/(m) << "  " << position.y()/(m) << " "  << energy/GeV << " " << momentum.x()/GeV << " " << momentum.y()/(GeV)<< " " <<  momentum.z()/(GeV) << "\n";
+      		mu_p_pos << numb_of_event << " " << position.x()/(m) << "  " << position.y()/(m) << " "  << particleEnergy.str() << " " << momentum.x()/GeV << " " << momentum.y()/(GeV)<< " " <<  momentum.z()/(GeV) << "\n";
       		           
                
 
@@ -159,7 +159,7 @@ void B1EventAction::EndOfEventAction(const G4Event* event)
       	
                 fRunAction->add_number_of_event(i);
                 G4int numb_of_event = fRunAction->get_n_event(i);
-      		mu_m_pos << numb_of_event << " " << position.x()/(m) << "  " << position.y()/(m) << " " << energy/GeV << " " << momentum.x()/GeV << " " << momentum.y()/(GeV)<< " " <<  momentum.z()/(GeV) << "\n";
+      		mu_m_pos << numb_of_event << " " << position.x()/(m) << "  " << position.y()/(m) << " " << particleEnergy.str() << " " << momentum.x()/GeV << " " << momentum.y()/(GeV)<< " " <<  momentum.z()/(GeV) << "\n";
 		
 
           } else {

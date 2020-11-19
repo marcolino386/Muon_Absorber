@@ -47,10 +47,11 @@ set(EXAMPLEB1_SCRIPTS
   init_vis.mac
   vis.mac
   events.in
-  mu_plus_events.in
-  mu_minus_events.in
+  event_mu_plus.in
   /data_mu_plus1/readme.txt
   /data_mu_minus1/readme.txt
+  /data_mu_plus2/readme.txt
+  /data_mu_minus2/readme.txt
   
   )
 
