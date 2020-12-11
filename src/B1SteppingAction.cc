@@ -46,6 +46,7 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step)
   //get currente particle    
   
   G4String particle_name = step->GetTrack()->GetParticleDefinition()->GetParticleName();
+   
   auto track = step->GetTrack();
 
    

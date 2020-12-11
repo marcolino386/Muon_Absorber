@@ -34,6 +34,8 @@ G4bool B1SD::ProcessHits(G4Step* step, G4TouchableHistory* ROhist) {
 //pega energia da particula
  const G4double particle_energy = step->GetPreStepPoint()->GetTotalEnergy();
 //pega posição da particula
+//
+ const G4double kEn = step->GetPreStepPoint()->GetKineticEnergy();
 const G4ThreeVector particle_position = step->GetPreStepPoint()->GetPosition();
 //pega momentum da particula
 const G4ThreeVector particle_momentum = step->GetPreStepPoint()->GetMomentum();
@@ -44,8 +46,7 @@ const G4VPhysicalVolume* thePostVL = step->GetPostStepPoint()->GetPhysicalVolume
 	
 //Checa se a partícula é repetida
 if (thePreVL->GetStepStatus() == fGeomBoundary && track == 1) {
-      
-  
+          
       B1Hits* hit = new B1Hits();
       hit->set_partdef(particle_name);
       hit->set_energy(particle_energy);

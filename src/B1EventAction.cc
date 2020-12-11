@@ -62,7 +62,7 @@ void B1EventAction::EndOfEventAction(const G4Event* event)
   G4double x = particleGun->GetParticleMomentumDirection().x();
   G4double y = particleGun->GetParticleMomentumDirection().y();
   G4double z = particleGun->GetParticleMomentumDirection().z();
-  
+
    #define PI 3.14159265
     
    // G4double angle_a = atan(y/z)*180/PI;
@@ -94,15 +94,15 @@ void B1EventAction::EndOfEventAction(const G4Event* event)
 
 
  for(G4int i=0; i < num; i++) { 
-   std::stringstream particleEnergy;
+   std::stringstream energy_k;
    std::stringstream angle;
    angle << std::setprecision(4) << angle_a;
-   particleEnergy << std::setprecision(4) << part_en;
+   energy_k << std::setprecision(4) << part_en;
 
 
   
-   std::ofstream mu_p_pos("data_mu_plus" + std::to_string(i + 1) +  "/Energy" + particleEnergy.str() + "_Angle_" + angle.str() + ".dat",std::ios_base::app);
-   std::ofstream mu_m_pos("data_mu_minus" + std::to_string(i + 1) +  "/Energy" + particleEnergy.str() + "_Angle_" + angle.str() + ".dat",std::ios_base::app);
+   std::ofstream mu_p_pos("plus" + std::to_string(i + 1) +  "/Energy" + energy_k.str() + "_Angle_" + angle.str() + ".dat",std::ios_base::app);
+   std::ofstream mu_m_pos("minus" + std::to_string(i + 1) +  "/Energy" + energy_k.str() + "_Angle_" + angle.str() + ".dat",std::ios_base::app);
    
 
    col[i] = SDman->GetCollectionID("SD" + std::to_string(i + 1));
@@ -136,7 +136,7 @@ void B1EventAction::EndOfEventAction(const G4Event* event)
                //store position
       		fRunAction->add_number_of_event(i);
                 G4int numb_of_event = fRunAction->get_n_event(i);
-      		mu_p_pos << numb_of_event << " " << position.x()/(m) << "  " << position.y()/(m) << " "  << particleEnergy.str() << " " << momentum.x()/GeV << " " << momentum.y()/(GeV)<< " " <<  momentum.z()/(GeV) << "\n";
+      		mu_p_pos << numb_of_event << " " << position.x()/(m) << "  " << position.y()/(m) << " "  << energy/GeV << " " << momentum.x()/GeV << " " << momentum.y()/(GeV)<< " " <<  momentum.z()/(GeV) << " " << energy_k.str() << " " << angle.str() <<"\n";
       		           
                
 
@@ -145,7 +145,7 @@ void B1EventAction::EndOfEventAction(const G4Event* event)
       		fRunAction->add_number_of_event(i);
                 G4int numb_of_event = fRunAction->get_n_event(i);
                 if (numb_of_event < 2){
-		    mu_p_pos << 0 << " " << position.x()/(m) << "  " << position.y()/(m) << " " << particleEnergy.str() << " " << momentum.x()/GeV << " " << momentum.y()/(GeV)<< " " <<  momentum.z()/(GeV) << "\n";
+		    mu_p_pos << 0 << " " << position.x()/(m) << "  " << position.y()/(m) << " " << energy/GeV << " " << momentum.x()/GeV << " " << momentum.y()/(GeV)<< " " <<  momentum.z()/(GeV)<< " " << energy_k.str() << " " << angle.str() <<"\n";
 		}
 
 	   }
@@ -159,7 +159,7 @@ void B1EventAction::EndOfEventAction(const G4Event* event)
       	
                 fRunAction->add_number_of_event(i);
                 G4int numb_of_event = fRunAction->get_n_event(i);
-      		mu_m_pos << numb_of_event << " " << position.x()/(m) << "  " << position.y()/(m) << " " << particleEnergy.str() << " " << momentum.x()/GeV << " " << momentum.y()/(GeV)<< " " <<  momentum.z()/(GeV) << "\n";
+      		mu_m_pos << numb_of_event << " " << position.x()/(m) << "  " << position.y()/(m) << " " << energy/GeV << " " << momentum.x()/GeV << " " << momentum.y()/(GeV)<< " " <<  momentum.z()/(GeV) << " " << energy_k.str() << " " << angle.str() <<"\n";
 		
 
           } else {
@@ -168,7 +168,7 @@ void B1EventAction::EndOfEventAction(const G4Event* event)
      		fRunAction->add_number_of_event(i);
                 G4int numb_of_event = fRunAction->get_n_event(i);
                 if(numb_of_event < 2) {
-		   mu_m_pos << 0 << " " <<position.x()/(m) << "  " << position.y()/(m) << " " << particleEnergy.str() << " " << momentum.x()/GeV << " " << momentum.y()/(GeV)<< " " <<  momentum.z()/(GeV) << "\n";
+		   mu_m_pos << 0 << " " <<position.x()/(m) << "  " << position.y()/(m) << " " << energy/GeV << " " << momentum.x()/GeV << " " << momentum.y()/(GeV)<< " " <<  momentum.z()/(GeV) << " " << energy_k.str() << " " << angle.str() <<"\n";
 		}
 
       }
