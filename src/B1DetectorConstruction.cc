@@ -1447,21 +1447,42 @@ new G4PVPlacement(0,
 
 //detector 2
 pos_after_detec = 0.01*m;
-G4double detec_length = 0.5*cm;
+G4double detec_length = 2.5*micrometer;
 //G4double initial_radius = 5*cm;
 //G4double final_radius = (5.979*m)*tan(9*PI/180.00);
 
-G4Tubs* detec_tub2 = new G4Tubs("detec_tubs2", rInFaWTube5C2, rOuSteelEnvelopeR2, detec_length, 0.*deg,360.*deg);
+G4Tubs* detec_tub2 = new G4Tubs("detec_tubs2", rInFaWTube5C2, rOuSteelEnvelopeR2, detec_length/2, 0.*deg,360.*deg);
 
 G4LogicalVolume* detec_volume2 = new G4LogicalVolume(detec_tub2, world_mat, "detec");
 
-G4double detec_z2 = zFa + (dzFa + 2*dzEndPlate) + 1*cm - mag_position;
+G4double detec_z2 = zFa + (dzFa + 2*dzEndPlate) + 1*micrometer - mag_position + detec_length;
 
 
  new G4PVPlacement(0,
 		 G4ThreeVector(0,0,detec_z2),
 		 detec_volume2,
-		 "detector2",
+		 "detector21",
+		 logicMag,
+		 false,
+		 0,
+		checkOverlaps
+		 );
+
+
+//detector 22
+
+
+G4Tubs* detec_tub22 = new G4Tubs("detec_tubs22", rInFaWTube5C2, rOuSteelEnvelopeR2, detec_length/2, 0.*deg,360.*deg);
+
+G4LogicalVolume* detec_volume22 = new G4LogicalVolume(detec_tub22, world_mat, "detec");
+
+G4double detec_z22 = detec_z2 + detec_length;
+
+
+ new G4PVPlacement(0,
+		 G4ThreeVector(0,0,detec_z22),
+		 detec_volume22,
+		 "detector22",
 		 logicMag,
 		 false,
 		 0,
@@ -1470,21 +1491,20 @@ G4double detec_z2 = zFa + (dzFa + 2*dzEndPlate) + 1*cm - mag_position;
 
 
 
-
-//detector 1
-
+//detector 12
 
 
-G4Tubs* detec_tub1 = new G4Tubs("detec_tubs1", rInFaMgRingO, rOuFaQPlateF, detec_length, 0.*deg,360.*deg);
+
+G4Tubs* detec_tub1 = new G4Tubs("detec_tubs1", rInFaMgRingO, rOuFaQPlateF, detec_length/2, 0.*deg,360.*deg);
 G4LogicalVolume* detec_volume1 = new G4LogicalVolume(detec_tub1, world_mat, "detec2");
-G4double detec_z1 = zFa - 1*cm - mag_position;
+G4double detec_z1 = zFa - 1*micrometer - mag_position - detec_length;
 
 
 
 new G4PVPlacement(0,
 		 G4ThreeVector(0,0,detec_z1),
 		 detec_volume1,
-		 "detector1",
+		 "detector11",
 		 logicMag,
 		 false,
 		 0,
@@ -1494,6 +1514,29 @@ new G4PVPlacement(0,
 
 
 num_detec=2;
+
+//detector 11
+
+
+
+G4Tubs* detec_tub12 = new G4Tubs("detec_tubs12", rInFaMgRingO, rOuFaQPlateF, detec_length/2, 0.*deg,360.*deg);
+G4LogicalVolume* detec_volume12 = new G4LogicalVolume(detec_tub12, world_mat, "detec11");
+G4double detec_z12 = detec_z1 - detec_length;
+
+
+
+new G4PVPlacement(0,
+		 G4ThreeVector(0,0,detec_z12),
+		 detec_volume12,
+		 "detector12",
+		 logicMag,
+		 false,
+		 0,
+		false
+		 );
+
+
+
 
 
 
@@ -1505,17 +1548,28 @@ num_detec=2;
 //sensitive detector1
 
 auto sdman = G4SDManager::GetSDMpointer();
-G4String SDname1 = "SD1";
+G4String SDname1 = "SD11";
 auto sensitive1 = new B1SD(SDname1);
 sdman->AddNewDetector(sensitive1);
 detec_volume1->SetSensitiveDetector(sensitive1);
 
 
 
-G4String SDname2 = "SD2";
-auto sensitive2 = new B1SD(SDname2);
-sdman->AddNewDetector(sensitive2);
-detec_volume2->SetSensitiveDetector(sensitive2);
+G4String SDname12 = "SD12";
+auto sensitive12 = new B1SD(SDname12);
+sdman->AddNewDetector(sensitive12);
+detec_volume12->SetSensitiveDetector(sensitive12);
+
+G4String SDname21 = "SD21";
+auto sensitive21 = new B1SD(SDname21);
+sdman->AddNewDetector(sensitive21);
+detec_volume2->SetSensitiveDetector(sensitive21);
+
+G4String SDname22 = "SD22";
+auto sensitive22 = new B1SD(SDname22);
+sdman->AddNewDetector(sensitive22);
+detec_volume22->SetSensitiveDetector(sensitive22);
+
 
 
 G4cout << "!!!!!!!!!Funfando!!!!!!" << G4endl;

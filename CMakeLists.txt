@@ -48,10 +48,15 @@ set(EXAMPLEB1_SCRIPTS
   vis.mac
   events.in
   event_mu_plus.in
-  /plus1/readme.txt
-  /minus1/readme.txt
-  /plus2/readme.txt
-  /minus2/readme.txt
+  /plus11/readme.txt
+  /minus11/readme.txt
+  /plus21/readme.txt
+  /minus21/readme.txt
+  /plus12/readme.txt
+  /minus12/readme.txt
+  /plus22/readme.txt
+  /minus22/readme.txt
+  
   
   )
 
